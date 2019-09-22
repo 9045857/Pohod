@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Pohod"
+             x:Class="Pohod.MainPage">
+
+    <StackLayout>
+
+        <Button x:Name="button1" Text="Нажать!" Clicked="Button_Click" />
+        <Button x:Name="button2" Text="Нажать!" Clicked="Button_Click" />
+        <Button x:Name="button3" Text="Нажать!" Clicked="Button_Click" />
+        <Button x:Name="button4" Text="Нажать!" Clicked="Button_Click" />
+        <Button x:Name="button5" Text="Нажать!" Clicked="Button_Click" />
+
+    </StackLayout>
+
+</ContentPage>
