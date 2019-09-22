@@ -10,29 +10,66 @@ namespace CostSharing
     {
         public int ID { get; private set; }
         public string Name { get; private set; }
-        public string Description { get; set; }
+        public string Description { get; set; }//TODO пока нигде не используется
 
         public Trip CurrentTrip { get; }
 
         private readonly int factorForPersonalDebt = 0; //TODO: пока коэфициент для Суммщиков 0, но возможно нужно -1 для более явного отличия
         private readonly int standartDebtFactor = 1;
 
-        public Product(int id, Trip trip,string name)
+        public Product(int id, Trip trip, string name)
         {
             ID = id;
             Name = name;
             DebtInEachPerson = new Dictionary<int, double>();
             DebtPersonFactors = new Dictionary<int, double>();
 
+            PaidPeople = new Dictionary<Person, double>();
+
             CurrentTrip = trip;
         }
 
-        public double Cost { get; private set; }// TODO нужно будет переделать на словарь платильщиков
-
-        public void SetCost(double newCost)
+        public double Cost
         {
-            Cost = newCost;
-            //TODO: добавbnm метод пересчета сумм стандартных вычетов и других при изменении цены.
+            get
+            {
+                double cost = 0;
+                foreach (double paid in PaidPeople.Values)//TODO убедиться, что пробегаемся по всем значениям
+                {
+                    cost += paid;
+                }
+
+                return cost;
+            }
+        }
+
+        public Dictionary<Person, double> PaidPeople { get; private set; }
+
+        public void AddPaidPerson(Person person, double moneyCount)
+        {
+            PaidPeople.Add(person, moneyCount);
+        }
+
+        public bool TryRemovePaidPerson(Person person)
+        {
+            if (!PaidPeople.ContainsKey(person))
+            {
+                return false;
+            }
+
+            PaidPeople.Remove(person);
+            return true;
+        }
+
+        public bool TryChangePaymentCount(Person person, double moneyCount)
+        {
+            if (!PaidPeople.ContainsKey(person))
+            {
+                return false;
+            }
+
+            PaidPeople[person] = moneyCount;
+            return true;
         }
 
         public Dictionary<int, double> DebtInEachPerson { get; private set; }
@@ -170,6 +207,6 @@ namespace CostSharing
             DebtInEachPerson.Add(person.ID, nullDebt);
 
             RecountDebtData();
-        }        
+        }
     }
 }

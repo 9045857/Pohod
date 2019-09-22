@@ -13,31 +13,7 @@ namespace CostSharing
 
         public List<Product> ProductsDebts { get; private set; }
         public List<Product> ProductsPays { get; private set; }
-        
-        //public Dictionary<Product, double> ProductsAndDebts { get; private set; }
-
-        //public bool TryAddProduct(Product product)
-        //{
-        //    if (ProductsAndDebts.ContainsKey(product))
-        //    {
-        //        return false;
-        //    }
-
-        //    ProductsAndDebts.Add(product, product.DebtInEachPerson[this]);
-        //    return true;
-        //}
-
-        //public bool TryRemoveProduct(Product product)
-        //{
-        //    if (!ProductsAndDebts.ContainsKey(product))
-        //    {
-        //        return false;
-        //    }
-
-        //    Products.Remove(product);
-        //    return true;
-        //}
-
+      
         public double PersonalDebt
         {
             get
@@ -97,36 +73,7 @@ namespace CostSharing
             ProductsDebts.Remove(product);
             return true;
         }
-
-        ////public bool TryAddProductDebt(Product product)
-        ////{
-        ////    if (ProductsDebts.Contains(product))
-        ////    {
-        ////        return false;
-        ////    }
-
-        ////    ProductsDebts.Add(product);
-        ////    return true;
-        ////}
-
-        ////public bool TryRemoveProductDebt(Product product)
-        ////{
-        ////    if (!ProductsDebts.Contains(product))
-        ////    {
-        ////        return false;
-        ////    }
-
-        ////    ProductsDebts.Remove(product);
-        ////    return true;
-        ////}
-
-        //public Dictionary<Product, double> GetListDebts()
-        //{
-
-
-
-        //}
-
+        
         /// <summary>
         /// "Вес" при расчете вклада в покупку, по умолчанию равен 1.
         /// </summary>
@@ -157,9 +104,6 @@ namespace CostSharing
             {
                 this
             };
-
-            // ProductList = new List<Product>();
-            //////DebtInEachProduct = new Dictionary<int, double>();
 
             int defaultWeight = 1;
             PersonalPayWeight = defaultWeight;
@@ -261,7 +205,6 @@ namespace CostSharing
                     person.PayGroupLeader = person;
                 }
             }
-
             return true;
         }
 
@@ -305,40 +248,5 @@ namespace CostSharing
                 return true;
             }
         }
-
-
-
-        //суммарная оплата, которую сделал человек
-        //////public double Payment { get; private set; }//TODO переделать в виде словаря оплат по товарам
-
-        //////// public List<Product> ProductList;// нужен не список продуктов, а коллекция оплат по продуктам!!!
-        //////public Dictionary<int, double> DebtInEachProduct;//Список задолженностей по продуктам
-
-        //////public double Debt
-        //////{
-        //////    get
-        //////    {
-        //////        double debt = 0;
-
-        //////        foreach (int productDebt in DebtInEachProduct.Values)
-        //////        {
-        //////            debt += productDebt;
-        //////        }
-
-        //////        return 0;
-        //////    }
-        //////}
-
-
-        ////////возможно нужно будет вести список оплат за что человек оплатил
-        //////public void AddPayment(double moneyCount)
-        //////{
-        //////    Payment += moneyCount;
-        //////}
-
-        //////public void ReducePayment(double moneyCount)
-        //////{
-        //////    Payment -= moneyCount;
-        //////}
     }
 }
