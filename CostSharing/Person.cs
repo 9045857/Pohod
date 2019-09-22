@@ -14,8 +14,7 @@ namespace CostSharing
 
         public List<Product> ProductsDebts { get; private set; }
         public List<Product> ProductsPays { get; private set; }
-
-
+        
         //public Dictionary<Product, double> ProductsAndDebts { get; private set; }
 
         //public bool TryAddProduct(Product product)
