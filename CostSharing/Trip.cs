@@ -15,8 +15,9 @@ namespace CostSharing
         public Dictionary<int, Person> People { get; private set; }
         public List<PayGroup> PayGroups { get; private set; }
 
-        public List<Product> ProductList { get; private set; }
-        public List< Person> PeopleList { get; private set; }
+        public List<Product> ProductList { get; private set; }//TODO вариант с простыми списками
+        public List< Person> PeopleList { get; private set; }// вариант с простыми списками
+
 
         public bool TryAddProductInList(Product product)
         {

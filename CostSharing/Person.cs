@@ -11,7 +11,6 @@ namespace CostSharing
         public int ID { get; private set; }
         public string Name { get; set; }
 
-
         public List<Product> ProductsDebts { get; private set; }
         public List<Product> ProductsPays { get; private set; }
         
@@ -46,7 +45,7 @@ namespace CostSharing
                 double totalDebt = 0;
                 foreach (Product product in ProductsDebts)
                 {
-                    totalDebt += product.DebtInEachPerson[this.ID];//TODO передалать ключи у продуктов на человека
+                    totalDebt += product.DebtInEachPerson[this.ID];//TODO (?) передалать ключи у продуктов на человека
                 }
 
                 return totalDebt;
@@ -133,6 +132,9 @@ namespace CostSharing
         /// </summary>
         public double PersonalPayWeight { get; set; }
 
+        /// <summary>
+        /// Лидер группы плательщиков. Для индивидуального Person является сам Лидером.
+        /// </summary>
         public Person PayGroupLeader { get; private set; }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace CostSharing
             };
 
             // ProductList = new List<Product>();
-            DebtInEachProduct = new Dictionary<int, double>();
+            //////DebtInEachProduct = new Dictionary<int, double>();
 
             int defaultWeight = 1;
             PersonalPayWeight = defaultWeight;
@@ -307,36 +309,36 @@ namespace CostSharing
 
 
         //суммарная оплата, которую сделал человек
-        public double Payment { get; private set; }//TODO переделать в виде словаря оплат по товарам
+        //////public double Payment { get; private set; }//TODO переделать в виде словаря оплат по товарам
 
-        // public List<Product> ProductList;// нужен не список продуктов, а коллекция оплат по продуктам!!!
-        public Dictionary<int, double> DebtInEachProduct;//Список задолженностей по продуктам
+        //////// public List<Product> ProductList;// нужен не список продуктов, а коллекция оплат по продуктам!!!
+        //////public Dictionary<int, double> DebtInEachProduct;//Список задолженностей по продуктам
 
-        public double Debt
-        {
-            get
-            {
-                double debt = 0;
+        //////public double Debt
+        //////{
+        //////    get
+        //////    {
+        //////        double debt = 0;
 
-                foreach (int productDebt in DebtInEachProduct.Values)
-                {
-                    debt += productDebt;
-                }
+        //////        foreach (int productDebt in DebtInEachProduct.Values)
+        //////        {
+        //////            debt += productDebt;
+        //////        }
 
-                return 0;
-            }
-        }
+        //////        return 0;
+        //////    }
+        //////}
 
 
-        //возможно нужно будет вести список оплат за что человек оплатил
-        public void AddPayment(double moneyCount)
-        {
-            Payment += moneyCount;
-        }
+        ////////возможно нужно будет вести список оплат за что человек оплатил
+        //////public void AddPayment(double moneyCount)
+        //////{
+        //////    Payment += moneyCount;
+        //////}
 
-        public void ReducePayment(double moneyCount)
-        {
-            Payment -= moneyCount;
-        }
+        //////public void ReducePayment(double moneyCount)
+        //////{
+        //////    Payment -= moneyCount;
+        //////}
     }
 }
