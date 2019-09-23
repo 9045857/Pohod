@@ -58,7 +58,7 @@ namespace CostSharing
                 person.TryRemovePaidProducts(product);
             }
 
-            foreach (int personId in product.DebtInEachPerson.Keys)
+            foreach (Person person in product.DebtInEachPerson.Keys)
             {
                 person.TryRemoveProductDebt(product);
             }

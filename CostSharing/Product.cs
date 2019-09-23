@@ -21,8 +21,8 @@ namespace CostSharing
         {
             ID = id;
             Name = name;
-            DebtInEachPerson = new Dictionary<int, double>();
-            DebtPersonFactors = new Dictionary<int, double>();
+            DebtInEachPerson = new Dictionary<Person, double>();
+            DebtPersonFactors = new Dictionary<Person, double>();
 
             PaidPeople = new Dictionary<Person, double>();
 
@@ -72,8 +72,8 @@ namespace CostSharing
             return true;
         }
 
-        public Dictionary<int, double> DebtInEachPerson { get; private set; }
-        public Dictionary<int, double> DebtPersonFactors { get; private set; }
+        public Dictionary<Person, double> DebtInEachPerson { get; private set; }
+        public Dictionary<Person, double> DebtPersonFactors { get; private set; }
 
         // сумма приходящаяся на стандартных должников и с индивидуальной суммой
         private double personalDebtCost;
@@ -89,7 +89,7 @@ namespace CostSharing
 
         public void AddPersonInDebts(Person person)
         {
-            if (DebtInEachPerson.Count == 0 || !DebtInEachPerson.ContainsKey(person.ID))
+            if (DebtInEachPerson.Count == 0 || !DebtInEachPerson.ContainsKey(person))
             {
                 AddPersonWithFactor(person, standartDebtFactor);
             }
@@ -99,11 +99,11 @@ namespace CostSharing
         {
             double weightedDebt = standartAndPersonalFactorCost / sumStandartAndPersonalFaсtors;
 
-            foreach (int personId in DebtInEachPerson.Keys)
+            foreach (Person person in DebtInEachPerson.Keys)
             {
-                if (DebtPersonFactors[personId] != factorForPersonalDebt)
+                if (DebtPersonFactors[person] != factorForPersonalDebt)
                 {
-                    DebtInEachPerson[personId] = weightedDebt * DebtPersonFactors[personId];
+                    DebtInEachPerson[person] = weightedDebt * DebtPersonFactors[person];
                 }
             }
         }
@@ -121,15 +121,15 @@ namespace CostSharing
             {
                 RefillDictionariesAfterInsertPersonalDebt(person, debt);
             }
-            else if (!DebtInEachPerson.ContainsKey(person.ID))
+            else if (!DebtInEachPerson.ContainsKey(person))
             {
                 RefillDictionariesAfterInsertPersonalDebt(person, debt);
                 RecountDebtData();
 
             }
-            else if (DebtPersonFactors[person.ID] == factorForPersonalDebt)
+            else if (DebtPersonFactors[person] == factorForPersonalDebt)
             {
-                personalDebtCost -= DebtInEachPerson[person.ID];
+                personalDebtCost -= DebtInEachPerson[person];
                 RecountCostSummAfterIncreasePersonalDebt(debt);
                 ChangePersonalDebtAndRecountDebtData(person, debt);
             }
@@ -137,14 +137,14 @@ namespace CostSharing
             {
                 sumStandartAndPersonalFaсtors--;
                 RecountCostSummAfterIncreasePersonalDebt(debt);
-                DebtPersonFactors[person.ID] = factorForPersonalDebt;
+                DebtPersonFactors[person] = factorForPersonalDebt;
                 ChangePersonalDebtAndRecountDebtData(person, debt);
             }
         }
 
         private void ChangePersonalDebtAndRecountDebtData(Person person, double debt)
         {
-            DebtInEachPerson[person.ID] = debt;
+            DebtInEachPerson[person] = debt;
             RecountDebtData();
         }
 
@@ -159,8 +159,8 @@ namespace CostSharing
             personalDebtCost += debt;
             CountStandartAndPersonalFactorCost();
 
-            DebtPersonFactors.Add(person.ID, factorForPersonalDebt);
-            DebtInEachPerson.Add(person.ID, debt);
+            DebtPersonFactors.Add(person, factorForPersonalDebt);
+            DebtInEachPerson.Add(person, debt);
         }
 
         /// <summary>
@@ -175,16 +175,16 @@ namespace CostSharing
             if (DebtInEachPerson.Count == 0)
             {
                 sumStandartAndPersonalFaсtors += factor;
-                DebtInEachPerson[person.ID] = Cost;
+                DebtInEachPerson[person] = Cost;
             }
-            else if (!DebtInEachPerson.ContainsKey(person.ID))
+            else if (!DebtInEachPerson.ContainsKey(person))
             {
                 AddPersonWithFactor(person, factor);
             }
-            else if (DebtPersonFactors[person.ID] == factorForPersonalDebt)
+            else if (DebtPersonFactors[person] == factorForPersonalDebt)
             {
-                double pastDebt = DebtInEachPerson[person.ID];
-                DebtPersonFactors[person.ID] = factor;
+                double pastDebt = DebtInEachPerson[person];
+                DebtPersonFactors[person] = factor;
 
                 personalDebtCost -= pastDebt;
                 CountStandartAndPersonalFactorCost();
@@ -193,18 +193,18 @@ namespace CostSharing
             }
             else
             {
-                DebtPersonFactors[person.ID] = factor;
+                DebtPersonFactors[person] = factor;
                 RecountDebtData();
             }
         }
 
         private void AddPersonWithFactor(Person person, double factor)
         {
-            DebtPersonFactors.Add(person.ID, factor);
+            DebtPersonFactors.Add(person, factor);
             sumStandartAndPersonalFaсtors++;
 
             double nullDebt = 0;
-            DebtInEachPerson.Add(person.ID, nullDebt);
+            DebtInEachPerson.Add(person, nullDebt);
 
             RecountDebtData();
         }
