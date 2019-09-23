@@ -44,11 +44,26 @@ namespace CostSharing
             _personID++;
         }        
 
-        public void RemoveProduct(Product product)
+        public bool TryRemoveProduct(Product product)
         {
-           
-            
-            //TODO нужно убрать продукт у всех людей из списков и 
+            if (!Products.Contains(product))
+            {
+                return false;
+            }
+
+            Products.Remove(product);
+
+            foreach (Person person in product.PaidPeople.Keys)
+            {
+                person.TryRemovePaidProducts(product);
+            }
+
+            foreach (int personId in product.DebtInEachPerson.Keys)
+            {
+                person.TryRemoveProductDebt(product);
+            }
+
+            return true;
         }
 
         public void RemovePerson(Person person)

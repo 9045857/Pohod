@@ -12,8 +12,20 @@ namespace CostSharing
         public string Name { get; set; }
 
         public List<Product> ProductsDebts { get; private set; }
-        public List<Product> ProductsPays { get; private set; }
-      
+        public List<Product> PaidProducts { get; private set; }
+ 
+        /// <summary>
+        /// Вес участия в доле оплаты товара. 
+        /// По умолчанию вес равен 1.
+        /// </summary>
+        public double PaymentWeight { get; private set; }
+
+        public void SetPayWeight(double paymentWeight)
+        {
+            //TODO возможно нужна проверка на отрицательные коэффициенты
+           PaymentWeight=paymentWeight;
+        }
+
         public double PersonalDebt
         {
             get
@@ -73,11 +85,6 @@ namespace CostSharing
             ProductsDebts.Remove(product);
             return true;
         }
-        
-        /// <summary>
-        /// "Вес" при расчете вклада в покупку, по умолчанию равен 1.
-        /// </summary>
-        public double PersonalPayWeight { get; set; }
 
         /// <summary>
         /// Лидер группы плательщиков. Для индивидуального Person является сам Лидером.
@@ -106,7 +113,7 @@ namespace CostSharing
             };
 
             int defaultWeight = 1;
-            PersonalPayWeight = defaultWeight;
+            PaymentWeight = defaultWeight;
 
             ProductsDebts = new List<Product>();
         }
@@ -248,5 +255,17 @@ namespace CostSharing
                 return true;
             }
         }
+
+        public bool TryRemovePaidProducts(Product product)
+        {
+            if (!PaidProducts.Contains(product))
+            {
+                return false;
+            }
+
+            PaidProducts.Remove(product);
+            return true;
+        }
+
     }
 }
