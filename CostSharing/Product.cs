@@ -61,6 +61,18 @@ namespace CostSharing
             return true;
         }
 
+        public bool TryRemoveDebtPerson(Person person)
+        {
+            if (!DebtInEachPerson.ContainsKey(person))
+            {
+                return false;
+            }
+
+            DebtInEachPerson.Remove(person);
+            DebtPersonFactors.Remove(person);
+            return true;
+        }
+
         public bool TryChangePaymentCount(Person person, double moneyCount)
         {
             if (!PaidPeople.ContainsKey(person))

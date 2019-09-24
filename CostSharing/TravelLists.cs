@@ -8,34 +8,21 @@ namespace CostSharing
 {
     public class TravelLists
     {
-        public Dictionary<int, Trip> Travels;
+        public List<Trip> Trips;
+        private int _currenrtripID;
 
         public TravelLists()
         {
-            Travels = new Dictionary<int, Trip>();
+            Trips = new List<Trip>();
         }
 
-        public int AddTripAndGetID(string tripName)
+        public void AddTrip(string tripName)
         {
-            int tripID= GetTripId();
-            Travels.Add(tripID, new Trip(tripID, tripName));
-            return tripID;
+            Trips.Add(new Trip(_currenrtripID, tripName));
+            _currenrtripID++;
         }
-
-        private int GetTripId()
-        {
-            int currentId = 0;
-
-            while (Travels.ContainsKey(currentId))
-            {
-                currentId++;
-            }
-
-            return currentId;
-        }
-
-
-        public void RemoveTripe()
+              
+        public void RemoveTrip()
         {
             //TODO сделать метод
 

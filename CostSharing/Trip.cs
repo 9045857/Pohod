@@ -42,7 +42,7 @@ namespace CostSharing
         {
             People.Add(new Person(_personID, this, personName));
             _personID++;
-        }        
+        }
 
         public bool TryRemoveProduct(Product product)
         {
@@ -66,9 +66,22 @@ namespace CostSharing
             return true;
         }
 
-        public void RemovePerson(Person person)
+        public bool TryRemovePerson(Person person)
         {
-            //TODO нужно убрать человека из всех списков 
+            if (!People.Contains(person))
+            {
+                return false;
+            }
+
+            People.Remove(person);
+            person.PayGroupLeader.TryRemoveFromPayGroup(person);
+
+            foreach (Product product in person.PaidProducts)
+            {
+                product.TryRemoveDebtPerson(person);
+            }
+
+            return true;
         }
     }
 }

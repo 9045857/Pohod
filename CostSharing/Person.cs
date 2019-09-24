@@ -13,7 +13,7 @@ namespace CostSharing
 
         public List<Product> ProductsDebts { get; private set; }
         public List<Product> PaidProducts { get; private set; }
- 
+
         /// <summary>
         /// Вес участия в доле оплаты товара. 
         /// По умолчанию вес равен 1.
@@ -23,7 +23,7 @@ namespace CostSharing
         public void SetPayWeight(double paymentWeight)
         {
             //TODO возможно нужна проверка на отрицательные коэффициенты
-           PaymentWeight=paymentWeight;
+            PaymentWeight = paymentWeight;
         }
 
         public double PersonalDebt
@@ -33,7 +33,7 @@ namespace CostSharing
                 double totalDebt = 0;
                 foreach (Product product in ProductsDebts)
                 {
-                    totalDebt += product.DebtInEachPerson[this.ID];//TODO (?) передалать ключи у продуктов на человека
+                    totalDebt += product.DebtInEachPerson[this];
                 }
 
                 return totalDebt;
@@ -100,7 +100,7 @@ namespace CostSharing
 
         public Trip CurrentTrip { get; }
 
-        public Person(int id,Trip trip ,string name)
+        public Person(int id, Trip trip, string name)
         {
             ID = id;
             Name = name;
