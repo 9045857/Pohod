@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CostSharing
 {
@@ -111,7 +112,7 @@ namespace CostSharing
         {
             double weightedDebt = standartAndPersonalFactorCost / sumStandartAndPersonalFaсtors;
 
-            foreach (Person person in DebtInEachPerson.Keys)
+            foreach (Person person in DebtInEachPerson.Keys.ToList())
             {
                 if (DebtPersonFactors[person] != factorForPersonalDebt)
                 {

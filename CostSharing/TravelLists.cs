@@ -9,19 +9,35 @@ namespace CostSharing
     public class TravelLists
     {
         public List<Trip> Trips;
-        private int _currenrtripID;
+        public int CurrenrtripID { get; set; }
 
         public TravelLists()
         {
             Trips = new List<Trip>();
         }
 
-        public void AddTrip(string tripName)
+        public Trip AddTrip(string tripName)
         {
-            Trips.Add(new Trip(_currenrtripID, tripName));
-            _currenrtripID++;
+
+            Trip trip = new Trip(CurrenrtripID, tripName);
+            Trips.Add(trip);
+            CurrenrtripID++;
+            return trip;
         }
-              
+
+        public Trip GetTrip(int id)
+        {
+            foreach (Trip trip in Trips)
+            {
+                if (trip.ID==id)
+                {
+                    return trip;
+                }
+            }
+
+            return null;
+        }
+
         public void RemoveTrip()
         {
             //TODO сделать метод

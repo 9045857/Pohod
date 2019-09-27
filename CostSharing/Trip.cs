@@ -32,13 +32,13 @@ namespace CostSharing
             _productID = 0;
         }
 
-        public void AddProductInList(string productName)
+        public void AddProduct(string productName)
         {
             Products.Add(new Product(_productID, this, productName));
             _productID++;
         }
 
-        public void AddPersonInList(string personName)
+        public void AddPerson(string personName)
         {
             People.Add(new Person(_personID, this, personName));
             _personID++;

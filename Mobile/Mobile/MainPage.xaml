@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Mobile"
+             x:Class="Mobile.MainPage">
+    <ScrollView>
+        <StackLayout x:Name="stackLayout" Spacing="8">
+            <Label Text="Первая метка" TextColor="Red"  />
+            <Label Text="Вторая метка" TextColor="Blue" />
+            <Label Text="Третья метка" TextColor="Green" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

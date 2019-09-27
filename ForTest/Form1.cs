@@ -15,48 +15,119 @@ namespace ForTest
     public partial class Form1 : Form
     {
         public TravelLists travelLists;
-        
-    
+        public Debts debts;
+
         public Form1()
         {
             InitializeComponent();
             travelLists = new TravelLists();
+            debts = new Debts(panelDebts);
         }
 
         private void buttonAddTrip_Click(object sender, EventArgs e)
         {
-            int tripId=travelLists.AddTripAndGetID(textBoxTripName.Text);
-            comboBoxTripList.Items.Add(tripId);
-            listBoxTrips.Items.Add(tripId+"  " +textBoxTripName.Text);
-
+            Trip trip = travelLists.AddTrip(textBoxTripName.Text);
+            listBoxTrips.Items.Add(trip.Name);
         }
 
         private void buttonAddPerson_Click(object sender, EventArgs e)
         {
-            int.TryParse(comboBoxTripList.Text,out int tripId);
-            string personName = textBoxPerson.Text;
-            int personId = travelLists.Travels[tripId].AddPerson(personName);
-            
-            comboBoxPerson1.Items.Add(personId);
-            comboBoxPerson2.Items.Add(personId);
+            int tripID = listBoxTrips.SelectedIndex;
 
-            listBoxPeople.Items.Add(personId + "  " + textBoxEnterPerson.Text);
+            if (travelLists.GetTrip(tripID) != null)
+            {
+                Trip currentTrip = travelLists.GetTrip(tripID);
+
+                string personName = textBoxPerson.Text;
+                currentTrip.AddPerson(personName);
+
+                listBoxPeople.Items.Add(personName);
+
+                debts.AddDebt(currentTrip.People[currentTrip.People.Count - 1]);
+            }
+        }
+
+        private void SetLastProduct(Trip trip)
+        {
+            Product product = trip.Products[trip.Products.Count - 1];
+            List<Person> people = trip.People;
+
+            foreach (Person person in people)
+            {
+                string checkboxName = string.Format("Person{0}", person.ID);
+                string factorValue = string.Format("PersonFactor{0}", person.ID);
+                string payment = string.Format("PersonPayment{0}", person.ID);
+
+                if ((panelDebts.Controls[checkboxName] as CheckBox).Checked)
+                {
+                    product.AddPersonInDebts(person);
+
+                    double.TryParse((panelDebts.Controls[factorValue] as TextBox).Text, out double factor);
+                    product.InsertPersonalFactor(person, factor);
+                }
+
+                TextBox textBoxPayment = panelDebts.Controls[payment] as TextBox;
+
+                if (textBoxPayment.Text != "" && double.TryParse(textBoxPayment.Text, out double paymentMoney))
+                {
+                    product.AddPaidPerson(person, paymentMoney);
+                }
+
+                //   MessageBox.Show(checkboxName+" "+ factorValue+" "+ payment);
+            }
         }
 
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            int.TryParse(comboBoxTripList.Text, out int tripId);
-            string productName = textBoxPerson.Text;
-            int productId = travelLists.Travels[tripId].AddProduct(productName);
+            // listBoxProducts.Items.Clear();
 
-            double cost = Convert.ToDouble (textBoxPay1.Text);
-            travelLists.Travels[tripId].Products[productId].SetCost(cost);
+            int tripID = listBoxTrips.SelectedIndex;
 
+            if (travelLists.GetTrip(tripID) != null)
+            {
+                Trip currentTrip = travelLists.GetTrip(tripID);
 
-            //comboBoxPerson1.Items.Add(personId);
-            //comboBoxPerson2.Items.Add(personId);
+                string productName = textBoxProduct.Text;
+                currentTrip.AddProduct(productName);
 
-            listBoxProducts.Items.Add(productId + "  " + travelLists.Travels[tripId].Products[productId].Name + "  " + travelLists.Travels[tripId].Products[productId].Cost);
+                listBoxProducts.Items.Add(productName);
+
+                SetLastProduct(currentTrip);
+            }
+        }
+
+        private void buttonShowProduct_Click(object sender, EventArgs e)
+        {
+            textBoxProductInfo.Text = "";
+
+            int tripID = listBoxTrips.SelectedIndex;
+            Trip trip = travelLists.GetTrip(tripID);
+
+            int productID = listBoxProducts.SelectedIndex;
+            Product product = trip.Products[productID];
+
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Продукт " + product.Name);
+            builder.AppendLine("ID " + product.ID);
+            builder.AppendLine("Стоимость " + product.Cost);
+            builder.AppendLine();
+            builder.AppendLine("Плательщики ");
+
+            foreach (Person person in product.PaidPeople.Keys)
+            {
+                builder.AppendLine(person.Name+"  "+ product.PaidPeople[person]);
+            }
+
+            builder.AppendLine();
+            builder.AppendLine("Должники ");
+
+            foreach (Person person in product.DebtInEachPerson.Keys)
+            {
+                builder.AppendLine(person.Name + "  " + product.DebtInEachPerson[person]);
+            }
+
+            textBoxProductInfo.Text = builder.ToString();
+
         }
     }
 }
