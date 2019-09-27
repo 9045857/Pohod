@@ -49,6 +49,8 @@ namespace CostSharing
         public void AddPaidPerson(Person person, double moneyCount)
         {
             PaidPeople.Add(person, moneyCount);
+            standartAndPersonalFactorCost += moneyCount;
+            RecountDebtData();
         }
 
         public bool TryRemovePaidPerson(Person person)
@@ -111,6 +113,8 @@ namespace CostSharing
         private void RecountDebtData()
         {
             double weightedDebt = standartAndPersonalFactorCost / sumStandartAndPersonalFaсtors;
+
+            // MessageBox.Show(weightedDebt +"  "+ standartAndPersonalFactorCost + "  " + sumStandartAndPersonalFaсtors);
 
             foreach (Person person in DebtInEachPerson.Keys.ToList())
             {
@@ -220,6 +224,11 @@ namespace CostSharing
             DebtInEachPerson.Add(person, nullDebt);
 
             RecountDebtData();
+        }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Name) ? "NonameProduct" : Name;
         }
     }
 }

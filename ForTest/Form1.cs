@@ -67,6 +67,7 @@ namespace ForTest
                 }
 
                 TextBox textBoxPayment = panelDebts.Controls[payment] as TextBox;
+               // MessageBox.Show(textBoxPayment.Text);
 
                 if (textBoxPayment.Text != "" && double.TryParse(textBoxPayment.Text, out double paymentMoney))
                 {
@@ -100,34 +101,41 @@ namespace ForTest
         {
             textBoxProductInfo.Text = "";
 
-            int tripID = listBoxTrips.SelectedIndex;
-            Trip trip = travelLists.GetTrip(tripID);
-
-            int productID = listBoxProducts.SelectedIndex;
-            Product product = trip.Products[productID];
-
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Продукт " + product.Name);
-            builder.AppendLine("ID " + product.ID);
-            builder.AppendLine("Стоимость " + product.Cost);
-            builder.AppendLine();
-            builder.AppendLine("Плательщики ");
-
-            foreach (Person person in product.PaidPeople.Keys)
+            if (listBoxProducts.SelectedItems.Count == 1)
             {
-                builder.AppendLine(person.Name+"  "+ product.PaidPeople[person]);
+                int tripID = listBoxTrips.SelectedIndex;
+                Trip trip = travelLists.GetTrip(tripID);
+
+                int productID = listBoxProducts.SelectedIndex;
+                Product product = trip.Products[productID];
+
+                StringBuilder builder = new StringBuilder();
+                builder.AppendLine("Продукт " + product.Name);
+                builder.AppendLine("ID " + product.ID);
+                builder.AppendLine("Стоимость " + product.Cost);
+                builder.AppendLine();
+                builder.AppendLine("Плательщики ");
+
+                foreach (Person person in product.PaidPeople.Keys)
+                {
+                    builder.AppendLine(person.Name + "  " + product.PaidPeople[person]);
+                }
+
+                builder.AppendLine();
+                builder.AppendLine("Должники ");
+
+                foreach (Person person in product.DebtInEachPerson.Keys)
+                {
+                    builder.AppendLine(person.Name + product.DebtPersonFactors[person] + "  " + product.DebtInEachPerson[person]);
+                }
+
+                textBoxProductInfo.Text = builder.ToString();
+
             }
-
-            builder.AppendLine();
-            builder.AppendLine("Должники ");
-
-            foreach (Person person in product.DebtInEachPerson.Keys)
+            else
             {
-                builder.AppendLine(person.Name + "  " + product.DebtInEachPerson[person]);
+                MessageBox.Show("Выберите продукт из списка.");
             }
-
-            textBoxProductInfo.Text = builder.ToString();
-
         }
     }
 }
