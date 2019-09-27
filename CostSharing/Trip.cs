@@ -83,5 +83,10 @@ namespace CostSharing
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Name) ? "NonameTrip" : Name;
+        }
     }
 }

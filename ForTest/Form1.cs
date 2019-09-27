@@ -27,16 +27,16 @@ namespace ForTest
         private void buttonAddTrip_Click(object sender, EventArgs e)
         {
             Trip trip = travelLists.AddTrip(textBoxTripName.Text);
-            listBoxTrips.Items.Add(trip.Name);
+            listBoxTrips.Items.Add(trip);
         }
 
         private void buttonAddPerson_Click(object sender, EventArgs e)
         {
-            int tripID = listBoxTrips.SelectedIndex;
+           // int tripID = listBoxTrips.SelectedIndex;
 
-            if (travelLists.GetTrip(tripID) != null)
+            if (listBoxTrips.SelectedItems.Count==1)
             {
-                Trip currentTrip = travelLists.GetTrip(tripID);
+                Trip currentTrip = listBoxTrips.SelectedItem as Trip;
 
                 string personName = textBoxPerson.Text;
                 currentTrip.AddPerson(personName);
