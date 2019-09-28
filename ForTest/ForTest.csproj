@@ -64,7 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Debt.cs" />
     <Compile Include="Debts.cs" />
+    <Compile Include="DebtsList.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

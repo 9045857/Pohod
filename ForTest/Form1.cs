@@ -14,86 +14,75 @@ namespace ForTest
 {
     public partial class Form1 : Form
     {
-        public TravelLists travelLists;
-        public Debts debts;
+        // public TravelLists travelLists;//?
+        public DebtsList debtsList;
 
         public Form1()
         {
             InitializeComponent();
-            travelLists = new TravelLists();
-            debts = new Debts(panelDebts);
+            // travelLists = new TravelLists();
+            debtsList = new DebtsList(listBoxTrips);
         }
 
         private void buttonAddTrip_Click(object sender, EventArgs e)
         {
-            Trip trip = travelLists.AddTrip(textBoxTripName.Text);
-            listBoxTrips.Items.Add(trip);
+            string tripName = string.IsNullOrEmpty(textBoxTripName.Text) ? "NonameTrip" : textBoxTripName.Text;
+            Trip trip = new Trip(tripName);
+            Debts debts = new Debts(trip, panelDebts, listBoxPeople);
+
+            debtsList.listBox.Items.Add(debts);
         }
 
         private void buttonAddPerson_Click(object sender, EventArgs e)
         {
-           // int tripID = listBoxTrips.SelectedIndex;
-
-            if (listBoxTrips.SelectedItems.Count==1)
+            if (listBoxTrips.SelectedItems.Count == 1)
             {
-                Trip currentTrip = listBoxTrips.SelectedItem as Trip;
+                Debts selectedDebts = debtsList.listBox.SelectedItem as Debts;
 
-                string personName = textBoxPerson.Text;
-                currentTrip.AddPerson(personName);
+                string personName = string.IsNullOrEmpty(textBoxPerson.Text) ? "NoNamePerson" : textBoxPerson.Text;
+                Person person = new Person(selectedDebts.trip, personName);
 
-                listBoxPeople.Items.Add(personName);
-
-                debts.AddDebt(currentTrip.People[currentTrip.People.Count - 1]);
+                (debtsList.listBox.SelectedItem as Debts).AddDebt(person);
             }
         }
 
-        private void SetLastProduct(Trip trip)
+        private void SetProduct(Debts debts, Product product)
         {
-            Product product = trip.Products[trip.Products.Count - 1];
-            List<Person> people = trip.People;
-
-            foreach (Person person in people)
+            foreach (Debt debt in debts.listBox.Items)
             {
-                string checkboxName = string.Format("Person{0}", person.ID);
-                string factorValue = string.Format("PersonFactor{0}", person.ID);
-                string payment = string.Format("PersonPayment{0}", person.ID);
+                Person person = debt.Person;
 
-                if ((panelDebts.Controls[checkboxName] as CheckBox).Checked)
+                if (debt.CheckBox.Checked)
                 {
                     product.AddPersonInDebts(person);
 
-                    double.TryParse((panelDebts.Controls[factorValue] as TextBox).Text, out double factor);
+                    double.TryParse(debt.TextBoxFactor.Text, out double factor);
                     product.InsertPersonalFactor(person, factor);
                 }
 
-                TextBox textBoxPayment = panelDebts.Controls[payment] as TextBox;
-               // MessageBox.Show(textBoxPayment.Text);
+                string textBoxPayment = debt.TextBoxMoney.Text;
 
-                if (textBoxPayment.Text != "" && double.TryParse(textBoxPayment.Text, out double paymentMoney))
+                if (textBoxPayment != "" && double.TryParse(textBoxPayment, out double paymentMoney))
                 {
                     product.AddPaidPerson(person, paymentMoney);
                 }
-
-                //   MessageBox.Show(checkboxName+" "+ factorValue+" "+ payment);
             }
         }
 
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            // listBoxProducts.Items.Clear();
-
-            int tripID = listBoxTrips.SelectedIndex;
-
-            if (travelLists.GetTrip(tripID) != null)
+            if (debtsList.listBox.SelectedItems.Count == 1 && !string.IsNullOrEmpty(textBoxProduct.Text))
             {
-                Trip currentTrip = travelLists.GetTrip(tripID);
+                Debts debts = debtsList.listBox.SelectedItem as Debts;
+                Trip currentTrip = debts.trip;
 
                 string productName = textBoxProduct.Text;
-                currentTrip.AddProduct(productName);
+                Product product = new Product(currentTrip, productName);
 
-                listBoxProducts.Items.Add(productName);
+                currentTrip.AddProduct(product);
+                listBoxProducts.Items.Add(product);
 
-                SetLastProduct(currentTrip);
+                SetProduct(debts, product);
             }
         }
 
@@ -103,11 +92,7 @@ namespace ForTest
 
             if (listBoxProducts.SelectedItems.Count == 1)
             {
-                int tripID = listBoxTrips.SelectedIndex;
-                Trip trip = travelLists.GetTrip(tripID);
-
-                int productID = listBoxProducts.SelectedIndex;
-                Product product = trip.Products[productID];
+                Product product = listBoxProducts.SelectedItem as Product;
 
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("Продукт " + product.Name);
@@ -130,7 +115,6 @@ namespace ForTest
                 }
 
                 textBoxProductInfo.Text = builder.ToString();
-
             }
             else
             {

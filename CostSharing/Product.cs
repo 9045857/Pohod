@@ -30,6 +30,19 @@ namespace CostSharing
             CurrentTrip = trip;
         }
 
+        public Product(Trip trip, string name)
+        {
+           // ID = id;
+            Name = name;
+            DebtInEachPerson = new Dictionary<Person, double>();
+            DebtPersonFactors = new Dictionary<Person, double>();
+
+            PaidPeople = new Dictionary<Person, double>();
+
+            CurrentTrip = trip;
+        }
+
+
         public double Cost
         {
             get

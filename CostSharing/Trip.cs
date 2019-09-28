@@ -32,16 +32,39 @@ namespace CostSharing
             _productID = 0;
         }
 
+        public Trip( string tripName)
+        {
+           // ID = tripId;
+            Name = tripName;
+
+            Products = new List<Product>();
+            People = new List<Person>();
+            PayGroups = new List<PayGroup>();
+
+            _personID = 0;
+            _productID = 0;
+        }
+
+
         public void AddProduct(string productName)
         {
             Products.Add(new Product(_productID, this, productName));
             _productID++;
         }
 
-        public void AddPerson(string personName)
+        public void AddProduct(Product product)
         {
-            People.Add(new Person(_personID, this, personName));
+            Products.Add(product);
+            _productID++;
+        }
+
+        public Person AddPerson(string personName)
+        {
+            Person person = new Person(_personID, this, personName);
+            People.Add(person);
             _personID++;
+
+            return person;
         }
 
         public bool TryRemoveProduct(Product product)

@@ -118,6 +118,25 @@ namespace CostSharing
             ProductsDebts = new List<Product>();
         }
 
+        public Person(Trip trip, string name)
+        {
+           // ID = id;
+            Name = name;
+            CurrentTrip = trip;
+
+            PayGroupLeader = this;
+            PayGroupPeople = new List<Person>
+            {
+                this
+            };
+
+            int defaultWeight = 1;
+            PaymentWeight = defaultWeight;
+
+            ProductsDebts = new List<Product>();
+        }
+
+
         /// <summary>
         /// Добавление в рядовые члены группы плательщиков.
         /// При добавлении лидера другой группы, он становиться рядовым участником текущей группы,
