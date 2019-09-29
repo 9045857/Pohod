@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Debtor.cs" />
+    <Compile Include="GeneralInfo.cs" />
+    <Compile Include="Payer.cs" />
     <Compile Include="PayGroup.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Product.cs" />

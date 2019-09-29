@@ -54,7 +54,7 @@ namespace ForTest
 
                 if (debt.CheckBox.Checked)
                 {
-                    product.AddPersonInDebts(person);
+                    product.AddDebtor(person);
 
                     double.TryParse(debt.TextBoxFactor.Text, out double factor);
                     product.InsertPersonalFactor(person, factor);
@@ -64,7 +64,7 @@ namespace ForTest
 
                 if (textBoxPayment != "" && double.TryParse(textBoxPayment, out double paymentMoney))
                 {
-                    product.AddPaidPerson(person, paymentMoney);
+                    product.AddPayers(person, paymentMoney);
                 }
             }
         }
@@ -101,17 +101,17 @@ namespace ForTest
                 builder.AppendLine();
                 builder.AppendLine("Плательщики ");
 
-                foreach (Person person in product.PaidPeople.Keys)
+                foreach (Person person in product.Payers.Keys)
                 {
-                    builder.AppendLine(person.Name + "  " + product.PaidPeople[person]);
+                    builder.AppendLine(person.Name + "  " + product.Payers[person]);
                 }
 
                 builder.AppendLine();
                 builder.AppendLine("Должники ");
 
-                foreach (Person person in product.DebtInEachPerson.Keys)
+                foreach (Person person in product.Debtors.Keys)
                 {
-                    builder.AppendLine(person.Name + product.DebtPersonFactors[person] + "  " + product.DebtInEachPerson[person]);
+                    builder.AppendLine(person.Name + product.Debtors[person].Factor + "  " + product.Debtors[person].Debt);
                 }
 
                 textBoxProductInfo.Text = builder.ToString();

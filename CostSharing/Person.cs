@@ -14,6 +14,18 @@ namespace CostSharing
         public List<Product> ProductsDebts { get; private set; }
         public List<Product> PaidProducts { get; private set; }
 
+        public void AddProductInPaidList(Product product)
+        {
+            if (PaidProducts == null)
+            {
+                PaidProducts = new List<Product>();
+            }
+
+            PaidProducts.Add(product);
+        }
+
+
+
         /// <summary>
         /// Вес участия в доле оплаты товара. 
         /// По умолчанию вес равен 1.
@@ -33,7 +45,7 @@ namespace CostSharing
                 double totalDebt = 0;
                 foreach (Product product in ProductsDebts)
                 {
-                    totalDebt += product.DebtInEachPerson[this];
+                    totalDebt += product.Debtors[this].Debt;
                 }
 
                 return totalDebt;
@@ -116,6 +128,7 @@ namespace CostSharing
             PaymentWeight = defaultWeight;
 
             ProductsDebts = new List<Product>();
+            PaidProducts = new List<Product>();
         }
 
         public Person(Trip trip, string name)

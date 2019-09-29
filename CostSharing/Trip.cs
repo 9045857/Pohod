@@ -48,7 +48,8 @@ namespace CostSharing
 
         public void AddProduct(string productName)
         {
-            Products.Add(new Product(_productID, this, productName));
+            //Products.Add(new Product(_productID, this, productName));
+            Products.Add(new Product( this, productName));
             _productID++;
         }
 
@@ -76,12 +77,12 @@ namespace CostSharing
 
             Products.Remove(product);
 
-            foreach (Person person in product.PaidPeople.Keys)
+            foreach (Person person in product.Payers.Keys)
             {
                 person.TryRemovePaidProducts(product);
             }
 
-            foreach (Person person in product.DebtInEachPerson.Keys)
+            foreach (Person person in product.Debtors.Keys)
             {
                 person.TryRemoveProductDebt(product);
             }

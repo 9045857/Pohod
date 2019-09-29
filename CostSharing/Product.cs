@@ -15,18 +15,10 @@ namespace CostSharing
 
         public Trip CurrentTrip { get; }
 
-        /// <summary>
-        /// Коэффициент участия в платеже (вес участия).
-        /// Если человек вносит не долю от общей суммы, а какую-нибудь определенную сумму,
-        /// то коэффициент -1.
-        /// </summary>
-        private readonly int personalDebtFactor = -1; 
-        private readonly int standartDebtFactor = 1;
+        public Dictionary<Person, double> Payers { get; private set; }
+        public Dictionary<Person, Debtor> Debtors { get; private set; }
 
-        public Dictionary<Person, double> PaidPeople { get; private set; }
-
-        public Dictionary<Person, double> DebtInEachPerson { get; private set; }
-        public Dictionary<Person, double> DebtPersonFactors { get; private set; }
+        //  public Dictionary<Person, double> DebtPersonFactors { get; private set; }
 
         // сумма приходящаяся на стандартных должников и с индивидуальной суммой
         private double PersonalDebtsSum
@@ -34,11 +26,11 @@ namespace CostSharing
             get
             {
                 double personalDebtCost = 0;
-                foreach (Person person in DebtPersonFactors.Keys)
+                foreach (Debtor debtor in Debtors.Values)
                 {
-                    if (DebtPersonFactors[person] == personalDebtFactor)
+                    if (debtor.Factor == GeneralInfo.PersonalDebtFactor)
                     {
-                        personalDebtCost += DebtInEachPerson[person];
+                        personalDebtCost += debtor.Factor;
                     }
                 }
 
@@ -54,96 +46,16 @@ namespace CostSharing
             }
         }
 
-        public Product(int id, Trip trip, string name)
-        {
-            ID = id;
-            Name = name;
-            DebtInEachPerson = new Dictionary<Person, double>();
-            DebtPersonFactors = new Dictionary<Person, double>();
-
-            PaidPeople = new Dictionary<Person, double>();
-
-            CurrentTrip = trip;
-        }
-
-        public Product(Trip trip, string name)
-        {
-            // ID = id;
-            Name = name;
-            DebtInEachPerson = new Dictionary<Person, double>();
-            DebtPersonFactors = new Dictionary<Person, double>();
-
-            PaidPeople = new Dictionary<Person, double>();
-
-            CurrentTrip = trip;
-        }
-
-
-        public double Cost
-        {
-            get
-            {
-                double cost = 0;
-                foreach (double paid in PaidPeople.Values)//TODO убедиться, что пробегаемся по всем значениям
-                {
-                    cost += paid;
-                }
-
-                return cost;
-            }
-        }
-
-        public void AddPaidPerson(Person person, double moneyCount)
-        {
-            PaidPeople.Add(person, moneyCount);
-            RecountDebtData();
-        }
-
-        public bool TryRemovePaidPerson(Person person)
-        {
-            if (!PaidPeople.ContainsKey(person))
-            {
-                return false;
-            }
-
-            PaidPeople.Remove(person);
-            return true;
-        }
-
-        public bool TryRemoveDebtPerson(Person person)
-        {
-            if (!DebtInEachPerson.ContainsKey(person))
-            {
-                return false;
-            }
-
-            DebtInEachPerson.Remove(person);
-            DebtPersonFactors.Remove(person);
-            return true;
-        }
-
-        public bool TryChangePaymentCount(Person person, double moneyCount)
-        {
-            if (!PaidPeople.ContainsKey(person))
-            {
-                return false;
-            }
-
-            PaidPeople[person] = moneyCount;
-            return true;
-        }
-
-        //сумма коэффициентов участия в доле суммы для всех кроме ИндивидуальноСуммых
         private double StandartAndPersonalFaсtorsSum
         {
             get
             {
                 double factorsSum = 0;
-                foreach (double factor in DebtPersonFactors.Values)
+                foreach (Debtor debtor in Debtors.Values)
                 {
-                    if (factor != personalDebtFactor)
+                    if (debtor.Factor != GeneralInfo.PersonalDebtFactor)
                     {
-                        factorsSum += factor;
+                        factorsSum += debtor.Factor;
                     }
                 }
 
@@ -151,11 +63,82 @@ namespace CostSharing
             }
         }
 
-        public void AddPersonInDebts(Person person)
+        
+        public Product(Trip trip, string name)
         {
-            if (DebtInEachPerson.Count == 0 || !DebtInEachPerson.ContainsKey(person))
+            Name = name;
+            CurrentTrip = trip;
+
+            Debtors = new Dictionary<Person, Debtor>();
+            Payers = new Dictionary<Person, double>();
+        }
+        
+        public double Cost
+        {
+            get
             {
-                AddPersonWithOwnFactor(person, standartDebtFactor);
+                double cost = 0;
+                foreach (double payment in Payers.Values)
+                {
+                    cost += payment;
+                }
+
+                return cost;
+            }
+        }
+
+        public void AddPayers(Person person, double moneyCount)
+        {
+            if (!Payers.ContainsKey(person))
+            {
+                Payers.Add(person, moneyCount);
+            }
+            else
+            {
+                //TODO что делаем если такой плательщик есть? меняем сумму? или добавляем ее ? или ничего не делаем?
+            }
+
+            RecountDebtData();
+        }
+
+        public bool TryRemovePaidPerson(Person person)
+        {
+            if (!Payers.ContainsKey(person))
+            {
+                return false;
+            }
+
+            Payers.Remove(person);
+            return true;
+        }
+
+        public bool TryRemoveDebtPerson(Person person)
+        {
+            if (!Debtors.ContainsKey(person))
+            {
+                return false;
+            }
+
+            Debtors.Remove(person);
+            return true;
+        }
+
+        public bool TryChangePayment(Person person, double moneyCount)
+        {
+            if (!Payers.ContainsKey(person))
+            {
+                return false;
+            }
+
+            Payers[person] = moneyCount;
+            return true;
+        }
+
+        public void AddDebtor(Person person)
+        {
+            if (Debtors.Count == 0 || !Debtors.ContainsKey(person))
+            {
+                AddPersonWithOwnFactor(person, GeneralInfo.StandartDebtFactor);
             }
         }
 
@@ -165,11 +148,11 @@ namespace CostSharing
 
             //  MessageBox.Show(weightedDebt + "  " + standartAndPersonalFactorCost + "  " + sumStandartAndPersonalFaсtors);
 
-            foreach (Person person in DebtInEachPerson.Keys.ToList())
+            foreach (Debtor debtor in Debtors.Values.ToList())
             {
-                if (DebtPersonFactors[person] != personalDebtFactor)
+                if (debtor.Factor != GeneralInfo.PersonalDebtFactor)
                 {
-                    DebtInEachPerson[person] = weightedDebt * DebtPersonFactors[person];
+                    debtor.Debt = weightedDebt * debtor.Factor;
                 }
             }
         }
@@ -183,19 +166,19 @@ namespace CostSharing
         /// <param name="debt"></param>
         public void InsertPersonalDebt(Person person, double debt)
         {
-            if (DebtInEachPerson.Count == 0)
+            if (Debtors.Count == 0)
             {
                 AddPersonDebtAndFactor(person, debt);
             }
-            else if (!DebtInEachPerson.ContainsKey(person))
+            else if (!Debtors.ContainsKey(person))
             {
                 AddPersonDebtAndFactor(person, debt);
                 RecountDebtData();
             }
             else
             {
-                DebtPersonFactors[person] = personalDebtFactor;
-                DebtInEachPerson[person] = debt;
+                Debtors[person].Factor = GeneralInfo.PersonalDebtFactor;
+                Debtors[person].Debt = debt;
 
                 RecountDebtData();
             }
@@ -203,8 +186,9 @@ namespace CostSharing
 
         private void AddPersonDebtAndFactor(Person person, double debt)
         {
-            DebtPersonFactors.Add(person, personalDebtFactor);
-            DebtInEachPerson.Add(person, debt);
+            Debtor debtor = new Debtor(this, person);
+            debtor.Debt = debt;
+            Debtors.Add(person, debtor);
         }
 
         /// <summary>
@@ -216,27 +200,30 @@ namespace CostSharing
         /// <param name="factor"></param>
         public void InsertPersonalFactor(Person person, double factor)
         {
-            if (DebtInEachPerson.Count == 0 && DebtPersonFactors.Count == 0)
+            if (Debtors.Count == 0 )
             {
-                DebtInEachPerson.Add(person, Cost);
-                DebtPersonFactors.Add(person, factor);
+                Debtor debtor = new Debtor(this, person,factor);
+                debtor.Debt = Cost;
+                Debtors.Add(person, debtor);
             }
-            else if (!DebtInEachPerson.ContainsKey(person))
+            else if (!Debtors.ContainsKey(person))
             {
                 AddPersonWithOwnFactor(person, factor);
             }
             else
             {
-                DebtPersonFactors[person] = factor;
+                Debtors[person].Factor = factor;
                 RecountDebtData();
             }
         }
 
         private void AddPersonWithOwnFactor(Person person, double factor)
         {
+            Debtor debtor = new Debtor(this,person,factor);
             double nullDebt = 0;
-            DebtInEachPerson.Add(person, nullDebt);
-            DebtPersonFactors.Add(person, factor);
+            debtor.Debt = nullDebt;
+
+            Debtors.Add(person, debtor);
 
             RecountDebtData();
         }
