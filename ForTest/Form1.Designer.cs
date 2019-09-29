@@ -84,7 +84,8 @@
             // 
             // buttonAddProduct
             // 
-            this.buttonAddProduct.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddProduct.Image")));
+            this.buttonAddProduct.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddProduct.BackgroundImage")));
+            this.buttonAddProduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.buttonAddProduct.Location = new System.Drawing.Point(627, 40);
             this.buttonAddProduct.Name = "buttonAddProduct";
             this.buttonAddProduct.Size = new System.Drawing.Size(30, 30);
@@ -94,8 +95,10 @@
             // 
             // buttonAddTrip
             // 
-            this.buttonAddTrip.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddTrip.Image")));
+            this.buttonAddTrip.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddTrip.BackgroundImage")));
+            this.buttonAddTrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonAddTrip.Location = new System.Drawing.Point(186, 42);
+            this.buttonAddTrip.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddTrip.Name = "buttonAddTrip";
             this.buttonAddTrip.Size = new System.Drawing.Size(30, 28);
             this.buttonAddTrip.TabIndex = 10;
