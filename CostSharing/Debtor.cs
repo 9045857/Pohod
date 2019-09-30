@@ -17,7 +17,7 @@ namespace CostSharing
             Person = person;
             person.TryAddProductDebt(product);
 
-            Factor = GeneralInfo.StandartDebtFactor;
+            Factor = person.DebtFactor;
 
             int beginDebt = 0;
             Debt = beginDebt;

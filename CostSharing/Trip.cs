@@ -79,7 +79,7 @@ namespace CostSharing
 
             foreach (Person person in product.Payers.Keys)
             {
-                person.TryRemovePaidProducts(product);
+                person.TryRemoveProductPaid(product);
             }
 
             foreach (Person person in product.Debtors.Keys)
@@ -100,7 +100,7 @@ namespace CostSharing
             People.Remove(person);
             person.PayGroupLeader.TryRemoveFromPayGroup(person);
 
-            foreach (Product product in person.PaidProducts)
+            foreach (Product product in person.ProductsPaid)
             {
                 product.TryRemoveDebtPerson(person);
             }

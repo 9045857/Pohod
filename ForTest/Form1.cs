@@ -14,13 +14,11 @@ namespace ForTest
 {
     public partial class Form1 : Form
     {
-        // public TravelLists travelLists;//?
         public DebtsList debtsList;
 
         public Form1()
         {
             InitializeComponent();
-            // travelLists = new TravelLists();
             debtsList = new DebtsList(listBoxTrips);
         }
 
@@ -64,7 +62,7 @@ namespace ForTest
 
                 if (textBoxPayment != "" && double.TryParse(textBoxPayment, out double paymentMoney))
                 {
-                    product.AddPayers(person, paymentMoney);
+                    Economy.DoPayment(product, person, paymentMoney);
                 }
             }
         }
@@ -120,6 +118,53 @@ namespace ForTest
             {
                 MessageBox.Show("Выберите продукт из списка.");
             }
+        }
+
+        private void buttonShowPerson_Click(object sender, EventArgs e)
+        {
+            textBoxPersonInfo.Text = "";
+
+            if (listBoxPeople.SelectedItems.Count == 1)
+            {
+                Person person = (listBoxPeople.SelectedItem as Debt).Person;
+
+                StringBuilder builder = new StringBuilder();
+                builder.AppendLine("Человек: " + person.Name);
+                builder.AppendLine("Сумма оплат: " + person.TotalPayments);
+                builder.AppendLine("Сумма задолженностей: " + person.TotalDebt);
+                builder.AppendLine();
+                builder.AppendLine("Список долгов:  товар/коэффициент/сумма ");
+
+                foreach (Product product in person.ProductsDebts)
+                {
+                    builder.Append(product.Name);
+                    builder.Append(" / ");
+                    builder.Append(product.Debtors[person].Factor);
+                    builder.Append(" / ");
+                    builder.AppendLine(product.Debtors[person].Debt.ToString());
+                }
+
+                builder.AppendLine();
+                builder.AppendLine("Список оплат: товар /сумма ");
+
+                foreach (Product product in person.ProductsPaid)
+                {
+                    builder.Append(product.Name);
+                    builder.Append(" / ");
+                    builder.Append(product.Payers[person]);
+                }
+
+                textBoxPersonInfo.Text = builder.ToString();
+            }
+            else
+            {
+                MessageBox.Show("Выберите человека из списка.");
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            // debtsList.listBox
         }
     }
 }

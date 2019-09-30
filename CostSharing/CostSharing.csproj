@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debtor.cs" />
+    <Compile Include="Economy.cs" />
     <Compile Include="GeneralInfo.cs" />
     <Compile Include="Payer.cs" />
     <Compile Include="PayGroup.cs" />

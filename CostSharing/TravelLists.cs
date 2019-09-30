@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CostSharing
 {
+    [Serializable]
     public class TravelLists
-    {
+    {       
         public List<Trip> Trips;
+           
         public int CurrenrtripID { get; set; }
 
         public TravelLists()
@@ -44,5 +48,24 @@ namespace CostSharing
 
         }
 
+        public void Save()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("Trips.dat", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, Trips);
+            }
+        }
+
+        public void Open()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            using (FileStream fs = new FileStream("Trips.dat", FileMode.OpenOrCreate))
+            {
+                List<Trip> Trips = (List<Trip>)formatter.Deserialize(fs);
+            }
+        }
     }
 }

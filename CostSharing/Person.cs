@@ -12,33 +12,53 @@ namespace CostSharing
         public string Name { get; set; }
 
         public List<Product> ProductsDebts { get; private set; }
-        public List<Product> PaidProducts { get; private set; }
+        public List<Product> ProductsPaid { get; private set; }
 
-        public void AddProductInPaidList(Product product)
+        public void AddPaidProduct(Product product)
         {
-            if (PaidProducts == null)
+            if (ProductsPaid == null)
             {
-                PaidProducts = new List<Product>();
+                ProductsPaid = new List<Product>();
             }
 
-            PaidProducts.Add(product);
+            ProductsPaid.Add(product);
         }
-
-
 
         /// <summary>
-        /// Вес участия в доле оплаты товара. 
-        /// По умолчанию вес равен 1.
+        /// Удаляет продукт из персонального списка Оплат.
+        /// В случае, если продукта  списке нет, метод возвращает false.
         /// </summary>
-        public double PaymentWeight { get; private set; }
-
-        public void SetPayWeight(double paymentWeight)
+        /// <param name="product"></param>
+        /// <returns></returns>
+        public bool TryRemoveProductPaid(Product product)
         {
-            //TODO возможно нужна проверка на отрицательные коэффициенты
-            PaymentWeight = paymentWeight;
+            if (!ProductsPaid.Contains(product))
+            {
+                return false;
+            }
+
+            ProductsPaid.Remove(product);
+            return true;
         }
 
-        public double PersonalDebt
+        /// <summary>
+        /// Вес участия в доле оплаты товара (коэффициент оплаты). 
+        /// По умолчанию вес равен 1.
+        /// </summary>
+        public double DebtFactor { get; private set; }
+
+        /// <summary>
+        /// Задаем коэффицент оплаты.
+        /// </summary>
+        public void SetDebtFactor(double debtFactor)
+        {
+            DebtFactor = debtFactor;
+        }
+                     
+        /// <summary>
+        /// Суммарная задолженность по всем товарам
+        /// </summary>
+        public double TotalDebt
         {
             get
             {
@@ -49,6 +69,23 @@ namespace CostSharing
                 }
 
                 return totalDebt;
+            }
+        }
+
+        /// <summary>
+        /// Суммарные оплаты Person
+        /// </summary>
+        public double TotalPayments
+        {
+            get
+            {
+                double totalPayments = 0;
+                foreach (Product product in ProductsPaid)
+                {
+                    totalPayments += product.Payers[this];
+                }
+
+                return totalPayments;
             }
         }
 
@@ -69,13 +106,19 @@ namespace CostSharing
                 double totalDebt = 0;
                 foreach (Person person in PayGroupPeople)
                 {
-                    totalDebt += person.PersonalDebt;
+                    totalDebt += person.TotalDebt;
                 }
 
                 return totalDebt;
             }
         }
 
+        /// <summary>
+        /// Добавляет продукт в список задолженностей.
+        /// Если продукт уже в списке, метод возвращает false.
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         public bool TryAddProductDebt(Product product)
         {
             if (ProductsDebts.Contains(product))
@@ -87,6 +130,12 @@ namespace CostSharing
             return true;
         }
 
+        /// <summary>
+        /// Удаляет продукт из списка задолженностей.
+        /// Если продукт отсутствовал в списке, возвращает false.
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         public bool TryRemoveProductDebt(Product product)
         {
             if (!ProductsDebts.Contains(product))
@@ -99,7 +148,8 @@ namespace CostSharing
         }
 
         /// <summary>
-        /// Лидер группы плательщиков. Для индивидуального Person является сам Лидером.
+        /// Лидер группы плательщиков. 
+        /// Если Person не состоит в группе, он сам является Лидером.
         /// </summary>
         public Person PayGroupLeader { get; private set; }
 
@@ -125,15 +175,14 @@ namespace CostSharing
             };
 
             int defaultWeight = 1;
-            PaymentWeight = defaultWeight;
+            DebtFactor = defaultWeight;
 
             ProductsDebts = new List<Product>();
-            PaidProducts = new List<Product>();
+            ProductsPaid = new List<Product>();
         }
 
-        public Person(Trip trip, string name)
+        public Person(Trip trip, string name)//TODO данный трансформер будем делать основным
         {
-           // ID = id;
             Name = name;
             CurrentTrip = trip;
 
@@ -143,8 +192,7 @@ namespace CostSharing
                 this
             };
 
-            int defaultWeight = 1;
-            PaymentWeight = defaultWeight;
+            DebtFactor = GeneralInfo.StandartDebtFactor;
 
             ProductsDebts = new List<Product>();
         }
@@ -286,17 +334,6 @@ namespace CostSharing
 
                 return true;
             }
-        }
-
-        public bool TryRemovePaidProducts(Product product)
-        {
-            if (!PaidProducts.Contains(product))
-            {
-                return false;
-            }
-
-            PaidProducts.Remove(product);
-            return true;
         }
 
         public override string ToString()

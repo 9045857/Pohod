@@ -48,11 +48,13 @@
             this.groupBoxTripsAndPeople = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxProductInfo = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxPersonInfo = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonShowProduct = new System.Windows.Forms.Button();
             this.buttonShowPerson = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonOpen = new System.Windows.Forms.Button();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -248,13 +250,13 @@
             this.textBoxProductInfo.Size = new System.Drawing.Size(321, 251);
             this.textBoxProductInfo.TabIndex = 40;
             // 
-            // textBox2
+            // textBoxPersonInfo
             // 
-            this.textBox2.Location = new System.Drawing.Point(930, 370);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(321, 299);
-            this.textBox2.TabIndex = 41;
+            this.textBoxPersonInfo.Location = new System.Drawing.Point(930, 370);
+            this.textBoxPersonInfo.Multiline = true;
+            this.textBoxPersonInfo.Name = "textBoxPersonInfo";
+            this.textBoxPersonInfo.Size = new System.Drawing.Size(321, 299);
+            this.textBoxPersonInfo.TabIndex = 41;
             // 
             // label4
             // 
@@ -292,17 +294,39 @@
             this.buttonShowPerson.TabIndex = 45;
             this.buttonShowPerson.Text = "показать";
             this.buttonShowPerson.UseVisualStyleBackColor = true;
+            this.buttonShowPerson.Click += new System.EventHandler(this.buttonShowPerson_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(1300, 18);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(87, 34);
+            this.buttonSave.TabIndex = 46;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Location = new System.Drawing.Point(1300, 58);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(87, 28);
+            this.buttonOpen.TabIndex = 47;
+            this.buttonOpen.Text = "Открыть";
+            this.buttonOpen.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1408, 687);
+            this.Controls.Add(this.buttonOpen);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonShowPerson);
             this.Controls.Add(this.buttonShowProduct);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBoxPersonInfo);
             this.Controls.Add(this.textBoxProductInfo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBoxTripsAndPeople);
@@ -343,11 +367,13 @@
         private System.Windows.Forms.GroupBox groupBoxTripsAndPeople;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxProductInfo;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxPersonInfo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonShowProduct;
         private System.Windows.Forms.Button buttonShowPerson;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonOpen;
     }
 }
 

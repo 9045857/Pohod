@@ -14,7 +14,7 @@ namespace CostSharing
         public Payer(Product product, Person person)
         {
             Person = person;
-            person.AddProductInPaidList(product);
+            person.AddPaidProduct(product);
 
             int beginPayment = 0;
             Payment = beginPayment;
@@ -23,7 +23,7 @@ namespace CostSharing
         public Payer(Product product, Person person, double payment)
         {
             Person = person;
-            person.AddProductInPaidList(product);
+            person.AddPaidProduct(product);
             Payment = payment;
         }
     }
