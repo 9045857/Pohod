@@ -21,7 +21,7 @@ namespace CostSharing
             GroupManager = person;
 
             PeopleID = new List<int>();
-            PeopleID.Add(person.ID);
+          //  PeopleID.Add(person.ID);
         }
 
         public void AddPersonInGroup(int persontId)

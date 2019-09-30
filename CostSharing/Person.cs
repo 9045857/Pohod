@@ -8,7 +8,7 @@ namespace CostSharing
 {
     public class Person
     {
-        public int ID { get; private set; }
+      //  public int ID { get; private set; }
         public string Name { get; set; }
 
         public List<Product> ProductsDebts { get; private set; }
@@ -161,25 +161,6 @@ namespace CostSharing
         public List<Person> PayGroupPeople { get; private set; }
 
         public Trip CurrentTrip { get; }
-
-        public Person(int id, Trip trip, string name)
-        {
-            ID = id;
-            Name = name;
-            CurrentTrip = trip;
-
-            PayGroupLeader = this;
-            PayGroupPeople = new List<Person>
-            {
-                this
-            };
-
-            int defaultWeight = 1;
-            DebtFactor = defaultWeight;
-
-            ProductsDebts = new List<Product>();
-            ProductsPaid = new List<Product>();
-        }
 
         public Person(Trip trip, string name)//TODO данный трансформер будем делать основным
         {

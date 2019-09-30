@@ -8,12 +8,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CostSharing
 {
+
+    /// <summary>
+    /// Список всех походов и др. групповых мероприятий.
+    /// Основная задача данного класса - сериализация и десериализация все информации.
+    /// </summary>
     [Serializable]
     public class TravelLists
     {       
         public List<Trip> Trips;
            
-        public int CurrenrtripID { get; set; }
+       // public int CurrenrtripID { get; set; }
 
         public TravelLists()
         {

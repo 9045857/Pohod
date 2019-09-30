@@ -13,20 +13,19 @@ namespace ForTest
 {
     public class DebtsList
     {
-      //  public TravelLists travelLists;
+        public TravelLists travelLists;
 
         public ListBox listBox;
 
         public DebtsList(ListBox listBox)
         {
             this.listBox = listBox;
-          //  travelLists = new TravelLists();
+            travelLists = new TravelLists();
         }
 
-        
+        private void AddTrip()
+        {
 
-
-
-
+        }
     }
 }
