@@ -10,7 +10,6 @@ namespace CostSharing
     [Serializable]
     public class Product
     {
-        public int ID { get; private set; }
         public string Name { get; private set; }
         public string Description { get; set; }//TODO пока нигде не используется
 

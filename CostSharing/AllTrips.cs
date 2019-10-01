@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json.Serialization;
 using System.Windows.Forms;
 
 namespace CostSharing
@@ -17,6 +18,7 @@ namespace CostSharing
     public class AllTrips
     {
         public List<Trip> Trips;
+        public int testNumber;
 
         public AllTrips()
         {
@@ -57,6 +59,8 @@ namespace CostSharing
 
         public void Save(string fileName)
         {
+            testNumber = 100;
+
             BinaryFormatter formatter = new BinaryFormatter();
 
             using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate,FileAccess.Write))
@@ -68,8 +72,8 @@ namespace CostSharing
 
         public void Open(string fileName)
         {
-            //if (File.Exists(fileName))
-            //{
+            if (File.Exists(fileName))
+            {
             BinaryFormatter formatter = new BinaryFormatter();
 
             using (FileStream fs = new FileStream(fileName, FileMode.Open,FileAccess.Read))
@@ -78,11 +82,7 @@ namespace CostSharing
                 }
 
 
-            //}
-            //else
-            //{
-            //    return null;
-            //}
+            }
         }
     }
 }

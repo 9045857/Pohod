@@ -9,7 +9,6 @@ namespace CostSharing
     [Serializable]
     public class Trip
     {
-        public int ID { get; private set; }
         public string Name { get; set; }
 
         public List<PayGroup> PayGroups { get; private set; }

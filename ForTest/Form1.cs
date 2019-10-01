@@ -173,6 +173,14 @@ namespace ForTest
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             debtsList.OpenAll(fileName);
+
+            MessageBox.Show(debtsList.allTrips.testNumber.ToString());
+        }
+
+        private void buttonTripsClear_Click(object sender, EventArgs e)
+        {
+            debtsList.allTrips.Trips.Clear();
+            debtsList.Trips.Items.Clear();
         }
     }
 }

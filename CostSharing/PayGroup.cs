@@ -10,7 +10,6 @@ namespace CostSharing
     public class PayGroup
     {
         //TODO попробуем логику групп засунуть в персон
-        public int ID { get; private set; }
         public string Name { get; set; }//TODO не нужен
         public Person GroupManager { get; private set; }
 
@@ -18,7 +17,6 @@ namespace CostSharing
 
         public PayGroup(int id, Person person )
         {
-            ID = id;
             GroupManager = person;
 
             PeopleID = new List<int>();

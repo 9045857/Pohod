@@ -55,6 +55,7 @@
             this.buttonShowPerson = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonTripsClear = new System.Windows.Forms.Button();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -308,7 +309,7 @@
             // 
             // buttonOpen
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(1300, 58);
+            this.buttonOpen.Location = new System.Drawing.Point(1300, 165);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(87, 28);
             this.buttonOpen.TabIndex = 47;
@@ -316,11 +317,22 @@
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
+            // buttonTripsClear
+            // 
+            this.buttonTripsClear.Location = new System.Drawing.Point(1300, 89);
+            this.buttonTripsClear.Name = "buttonTripsClear";
+            this.buttonTripsClear.Size = new System.Drawing.Size(75, 23);
+            this.buttonTripsClear.TabIndex = 48;
+            this.buttonTripsClear.Text = "очистить";
+            this.buttonTripsClear.UseVisualStyleBackColor = true;
+            this.buttonTripsClear.Click += new System.EventHandler(this.buttonTripsClear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1408, 687);
+            this.Controls.Add(this.buttonTripsClear);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonShowPerson);
@@ -375,6 +387,7 @@
         private System.Windows.Forms.Button buttonShowPerson;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button buttonTripsClear;
     }
 }
 
