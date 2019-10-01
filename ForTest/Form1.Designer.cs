@@ -314,6 +314,7 @@
             this.buttonOpen.TabIndex = 47;
             this.buttonOpen.Text = "Открыть";
             this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // Form1
             // 

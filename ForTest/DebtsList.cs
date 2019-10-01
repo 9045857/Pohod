@@ -13,19 +13,41 @@ namespace ForTest
 {
     public class DebtsList
     {
-        public TravelLists travelLists;
+        public AllTrips allTrips;//Пока параметр открытый, если не нужен будет, нужно будет закрыть.
 
-        public ListBox listBox;
+        public ListBox Trips { get; private set; }
 
         public DebtsList(ListBox listBox)
         {
-            this.listBox = listBox;
-            travelLists = new TravelLists();
+            Trips = listBox;
+            allTrips = new AllTrips();
         }
 
-        private void AddTrip()
+        public void AddTrip(Debts debts)
         {
+            Trips.Items.Add(debts);
+            allTrips.AddTrip(debts.trip);
+        }
 
+        public void RemoveTrip(Debts debts)
+        {
+            Trips.Items.Remove(debts);
+            allTrips.RemoveTrip(debts.trip);
+        }
+
+        public void SaveAll(string fileName)
+        {
+            allTrips.Save(fileName);
+        }
+
+        public void OpenAll(string fileName)
+        {
+            allTrips.Open(fileName);
+
+            MessageBox.Show(allTrips.Trips.Count.ToString());
+            //FillListBoxTrips();
+            //FillListBoxPeople();
+            //FillListBoxProducts();
         }
     }
 }

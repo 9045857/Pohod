@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace CostSharing
 {
+    [Serializable]
     public class Product
     {
         public int ID { get; private set; }

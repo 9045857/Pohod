@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CostSharing
 {
+    [Serializable]
     public class Economy
     {
         public static void DoPayment(Product product, Person person, double money)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CostSharing
 {
+    [Serializable]
     public class PayGroup
     {
         //TODO попробуем логику групп засунуть в персон

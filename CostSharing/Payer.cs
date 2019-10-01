@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CostSharing
 {
+    [Serializable]
     public class Payer
     {
         public Person Person { get; private set; }

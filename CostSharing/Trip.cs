@@ -6,64 +6,41 @@ using System.Threading.Tasks;
 
 namespace CostSharing
 {
+    [Serializable]
     public class Trip
     {
         public int ID { get; private set; }
         public string Name { get; set; }
-
-        private int _personID;
-        private int _productID;
 
         public List<PayGroup> PayGroups { get; private set; }
 
         public List<Product> Products { get; private set; }
         public List<Person> People { get; private set; }
 
-        public Trip(int tripId, string tripName)
+        public Trip(string tripName)
         {
-            ID = tripId;
             Name = tripName;
 
             Products = new List<Product>();
             People = new List<Person>();
             PayGroups = new List<PayGroup>();
-
-            _personID = 0;
-            _productID = 0;
-        }
-
-        public Trip( string tripName)
-        {
-           // ID = tripId;
-            Name = tripName;
-
-            Products = new List<Product>();
-            People = new List<Person>();
-            PayGroups = new List<PayGroup>();
-
-            _personID = 0;
-            _productID = 0;
         }
 
 
         public void AddProduct(string productName)
         {
-            //Products.Add(new Product(_productID, this, productName));
-            Products.Add(new Product( this, productName));
-            _productID++;
+            Products.Add(new Product(this, productName));
         }
 
         public void AddProduct(Product product)
         {
             Products.Add(product);
-            _productID++;
         }
 
         public Person AddPerson(string personName)
         {
-            Person person = new Person(_personID, this, personName);
+            Person person = new Person(this, personName);
             People.Add(person);
-            _personID++;
 
             return person;
         }

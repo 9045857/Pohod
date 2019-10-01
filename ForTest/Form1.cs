@@ -16,10 +16,13 @@ namespace ForTest
     {
         public DebtsList debtsList;
 
+        private string fileName = "Trips.dat";
+
         public Form1()
         {
             InitializeComponent();
             debtsList = new DebtsList(listBoxTrips);
+            debtsList.OpenAll(fileName);
         }
 
         private void buttonAddTrip_Click(object sender, EventArgs e)
@@ -28,19 +31,19 @@ namespace ForTest
             Trip trip = new Trip(tripName);
             Debts debts = new Debts(trip, panelDebts, listBoxPeople);
 
-            debtsList.listBox.Items.Add(debts);
+            debtsList.AddTrip(debts);
         }
 
         private void buttonAddPerson_Click(object sender, EventArgs e)
         {
             if (listBoxTrips.SelectedItems.Count == 1)
             {
-                Debts selectedDebts = debtsList.listBox.SelectedItem as Debts;
+                Debts selectedDebts = debtsList.Trips.SelectedItem as Debts;
 
                 string personName = string.IsNullOrEmpty(textBoxPerson.Text) ? "NoNamePerson" : textBoxPerson.Text;
                 Person person = new Person(selectedDebts.trip, personName);
 
-                (debtsList.listBox.SelectedItem as Debts).AddDebt(person);
+                (debtsList.Trips.SelectedItem as Debts).AddDebt(person);
             }
         }
 
@@ -69,9 +72,9 @@ namespace ForTest
 
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            if (debtsList.listBox.SelectedItems.Count == 1 && !string.IsNullOrEmpty(textBoxProduct.Text))
+            if (debtsList.Trips.SelectedItems.Count == 1 && !string.IsNullOrEmpty(textBoxProduct.Text))
             {
-                Debts debts = debtsList.listBox.SelectedItem as Debts;
+                Debts debts = debtsList.Trips.SelectedItem as Debts;
                 Trip currentTrip = debts.trip;
 
                 string productName = textBoxProduct.Text;
@@ -164,7 +167,12 @@ namespace ForTest
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            // debtsList.listBox
+            debtsList.SaveAll(fileName);
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            debtsList.OpenAll(fileName);
         }
     }
 }

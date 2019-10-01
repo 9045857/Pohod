@@ -9,7 +9,7 @@ namespace ForTest
 {
     public class TripsAndDebts
     {
-        public TravelLists travelLists { get; set; }
+        public AllTrips travelLists { get; set; }
       //  public TravelLists travelLists { get; set; }
     }
 }
