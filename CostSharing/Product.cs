@@ -4,18 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [Serializable]
+    [DataContract]
     public class Product
     {
+        [DataMember]
         public string Name { get; private set; }
+
+        [DataMember]
         public string Description { get; set; }//TODO пока нигде не используется
 
-        public Trip CurrentTrip { get; }
+        [DataMember]
+        public Trip CurrentTrip { get; set; }
 
+        [DataMember]
         public Dictionary<Person, double> Payers { get; private set; }
+
+        [DataMember]
         public Dictionary<Person, Debtor> Debtors { get; private set; }
 
         //  public Dictionary<Person, double> DebtPersonFactors { get; private set; }

@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [Serializable]
+    [DataContract]
     public class Payer
     {
+        [DataMember]
         public Person Person { get; private set; }
+
+        [DataMember]
         public double Payment { get; set; }
 
         public Payer(Product product, Person person)

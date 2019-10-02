@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace CostSharing
 {
-    [Serializable]
-    public class GeneralInfo
+       public class GeneralInfo
     {
         /// <summary>
         /// Коэффициент участия в платеже (вес участия) конкретного товара.

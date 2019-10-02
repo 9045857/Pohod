@@ -3,17 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [Serializable]
+    [DataContract]
     public class Person
     {
-      //  public int ID { get; private set; }
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public List<Product> ProductsDebts { get; private set; }
+
+        [DataMember]
         public List<Product> ProductsPaid { get; private set; }
+
+        /// <summary>
+        /// Лидер группы плательщиков. 
+        /// Если Person не состоит в группе, он сам является Лидером.
+        /// </summary>
+        [DataMember]
+        public Person PayGroupLeader { get; private set; }
+
+        /// <summary>
+        /// Список участников "подчиненной" группы плательщиков.
+        /// Если текущий Person не является лидером группы, то список пустой.
+        /// При создании Person является лидером группы, где один участник - он сам.
+        /// </summary>
+        [DataMember]
+        public List<Person> PayGroupPeople { get; private set; }
+
+        [DataMember]
+        public Trip CurrentTrip { get; }
+
+        /// <summary>
+        /// Вес участия в доле оплаты товара (коэффициент оплаты). 
+        /// По умолчанию вес равен 1.
+        /// </summary>
+        [DataMember]
+        public double DebtFactor { get; private set; }
 
         public void AddPaidProduct(Product product)
         {
@@ -42,11 +71,7 @@ namespace CostSharing
             return true;
         }
 
-        /// <summary>
-        /// Вес участия в доле оплаты товара (коэффициент оплаты). 
-        /// По умолчанию вес равен 1.
-        /// </summary>
-        public double DebtFactor { get; private set; }
+       
 
         /// <summary>
         /// Задаем коэффицент оплаты.
@@ -148,20 +173,7 @@ namespace CostSharing
             return true;
         }
 
-        /// <summary>
-        /// Лидер группы плательщиков. 
-        /// Если Person не состоит в группе, он сам является Лидером.
-        /// </summary>
-        public Person PayGroupLeader { get; private set; }
 
-        /// <summary>
-        /// Список участников "подчиненной" группы плательщиков.
-        /// Если текущий Person не является лидером группы, то список пустой.
-        /// При создании Person является лидером группы, где один участник - он сам.
-        /// </summary>
-        public List<Person> PayGroupPeople { get; private set; }
-
-        public Trip CurrentTrip { get; }
 
         public Person(Trip trip, string name)//TODO данный трансформер будем делать основным
         {

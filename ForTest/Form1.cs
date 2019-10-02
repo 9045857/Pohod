@@ -16,7 +16,7 @@ namespace ForTest
     {
         public DebtsList debtsList;
 
-        private string fileName = "Trips.dat";
+        private string fileName = "Trips.json";
 
         public Form1()
         {
@@ -97,7 +97,6 @@ namespace ForTest
 
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("Продукт " + product.Name);
-                builder.AppendLine("ID " + product.ID);
                 builder.AppendLine("Стоимость " + product.Cost);
                 builder.AppendLine();
                 builder.AppendLine("Плательщики ");

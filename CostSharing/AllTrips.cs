@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Newtonsoft.Json.Serialization;
 using System.Windows.Forms;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace CostSharing
 {
@@ -14,10 +11,12 @@ namespace CostSharing
     /// Список всех походов и др. групповых мероприятий.
     /// Основная задача данного класса - сериализация и десериализация всей информации.
     /// </summary>
-    [Serializable]
+    [DataContract]
     public class AllTrips
     {
+        [DataMember]
         public List<Trip> Trips;
+
         public int testNumber;
 
         public AllTrips()
@@ -39,19 +38,6 @@ namespace CostSharing
             Trips.Add(trip);
         }
 
-        public Trip GetTrip(int id)
-        {
-            foreach (Trip trip in Trips)
-            {
-                if (trip.ID == id)
-                {
-                    return trip;
-                }
-            }
-
-            return null;
-        }
-
         public void RemoveTrip(Trip trip)
         {
             Trips.Remove(trip);
@@ -59,14 +45,21 @@ namespace CostSharing
 
         public void Save(string fileName)
         {
-            testNumber = 100;
+            //testNumber = 100;
 
-            BinaryFormatter formatter = new BinaryFormatter();
+            //BinaryFormatter formatter = new BinaryFormatter();
 
-            using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate,FileAccess.Write))
+            //using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate,FileAccess.Write))
+            //{
+            //    MessageBox.Show(Trips.Count.ToString());
+            //    formatter.Serialize(fs, Trips);
+            //}
+
+            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
+
+            using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
             {
-                MessageBox.Show(Trips.Count.ToString());
-                formatter.Serialize(fs, Trips);
+                jsonFormatter.WriteObject(fs, Trips);
             }
         }
 
@@ -74,14 +67,19 @@ namespace CostSharing
         {
             if (File.Exists(fileName))
             {
-            BinaryFormatter formatter = new BinaryFormatter();
+                //BinaryFormatter formatter = new BinaryFormatter();
 
-            using (FileStream fs = new FileStream(fileName, FileMode.Open,FileAccess.Read))
+                //using (FileStream fs = new FileStream(fileName, FileMode.Open,FileAccess.Read))
+                //    {
+                //        List<Trip> Trips = (List<Trip>)formatter.Deserialize(fs);
+                //    }
+
+                DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
+
+                using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
                 {
-                    List<Trip> Trips = (List<Trip>)formatter.Deserialize(fs);
+                    Trips = (List<Trip>)jsonFormatter.ReadObject(fs);
                 }
-
-
             }
         }
     }

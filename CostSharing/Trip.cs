@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [Serializable]
+    [DataContract]
     public class Trip
     {
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public List<PayGroup> PayGroups { get; private set; }
 
+        [DataMember]
         public List<Product> Products { get; private set; }
+
+        [DataMember]
         public List<Person> People { get; private set; }
 
         public Trip(string tripName)
