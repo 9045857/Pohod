@@ -16,7 +16,9 @@ namespace ForTest
     {
         public DebtsList debtsList;
 
-        private string fileName = "Trips.json";
+        //private string fileName = "Trips.json";
+
+        private string fileName = "trips.dat";
 
         public Form1()
         {
@@ -32,6 +34,7 @@ namespace ForTest
             Debts debts = new Debts(trip, panelDebts, listBoxPeople);
 
             debtsList.AddTrip(debts);
+            textBoxTripName.Text = "";
         }
 
         private void buttonAddPerson_Click(object sender, EventArgs e)
@@ -41,31 +44,31 @@ namespace ForTest
                 Debts selectedDebts = debtsList.Trips.SelectedItem as Debts;
 
                 string personName = string.IsNullOrEmpty(textBoxPerson.Text) ? "NoNamePerson" : textBoxPerson.Text;
-                Person person = new Person(selectedDebts.trip, personName);
+                Person person = new Person(personName);
 
-                (debtsList.Trips.SelectedItem as Debts).AddDebt(person);
+                selectedDebts.AddDebt(person);
+                selectedDebts.trip.AddPerson(person);
+                textBoxPerson.Text = "";
             }
         }
 
         private void SetProduct(Debts debts, Product product)
         {
-            foreach (Debt debt in debts.listBox.Items)
+            foreach (Debt debt in debts.DebtsList)
             {
                 Person person = debt.Person;
 
                 if (debt.CheckBox.Checked)
                 {
-                    product.AddDebtor(person);
-
                     double.TryParse(debt.TextBoxFactor.Text, out double factor);
-                    product.InsertPersonalFactor(person, factor);
+                    product.AddDebtor(person, factor);
                 }
 
                 string textBoxPayment = debt.TextBoxMoney.Text;
 
                 if (textBoxPayment != "" && double.TryParse(textBoxPayment, out double paymentMoney))
                 {
-                    Economy.DoPayment(product, person, paymentMoney);
+                    product.AddPayer(person, paymentMoney);
                 }
             }
         }
@@ -78,12 +81,14 @@ namespace ForTest
                 Trip currentTrip = debts.trip;
 
                 string productName = textBoxProduct.Text;
-                Product product = new Product(currentTrip, productName);
+                Product product = new Product(productName);
 
                 currentTrip.AddProduct(product);
                 listBoxProducts.Items.Add(product);
 
                 SetProduct(debts, product);
+
+                textBoxProduct.Text = "";
             }
         }
 
@@ -101,17 +106,17 @@ namespace ForTest
                 builder.AppendLine();
                 builder.AppendLine("Плательщики ");
 
-                foreach (Person person in product.Payers.Keys)
+                foreach (Payer payer in product.Payers)
                 {
-                    builder.AppendLine(person.Name + "  " + product.Payers[person]);
+                    builder.AppendLine(payer.Person.Name + "  " + payer.Payment);
                 }
 
                 builder.AppendLine();
                 builder.AppendLine("Должники ");
 
-                foreach (Person person in product.Debtors.Keys)
+                foreach (Debtor debtor in product.Debtors)
                 {
-                    builder.AppendLine(person.Name + product.Debtors[person].Factor + "  " + product.Debtors[person].Debt);
+                    builder.AppendLine(debtor.Person.Name + "(" + debtor.Factor + "):  " + debtor.Debt);
                 }
 
                 textBoxProductInfo.Text = builder.ToString();
@@ -129,31 +134,38 @@ namespace ForTest
             if (listBoxPeople.SelectedItems.Count == 1)
             {
                 Person person = (listBoxPeople.SelectedItem as Debt).Person;
+                Trip trip = (listBoxTrips.SelectedItem as Debts).trip;
 
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("Человек: " + person.Name);
-                builder.AppendLine("Сумма оплат: " + person.TotalPayments);
-                builder.AppendLine("Сумма задолженностей: " + person.TotalDebt);
-                builder.AppendLine();
-                builder.AppendLine("Список долгов:  товар/коэффициент/сумма ");
+                builder.AppendLine("Лидер группы: " + person.PayGroupLeader.Name);
+                builder.AppendLine("Сумма оплат группы: " + trip.GetPayGroupTotalPayment(person.PayGroupLeader));
+                builder.AppendLine("Сумма оплат человека: " + trip.GetPersonalTotalPayment(person));
+                builder.AppendLine("Список оплат: товар /сумма ");
 
-                foreach (Product product in person.ProductsDebts)
+                foreach (Product product in trip.GetPayerProducts(person))
                 {
                     builder.Append(product.Name);
                     builder.Append(" / ");
-                    builder.Append(product.Debtors[person].Factor);
-                    builder.Append(" / ");
-                    builder.AppendLine(product.Debtors[person].Debt.ToString());
+                    builder.Append(product.GetPayer(person).Payment);
+                    builder.AppendLine();
                 }
 
                 builder.AppendLine();
-                builder.AppendLine("Список оплат: товар /сумма ");
+                builder.AppendLine("Сумма задолженностей группы: " + trip.GetPayGroupTotalDebt(person.PayGroupLeader));
+                builder.AppendLine("Сумма задолженностей человека: " + trip.GetPersonalTotalDebt(person));
+                builder.AppendLine("Список долгов:  товар/коэффициент/сумма ");
 
-                foreach (Product product in person.ProductsPaid)
+                foreach (Product product in trip.GetDebtProducts(person))
                 {
                     builder.Append(product.Name);
                     builder.Append(" / ");
-                    builder.Append(product.Payers[person]);
+
+                    Debtor debtor = product.GetDebtor(person);
+                    builder.Append(debtor.Factor);
+                    builder.Append(" / ");
+                    builder.Append(debtor.Debt);
+                    builder.AppendLine();
                 }
 
                 textBoxPersonInfo.Text = builder.ToString();
@@ -180,6 +192,18 @@ namespace ForTest
         {
             debtsList.allTrips.Trips.Clear();
             debtsList.Trips.Items.Clear();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBoxTrips_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Debts debts = (sender as ListBox).SelectedItem as Debts;
+
+            debts.ReloadListBoxPeople();
         }
     }
 }

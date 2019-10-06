@@ -15,7 +15,7 @@ namespace ForTest
     {
         public AllTrips allTrips;//Пока параметр открытый, если не нужен будет, нужно будет закрыть.
 
-        public ListBox Trips { get; private set; }
+        public ListBox Trips { get;  set; }
 
         public DebtsList(ListBox listBox)
         {
@@ -44,7 +44,7 @@ namespace ForTest
         {
             allTrips.Open(fileName);
 
-            MessageBox.Show(allTrips.Trips.Count.ToString());
+         //   MessageBox.Show(allTrips.Trips.Count.ToString());
             //FillListBoxTrips();
             //FillListBoxPeople();
             //FillListBoxProducts();

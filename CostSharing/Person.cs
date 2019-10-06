@@ -7,23 +7,15 @@ using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [DataContract]
+    [Serializable]
     public class Person
     {
-        [DataMember]
         public string Name { get; set; }
-
-        [DataMember]
-        public List<Product> ProductsDebts { get; private set; }
-
-        [DataMember]
-        public List<Product> ProductsPaid { get; private set; }
 
         /// <summary>
         /// Лидер группы плательщиков. 
         /// Если Person не состоит в группе, он сам является Лидером.
         /// </summary>
-        [DataMember]
         public Person PayGroupLeader { get; private set; }
 
         /// <summary>
@@ -31,48 +23,14 @@ namespace CostSharing
         /// Если текущий Person не является лидером группы, то список пустой.
         /// При создании Person является лидером группы, где один участник - он сам.
         /// </summary>
-        [DataMember]
         public List<Person> PayGroupPeople { get; private set; }
-
-        [DataMember]
-        public Trip CurrentTrip { get; }
 
         /// <summary>
         /// Вес участия в доле оплаты товара (коэффициент оплаты). 
         /// По умолчанию вес равен 1.
         /// </summary>
-        [DataMember]
-        public double DebtFactor { get; private set; }
-
-        public void AddPaidProduct(Product product)
-        {
-            if (ProductsPaid == null)
-            {
-                ProductsPaid = new List<Product>();
-            }
-
-            ProductsPaid.Add(product);
-        }
-
-        /// <summary>
-        /// Удаляет продукт из персонального списка Оплат.
-        /// В случае, если продукта  списке нет, метод возвращает false.
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        public bool TryRemoveProductPaid(Product product)
-        {
-            if (!ProductsPaid.Contains(product))
-            {
-                return false;
-            }
-
-            ProductsPaid.Remove(product);
-            return true;
-        }
-
-       
-
+        public double DebtFactor { get;  set; }
+     
         /// <summary>
         /// Задаем коэффицент оплаты.
         /// </summary>
@@ -80,105 +38,11 @@ namespace CostSharing
         {
             DebtFactor = debtFactor;
         }
-                     
-        /// <summary>
-        /// Суммарная задолженность по всем товарам
-        /// </summary>
-        public double TotalDebt
-        {
-            get
-            {
-                double totalDebt = 0;
-                foreach (Product product in ProductsDebts)
-                {
-                    totalDebt += product.Debtors[this].Debt;
-                }
+ 
 
-                return totalDebt;
-            }
-        }
-
-        /// <summary>
-        /// Суммарные оплаты Person
-        /// </summary>
-        public double TotalPayments
-        {
-            get
-            {
-                double totalPayments = 0;
-                foreach (Product product in ProductsPaid)
-                {
-                    totalPayments += product.Payers[this];
-                }
-
-                return totalPayments;
-            }
-        }
-
-        /// <summary>
-        /// Сумма групповой задолженности.
-        /// Применяется только к лидеру группы, у других участников будет равно 0.
-        /// </summary>
-        public double PayGroupDebt
-        {
-            get
-            {
-                if (!Equals(this, PayGroupLeader))
-                {
-                    int resultUsualPerson = 0;
-                    return resultUsualPerson;
-                }
-
-                double totalDebt = 0;
-                foreach (Person person in PayGroupPeople)
-                {
-                    totalDebt += person.TotalDebt;
-                }
-
-                return totalDebt;
-            }
-        }
-
-        /// <summary>
-        /// Добавляет продукт в список задолженностей.
-        /// Если продукт уже в списке, метод возвращает false.
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        public bool TryAddProductDebt(Product product)
-        {
-            if (ProductsDebts.Contains(product))
-            {
-                return false;
-            }
-
-            ProductsDebts.Add(product);
-            return true;
-        }
-
-        /// <summary>
-        /// Удаляет продукт из списка задолженностей.
-        /// Если продукт отсутствовал в списке, возвращает false.
-        /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
-        public bool TryRemoveProductDebt(Product product)
-        {
-            if (!ProductsDebts.Contains(product))
-            {
-                return false;
-            }
-
-            ProductsDebts.Remove(product);
-            return true;
-        }
-
-
-
-        public Person(Trip trip, string name)//TODO данный трансформер будем делать основным
+        public Person(string name)//TODO данный трансформер будем делать основным
         {
             Name = name;
-            CurrentTrip = trip;
 
             PayGroupLeader = this;
             PayGroupPeople = new List<Person>
@@ -187,8 +51,6 @@ namespace CostSharing
             };
 
             DebtFactor = GeneralInfo.StandartDebtFactor;
-
-            ProductsDebts = new List<Product>();
         }
 
 

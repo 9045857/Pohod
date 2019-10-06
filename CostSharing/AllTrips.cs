@@ -1,21 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using System.Runtime.Serialization.Json;
-using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    /// <summary>
-    /// Список всех походов и др. групповых мероприятий.
-    /// Основная задача данного класса - сериализация и десериализация всей информации.
-    /// </summary>
-    [DataContract]
-    public class AllTrips
+    [Serializable]
+    public class AllTrips 
     {
-        [DataMember]
-        public List<Trip> Trips;
+        public List<Trip> Trips { get; set; }
 
         public int testNumber;
 
@@ -24,9 +18,8 @@ namespace CostSharing
             Trips = new List<Trip>();
         }
 
-        public Trip AddTrip(string tripName)
+        public Trip CreateAndAddTrip(string tripName)
         {
-
             Trip trip = new Trip(tripName);
             Trips.Add(trip);
 
@@ -45,41 +38,42 @@ namespace CostSharing
 
         public void Save(string fileName)
         {
-            //testNumber = 100;
+         //   testNumber = 100;//TODO after test remove
 
-            //BinaryFormatter formatter = new BinaryFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
 
-            //using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate,FileAccess.Write))
-            //{
-            //    MessageBox.Show(Trips.Count.ToString());
-            //    formatter.Serialize(fs, Trips);
-            //}
-
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
-
-            using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                jsonFormatter.WriteObject(fs, Trips);
+             //   MessageBox.Show(Trips.Count.ToString());
+                formatter.Serialize(fs, Trips);
             }
+
+            //DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
+
+            //using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            //{
+            //    jsonFormatter.WriteObject(fs, Trips);
+            //}
         }
 
         public void Open(string fileName)
         {
             if (File.Exists(fileName))
             {
-                //BinaryFormatter formatter = new BinaryFormatter();
+                BinaryFormatter formatter = new BinaryFormatter();
 
-                //using (FileStream fs = new FileStream(fileName, FileMode.Open,FileAccess.Read))
-                //    {
-                //        List<Trip> Trips = (List<Trip>)formatter.Deserialize(fs);
-                //    }
-
-                DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
-
-                using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    Trips = (List<Trip>)jsonFormatter.ReadObject(fs);
+                    List<Trip> Trips = (List<Trip>)formatter.Deserialize(fs);
+                 //   MessageBox.Show(Trips.Count.ToString());
                 }
+
+                //DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
+
+                //using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
+                //{
+                //    Trips = (List<Trip>)jsonFormatter.ReadObject(fs);
+                //}
             }
         }
     }

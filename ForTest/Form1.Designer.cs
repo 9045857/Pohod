@@ -56,12 +56,16 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonTripsClear = new System.Windows.Forms.Button();
+            this.listBoxPersonalPayGroup = new System.Windows.Forms.ListBox();
+            this.listBoxPayGroupDoing = new System.Windows.Forms.ListBox();
+            this.listBoxGroupPayGroup = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxProduct
             // 
-            this.textBoxProduct.Location = new System.Drawing.Point(261, 42);
+            this.textBoxProduct.Location = new System.Drawing.Point(261, 38);
             this.textBoxProduct.Name = "textBoxProduct";
             this.textBoxProduct.Size = new System.Drawing.Size(336, 22);
             this.textBoxProduct.TabIndex = 0;
@@ -89,7 +93,7 @@
             // 
             this.buttonAddProduct.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddProduct.BackgroundImage")));
             this.buttonAddProduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonAddProduct.Location = new System.Drawing.Point(627, 40);
+            this.buttonAddProduct.Location = new System.Drawing.Point(567, 384);
             this.buttonAddProduct.Name = "buttonAddProduct";
             this.buttonAddProduct.Size = new System.Drawing.Size(30, 30);
             this.buttonAddProduct.TabIndex = 9;
@@ -100,7 +104,7 @@
             // 
             this.buttonAddTrip.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddTrip.BackgroundImage")));
             this.buttonAddTrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonAddTrip.Location = new System.Drawing.Point(186, 42);
+            this.buttonAddTrip.Location = new System.Drawing.Point(147, 42);
             this.buttonAddTrip.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddTrip.Name = "buttonAddTrip";
             this.buttonAddTrip.Size = new System.Drawing.Size(30, 28);
@@ -113,7 +117,7 @@
             this.textBoxTripName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxTripName.Location = new System.Drawing.Point(16, 42);
             this.textBoxTripName.Name = "textBoxTripName";
-            this.textBoxTripName.Size = new System.Drawing.Size(159, 22);
+            this.textBoxTripName.Size = new System.Drawing.Size(125, 22);
             this.textBoxTripName.TabIndex = 11;
             // 
             // listBoxTrips
@@ -125,6 +129,7 @@
             this.listBoxTrips.Name = "listBoxTrips";
             this.listBoxTrips.Size = new System.Drawing.Size(200, 116);
             this.listBoxTrips.TabIndex = 14;
+            this.listBoxTrips.SelectedIndexChanged += new System.EventHandler(this.listBoxTrips_SelectedIndexChanged);
             // 
             // listBoxPeople
             // 
@@ -140,9 +145,9 @@
             // 
             this.listBoxProducts.FormattingEnabled = true;
             this.listBoxProducts.ItemHeight = 16;
-            this.listBoxProducts.Location = new System.Drawing.Point(677, 40);
+            this.listBoxProducts.Location = new System.Drawing.Point(261, 384);
             this.listBoxProducts.Name = "listBoxProducts";
-            this.listBoxProducts.Size = new System.Drawing.Size(178, 628);
+            this.listBoxProducts.Size = new System.Drawing.Size(300, 292);
             this.listBoxProducts.TabIndex = 16;
             // 
             // buttonDeletTrip
@@ -172,9 +177,9 @@
             this.buttonProductDelet.FlatAppearance.BorderSize = 0;
             this.buttonProductDelet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonProductDelet.Image = ((System.Drawing.Image)(resources.GetObject("buttonProductDelet.Image")));
-            this.buttonProductDelet.Location = new System.Drawing.Point(872, 40);
+            this.buttonProductDelet.Location = new System.Drawing.Point(567, 420);
             this.buttonProductDelet.Name = "buttonProductDelet";
-            this.buttonProductDelet.Size = new System.Drawing.Size(24, 24);
+            this.buttonProductDelet.Size = new System.Drawing.Size(30, 28);
             this.buttonProductDelet.TabIndex = 20;
             this.buttonProductDelet.UseVisualStyleBackColor = true;
             // 
@@ -201,7 +206,7 @@
             this.panelDebts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDebts.Location = new System.Drawing.Point(261, 89);
             this.panelDebts.Name = "panelDebts";
-            this.panelDebts.Size = new System.Drawing.Size(336, 580);
+            this.panelDebts.Size = new System.Drawing.Size(336, 273);
             this.panelDebts.TabIndex = 35;
             // 
             // label10
@@ -245,24 +250,24 @@
             // 
             // textBoxProductInfo
             // 
-            this.textBoxProductInfo.Location = new System.Drawing.Point(930, 69);
+            this.textBoxProductInfo.Location = new System.Drawing.Point(625, 401);
             this.textBoxProductInfo.Multiline = true;
             this.textBoxProductInfo.Name = "textBoxProductInfo";
-            this.textBoxProductInfo.Size = new System.Drawing.Size(321, 251);
+            this.textBoxProductInfo.Size = new System.Drawing.Size(264, 275);
             this.textBoxProductInfo.TabIndex = 40;
             // 
             // textBoxPersonInfo
             // 
-            this.textBoxPersonInfo.Location = new System.Drawing.Point(930, 370);
+            this.textBoxPersonInfo.Location = new System.Drawing.Point(921, 403);
             this.textBoxPersonInfo.Multiline = true;
             this.textBoxPersonInfo.Name = "textBoxPersonInfo";
-            this.textBoxPersonInfo.Size = new System.Drawing.Size(321, 299);
+            this.textBoxPersonInfo.Size = new System.Drawing.Size(263, 273);
             this.textBoxPersonInfo.TabIndex = 41;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(932, 42);
+            this.label4.Location = new System.Drawing.Point(622, 378);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(171, 17);
             this.label4.TabIndex = 42;
@@ -271,7 +276,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(932, 345);
+            this.label5.Location = new System.Drawing.Point(923, 378);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(172, 17);
             this.label5.TabIndex = 43;
@@ -279,9 +284,9 @@
             // 
             // buttonShowProduct
             // 
-            this.buttonShowProduct.Location = new System.Drawing.Point(883, 114);
+            this.buttonShowProduct.Location = new System.Drawing.Point(799, 368);
             this.buttonShowProduct.Name = "buttonShowProduct";
-            this.buttonShowProduct.Size = new System.Drawing.Size(27, 168);
+            this.buttonShowProduct.Size = new System.Drawing.Size(90, 27);
             this.buttonShowProduct.TabIndex = 44;
             this.buttonShowProduct.Text = "Показать";
             this.buttonShowProduct.UseVisualStyleBackColor = true;
@@ -289,9 +294,9 @@
             // 
             // buttonShowPerson
             // 
-            this.buttonShowPerson.Location = new System.Drawing.Point(882, 394);
+            this.buttonShowPerson.Location = new System.Drawing.Point(1101, 368);
             this.buttonShowPerson.Name = "buttonShowPerson";
-            this.buttonShowPerson.Size = new System.Drawing.Size(27, 180);
+            this.buttonShowPerson.Size = new System.Drawing.Size(83, 27);
             this.buttonShowPerson.TabIndex = 45;
             this.buttonShowPerson.Text = "показать";
             this.buttonShowPerson.UseVisualStyleBackColor = true;
@@ -299,9 +304,9 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(1300, 18);
+            this.buttonSave.Location = new System.Drawing.Point(1214, 21);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(87, 34);
+            this.buttonSave.Size = new System.Drawing.Size(50, 30);
             this.buttonSave.TabIndex = 46;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -309,9 +314,9 @@
             // 
             // buttonOpen
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(1300, 165);
+            this.buttonOpen.Location = new System.Drawing.Point(1214, 124);
             this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(87, 28);
+            this.buttonOpen.Size = new System.Drawing.Size(50, 30);
             this.buttonOpen.TabIndex = 47;
             this.buttonOpen.Text = "Открыть";
             this.buttonOpen.UseVisualStyleBackColor = true;
@@ -319,19 +324,60 @@
             // 
             // buttonTripsClear
             // 
-            this.buttonTripsClear.Location = new System.Drawing.Point(1300, 89);
+            this.buttonTripsClear.Location = new System.Drawing.Point(1214, 77);
             this.buttonTripsClear.Name = "buttonTripsClear";
-            this.buttonTripsClear.Size = new System.Drawing.Size(75, 23);
+            this.buttonTripsClear.Size = new System.Drawing.Size(50, 30);
             this.buttonTripsClear.TabIndex = 48;
             this.buttonTripsClear.Text = "очистить";
             this.buttonTripsClear.UseVisualStyleBackColor = true;
             this.buttonTripsClear.Click += new System.EventHandler(this.buttonTripsClear_Click);
             // 
+            // listBoxPersonalPayGroup
+            // 
+            this.listBoxPersonalPayGroup.FormattingEnabled = true;
+            this.listBoxPersonalPayGroup.ItemHeight = 16;
+            this.listBoxPersonalPayGroup.Location = new System.Drawing.Point(634, 42);
+            this.listBoxPersonalPayGroup.Name = "listBoxPersonalPayGroup";
+            this.listBoxPersonalPayGroup.Size = new System.Drawing.Size(187, 308);
+            this.listBoxPersonalPayGroup.TabIndex = 49;
+            this.listBoxPersonalPayGroup.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // listBoxPayGroupDoing
+            // 
+            this.listBoxPayGroupDoing.FormattingEnabled = true;
+            this.listBoxPayGroupDoing.ItemHeight = 16;
+            this.listBoxPayGroupDoing.Location = new System.Drawing.Point(827, 88);
+            this.listBoxPayGroupDoing.Name = "listBoxPayGroupDoing";
+            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(174, 260);
+            this.listBoxPayGroupDoing.TabIndex = 50;
+            // 
+            // listBoxGroupPayGroup
+            // 
+            this.listBoxGroupPayGroup.FormattingEnabled = true;
+            this.listBoxGroupPayGroup.ItemHeight = 16;
+            this.listBoxGroupPayGroup.Location = new System.Drawing.Point(1007, 40);
+            this.listBoxGroupPayGroup.Name = "listBoxGroupPayGroup";
+            this.listBoxGroupPayGroup.Size = new System.Drawing.Size(177, 308);
+            this.listBoxGroupPayGroup.TabIndex = 51;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(898, 38);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 52;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1408, 687);
+            this.ClientSize = new System.Drawing.Size(1300, 687);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.listBoxGroupPayGroup);
+            this.Controls.Add(this.listBoxPayGroupDoing);
+            this.Controls.Add(this.listBoxPersonalPayGroup);
             this.Controls.Add(this.buttonTripsClear);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonSave);
@@ -388,6 +434,10 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonTripsClear;
+        private System.Windows.Forms.ListBox listBoxPersonalPayGroup;
+        private System.Windows.Forms.ListBox listBoxPayGroupDoing;
+        private System.Windows.Forms.ListBox listBoxGroupPayGroup;
+        private System.Windows.Forms.Button button1;
     }
 }
 

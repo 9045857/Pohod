@@ -10,8 +10,8 @@ namespace CostSharing
     {
         public static void DoPayment(Product product, Person person, double money)
         {
-            product.AddPayers(person, money);
-            person.AddPaidProduct(product);
+            //product. AddPayers(person, money);
+            //person.AddPaidProduct(product);
         }
 
     }

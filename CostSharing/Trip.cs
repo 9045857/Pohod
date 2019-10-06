@@ -4,23 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Windows.Forms;
 
 namespace CostSharing
 {
-    [DataContract]
+    [Serializable]
     public class Trip
     {
-        [DataMember]
         public string Name { get; set; }
 
-        [DataMember]
-        public List<PayGroup> PayGroups { get; private set; }
+        public List<Person> People { get; set; }
 
-        [DataMember]
-        public List<Product> Products { get; private set; }
-
-        [DataMember]
-        public List<Person> People { get; private set; }
+        public List<Product> Products { get; set; }
+        public List<Person> PayGroupsLeaders { get; set; }
 
         public Trip(string tripName)
         {
@@ -28,13 +24,215 @@ namespace CostSharing
 
             Products = new List<Product>();
             People = new List<Person>();
-            PayGroups = new List<PayGroup>();
+            PayGroupsLeaders = new List<Person>();
+        }
+
+        public double GetPayGroupTotalPayment(Person leader)
+        {
+            if (!Equals(leader.PayGroupLeader, leader))
+            {
+                return 0;
+            }
+
+            double payGroupTotalPayment = 0;
+            foreach (Product product in Products)
+            {
+                payGroupTotalPayment += GetProductPayGroupPayment(leader, product);
+            }
+
+            return payGroupTotalPayment;
+        }
+
+        public double GetProductPayGroupPayment(Person leader, Product product)
+        {
+            if (!Equals(leader.PayGroupLeader, leader))
+            {
+                return 0;
+            }
+
+            double productPayGroupPayment = 0;
+            foreach (Payer payer in product.Payers)
+            {
+                if (Equals(payer.Person.PayGroupLeader, leader))
+                {
+                    productPayGroupPayment += payer.Payment;
+                }
+            }
+
+            return productPayGroupPayment;
+        }
+
+        public double GetPersonalTotalPayment(Person person)
+        {
+            if (!People.Contains(person))
+            {
+                return 0;
+            }
+
+            double personalTotalPayment = 0;
+            foreach (Product product in Products)
+            {
+                personalTotalPayment += GetProductPersonalPayment(person, product);
+            }
+
+            return personalTotalPayment;
+        }
+
+        public double GetProductPersonalPayment(Person person, Product product)
+        {
+            if (!People.Contains(person))
+            {
+                return 0;
+            }
+
+            foreach (Payer payer in product.Payers)
+            {
+                if (Equals(payer.Person, person))
+                {
+                    // MessageBox.Show(payer.Person.Name+" "+payer.Payment);
+                    return payer.Payment;
+                }
+            }
+
+            return 0;
         }
 
 
+        public double GetPersonalTotalDebt(Person person)
+        {
+            if (!People.Contains(person))
+            {
+                return 0;
+            }
+
+            double personalTotalDebt = 0;
+            foreach (Product product in Products)
+            {
+                personalTotalDebt += GetProductPersonalDebt(person, product);
+            }
+
+            return personalTotalDebt;
+        }
+
+        public double GetProductPersonalDebt(Person person, Product product)
+        {
+            if (!People.Contains(person))
+            {
+                return 0;
+            }
+
+            foreach (Debtor debtor in product.Debtors)
+            {
+                if (Equals(debtor.Person, person))
+                {
+                    return debtor.Debt;
+                }
+            }
+
+            return 0;
+        }
+
+        public double GetPayGroupTotalDebt(Person leader)
+        {
+            if (!Equals(leader.PayGroupLeader, leader))
+            {
+                return 0;
+            }
+
+            double totalDebtPayGroup = 0;
+            foreach (Product product in Products)
+            {
+                totalDebtPayGroup += GetProductPayGroupDebt(leader, product);
+            }
+
+            return totalDebtPayGroup;
+        }
+
+        public double GetProductPayGroupDebt(Person leader, Product product)
+        {
+            if (!Equals(leader.PayGroupLeader, leader))
+            {
+                return 0;
+            }
+
+            double productDebtPayGroup = 0;
+
+            foreach (Person person in leader.PayGroupPeople)
+            {
+                if (product.IsPersonInDebtors(person))
+                {
+                    productDebtPayGroup += product.GetDebtor(person).Debt;
+                }
+            }
+
+            return productDebtPayGroup;
+        }
+
+        public List<Product> GetDebtProducts(Person person)
+        {
+            //if (person == null || !People.Contains(person))
+            //{
+            //    return null;
+            //}
+
+            List<Product> products = new List<Product>();
+
+            foreach (Product product in Products)
+            {
+                foreach (Debtor debtor in product.Debtors)
+                {
+                    if (Equals(person, debtor.Person))
+                    {
+                        products.Add(product);
+                        break;
+                    }
+
+                }
+            }
+
+            return products;
+        }
+
+        public List<Product> GetPayerProducts(Person person)
+        {
+            //if (person == null || !People.Contains(person))
+            //{
+            //    return null;
+            //}
+
+            List<Product> products = new List<Product>();
+
+            foreach (Product product in Products)
+            {
+                foreach (Payer payer in product.Payers)
+                {
+                    if (Equals(person, payer.Person))
+                    {
+                        products.Add(product);
+                        break;
+                    }
+
+                }
+            }
+
+            return products;
+        }
+
+        private void RefillPayGroupsLeaders()
+        {
+            PayGroupsLeaders.Clear();
+            foreach (Person person in People)
+            {
+                if (Equals(person, person.PayGroupLeader))
+                {
+                    PayGroupsLeaders.Add(person);
+                }
+            }
+        }
+
         public void AddProduct(string productName)
         {
-            Products.Add(new Product(this, productName));
+            Products.Add(new Product(productName));
         }
 
         public void AddProduct(Product product)
@@ -42,53 +240,59 @@ namespace CostSharing
             Products.Add(product);
         }
 
-        public Person AddPerson(string personName)
+        public void CreateAndAddPerson(string personName)
         {
-            Person person = new Person(this, personName);
+            Person person = new Person(personName);
             People.Add(person);
-
-            return person;
         }
 
-        public bool TryRemoveProduct(Product product)
+        public void AddPerson(Person person)
         {
-            if (!Products.Contains(product))
-            {
-                return false;
-            }
-
-            Products.Remove(product);
-
-            foreach (Person person in product.Payers.Keys)
-            {
-                person.TryRemoveProductPaid(product);
-            }
-
-            foreach (Person person in product.Debtors.Keys)
-            {
-                person.TryRemoveProductDebt(product);
-            }
-
-            return true;
+            People.Add(person);
         }
 
-        public bool TryRemovePerson(Person person)
-        {
-            if (!People.Contains(person))
-            {
-                return false;
-            }
 
-            People.Remove(person);
-            person.PayGroupLeader.TryRemoveFromPayGroup(person);
 
-            foreach (Product product in person.ProductsPaid)
-            {
-                product.TryRemoveDebtPerson(person);
-            }
 
-            return true;
-        }
+        //public bool TryRemoveProduct(Product product)
+        //{
+        //    if (!Products.Contains(product))
+        //    {
+        //        return false;
+        //    }
+
+        //    Products.Remove(product);
+
+        //    foreach (Person person in product.Payers.Keys)
+        //    {
+        //        person.TryRemoveProductPaid(product);
+        //    }
+
+        //    foreach (Person person in product.Debtors.Keys)
+        //    {
+        //        person.TryRemoveProductDebt(product);
+        //    }
+
+        //    return true;
+        //}
+
+        //public bool TryRemovePerson(Person person)
+        //{
+        //    if (!People.Contains(person))
+        //    {
+        //        return false;
+        //    }
+
+        //    People.Remove(person);
+        //    person.PayGroupLeader.TryRemoveFromPayGroup(person);
+
+        //    foreach (Product product in person.ProductsPaid)
+        //    {
+        //        product.TryRemoveDebtPerson(person);
+        //    }
+
+        //    return true;
+        //}
 
         public override string ToString()
         {

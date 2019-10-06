@@ -13,7 +13,7 @@ namespace CostSharing
         /// Если человек вносит не долю от общей суммы, а какую-нибудь определенную сумму,
         /// то коэффициент -1.
         /// </summary>
-        public const int PersonalDebtFactor = -1;
+        public const int FixedDebtFactor = -1;
         public const int StandartDebtFactor = 1;
     }
 }

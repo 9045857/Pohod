@@ -14,8 +14,7 @@ namespace ForTest
 {
     public class Debts
     {
-        public string Name { get; private set; }
-
+        public List<Debt> DebtsList { get; set; }
         public Trip trip;
 
         public Panel panel;
@@ -25,22 +24,37 @@ namespace ForTest
         {
             get
             {
-                return listBox.Items.Count;
+                return DebtsList.Count;
             }
         }
-        
+
+        public void ReloadListBoxPeople()
+        {
+            listBox.Items.Clear();
+            panel.Controls.Clear();
+
+            int debtIndex = 0;
+            foreach (Debt debt in DebtsList)
+            {
+                listBox.Items.Add(debt);
+                debt.CreateUnit(debtIndex);
+
+                debtIndex++;
+            }
+        }
+
         public Debts(Trip trip, Panel panel, ListBox listBox)
         {
             this.trip = trip;
             this.panel = panel;
             this.listBox = listBox;
-
-            Name = trip.Name;
+            DebtsList = new List<Debt>();
         }
                 
         public void AddDebt(Person person)
         {            
             Debt debt = new Debt(panel,person,Count);
+            DebtsList.Add(debt);
             listBox.Items.Add(debt);
         }
 

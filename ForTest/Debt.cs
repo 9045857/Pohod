@@ -11,7 +11,7 @@ using CostSharing;
 
 namespace ForTest
 {
-    class Debt
+    public class Debt
     {
         public Person Person { get; set; }
 
@@ -24,25 +24,26 @@ namespace ForTest
         private int _positionX = 5;
 
         private int _y;
-        private readonly int _height=20;
+        private readonly int _height = 20;
 
         private Panel panel;
 
-        public Debt(Panel panel, Person person,int debtNumber)
+        public Debt(Panel panel, Person person, int debtNumber)
         {
             this.panel = panel;
             this.Person = person;
-            this._y = _height*debtNumber;
 
-            CreateUnit();
+            CreateUnit(debtNumber);
         }
 
-        private void CreateUnit()
+
+        public void CreateUnit(int debtNumber)
         {
+            _y = _height * debtNumber;
+
             CheckBox = new CheckBox
             {
                 Parent = panel,
-              //  Name = string.Format("Person{0}", person.ID),
                 Text = Person.Name,
                 Location = new Point(_positionX, _y),
                 Checked = true
@@ -50,20 +51,18 @@ namespace ForTest
 
             int checkBoxLenght = CheckBox.Width;
 
-             TextBoxFactor = new TextBox
+            TextBoxFactor = new TextBox
             {
                 Parent = panel,
-              //  Name = string.Format("PersonFactor{0}", person.ID),
-                Text = "1",
+                Text = Person.DebtFactor.ToString(),
                 Location = new Point(_positionX + checkBoxLenght + _xBetweenControls, _y),
 
                 Width = _xTextEditWidth
             };
 
-             TextBoxMoney = new TextBox
+            TextBoxMoney = new TextBox
             {
                 Parent = panel,
-                //Name = string.Format("PersonPayment{0}", person.ID),
                 Text = "",
                 Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth + _xBetweenControls, _y),
 

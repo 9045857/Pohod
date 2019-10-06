@@ -7,13 +7,12 @@ using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [DataContract]
+    [Serializable]
     public class PayGroup
     {
         //TODO попробуем логику групп засунуть в персон
-             
-        public string Name { get; set; }
-        public Person GroupManager { get; private set; }
+
+        public Person GroupManager { get;  set; }
         public List<Person> People { get; set; }
 
         public PayGroup(Person person )
@@ -21,7 +20,6 @@ namespace CostSharing
             GroupManager = person;
             People = new List<Person>();
             People.Add(person);
-            Name = person.Name;
         }        
     }
 }

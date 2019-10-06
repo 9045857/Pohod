@@ -7,28 +7,21 @@ using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [DataContract]
+    [Serializable]
     public class Payer
     {
-        [DataMember]
-        public Person Person { get; private set; }
-
-        [DataMember]
+        public Person Person { get;  set; }
         public double Payment { get; set; }
 
-        public Payer(Product product, Person person)
+        public Payer(Person person)
         {
             Person = person;
-            person.AddPaidProduct(product);
-
-            int beginPayment = 0;
-            Payment = beginPayment;
+            Payment = 0;
         }
 
-        public Payer(Product product, Person person, double payment)
+        public Payer(Person person, double payment)
         {
             Person = person;
-            person.AddPaidProduct(product);
             Payment = payment;
         }
     }

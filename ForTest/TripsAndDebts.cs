@@ -10,6 +10,5 @@ namespace ForTest
     public class TripsAndDebts
     {
         public AllTrips travelLists { get; set; }
-      //  public TravelLists travelLists { get; set; }
     }
 }

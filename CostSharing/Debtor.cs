@@ -7,34 +7,25 @@ using System.Runtime.Serialization;
 
 namespace CostSharing
 {
-    [DataContract]
+    [Serializable]
     public class Debtor
     {
-        [DataMember]
-        public Person Person { get; private set; }
-
-        [DataMember]
+        public Person Person { get; set; }
         public double Factor { get; set; }
-
-        [DataMember]
         public double Debt { get; set; }
 
-        public Debtor(Product product, Person person)
+        public Debtor(Person person)
         {
             Person = person;
-            person.TryAddProductDebt(product);
-
             Factor = person.DebtFactor;
 
             int beginDebt = 0;
             Debt = beginDebt;
         }
 
-        public Debtor(Product product, Person person, double factor)
+        public Debtor(Person person, double factor)
         {
             Person = person;
-            person.TryAddProductDebt(product);
-
             Factor = factor;
 
             int beginDebt = 0;

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buy.cs" />
     <Compile Include="Debtor.cs" />
     <Compile Include="Economy.cs" />
     <Compile Include="GeneralInfo.cs" />
