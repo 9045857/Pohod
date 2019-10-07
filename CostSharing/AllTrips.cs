@@ -7,11 +7,9 @@ using System.Windows.Forms;
 namespace CostSharing
 {
     [Serializable]
-    public class AllTrips 
+    public class AllTrips
     {
         public List<Trip> Trips { get; set; }
-
-        public int testNumber;
 
         public AllTrips()
         {
@@ -38,22 +36,12 @@ namespace CostSharing
 
         public void Save(string fileName)
         {
-         //   testNumber = 100;//TODO after test remove
-
             BinaryFormatter formatter = new BinaryFormatter();
 
             using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write))
             {
-             //   MessageBox.Show(Trips.Count.ToString());
                 formatter.Serialize(fs, Trips);
             }
-
-            //DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
-
-            //using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
-            //{
-            //    jsonFormatter.WriteObject(fs, Trips);
-            //}
         }
 
         public void Open(string fileName)
@@ -64,16 +52,9 @@ namespace CostSharing
 
                 using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    List<Trip> Trips = (List<Trip>)formatter.Deserialize(fs);
-                 //   MessageBox.Show(Trips.Count.ToString());
+                    Trips = (List<Trip>)formatter.Deserialize(fs);
+
                 }
-
-                //DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Trip>));
-
-                //using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate))
-                //{
-                //    Trips = (List<Trip>)jsonFormatter.ReadObject(fs);
-                //}
             }
         }
     }

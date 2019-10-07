@@ -23,7 +23,7 @@ namespace ForTest
         public Form1()
         {
             InitializeComponent();
-            debtsList = new DebtsList(listBoxTrips);
+            debtsList = new DebtsList(listBoxTrips, listBoxPeople, panelDebts, listBoxProducts);
             debtsList.OpenAll(fileName);
         }
 
@@ -33,7 +33,7 @@ namespace ForTest
             Trip trip = new Trip(tripName);
             Debts debts = new Debts(trip, panelDebts, listBoxPeople);
 
-            debtsList.AddTrip(debts);
+            debtsList.AddDebtsAndTrip(debts);
             textBoxTripName.Text = "";
         }
 
@@ -41,7 +41,7 @@ namespace ForTest
         {
             if (listBoxTrips.SelectedItems.Count == 1)
             {
-                Debts selectedDebts = debtsList.Trips.SelectedItem as Debts;
+                Debts selectedDebts = debtsList.ListBoxDebts.SelectedItem as Debts;
 
                 string personName = string.IsNullOrEmpty(textBoxPerson.Text) ? "NoNamePerson" : textBoxPerson.Text;
                 Person person = new Person(personName);
@@ -75,9 +75,9 @@ namespace ForTest
 
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            if (debtsList.Trips.SelectedItems.Count == 1 && !string.IsNullOrEmpty(textBoxProduct.Text))
+            if (debtsList.ListBoxDebts.SelectedItems.Count == 1 && !string.IsNullOrEmpty(textBoxProduct.Text))
             {
-                Debts debts = debtsList.Trips.SelectedItem as Debts;
+                Debts debts = debtsList.ListBoxDebts.SelectedItem as Debts;
                 Trip currentTrip = debts.trip;
 
                 string productName = textBoxProduct.Text;
@@ -184,14 +184,12 @@ namespace ForTest
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             debtsList.OpenAll(fileName);
-
-            MessageBox.Show(debtsList.allTrips.testNumber.ToString());
         }
 
         private void buttonTripsClear_Click(object sender, EventArgs e)
         {
             debtsList.allTrips.Trips.Clear();
-            debtsList.Trips.Items.Clear();
+            debtsList.ListBoxDebts.Items.Clear();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -199,11 +197,21 @@ namespace ForTest
 
         }
 
+        private void FillListBoxProductsFromDebts(Debts debts)
+        {
+            listBoxProducts.Items.Clear();
+            foreach (Product product in debts.trip.Products)
+            {
+                listBoxProducts.Items.Add(product);
+            }
+        }
+
         private void listBoxTrips_SelectedIndexChanged(object sender, EventArgs e)
         {
             Debts debts = (sender as ListBox).SelectedItem as Debts;
 
             debts.ReloadListBoxPeople();
+            FillListBoxProductsFromDebts(debts);
         }
     }
 }

@@ -8,30 +8,60 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CostSharing;
+using System.IO;
 
 namespace ForTest
 {
     public class DebtsList
     {
         public AllTrips allTrips;//Пока параметр открытый, если не нужен будет, нужно будет закрыть.
+        public List<Debts> Debtses;
 
-        public ListBox Trips { get;  set; }
+        public ListBox ListBoxDebts { get; set; }
 
-        public DebtsList(ListBox listBox)
+        private ListBox listBoxPeople;
+        private Panel panelUnits;
+        private ListBox listBoxProduct;
+
+        public DebtsList(ListBox listBoxTrips, ListBox listBoxPeople, Panel panelUnits, ListBox listBoxProduct)
         {
-            Trips = listBox;
+            ListBoxDebts = listBoxTrips;
             allTrips = new AllTrips();
+            Debtses=new List<Debts>();
+
+            this.listBoxPeople = listBoxPeople;
+            this.panelUnits = panelUnits;
+            this.listBoxProduct = listBoxProduct;
         }
 
-        public void AddTrip(Debts debts)
+        public void AddDebtsAndTrip(Debts debts)
         {
-            Trips.Items.Add(debts);
-            allTrips.AddTrip(debts.trip);
+            ListBoxDebts.Items.Add(debts);
+            Debtses.Add(debts);//TODO тут возможно нужно будет делать проверку на наличие в списках
+            allTrips.AddTrip(debts.trip);//TODO тут возможно нужно будет делать проверку на наличие в списках
         }
 
-        public void RemoveTrip(Debts debts)
+        private void FillDebtsesFromAllTrips()
         {
-            Trips.Items.Remove(debts);
+            foreach (Trip trip in allTrips.Trips)
+            {
+                Debts debts = new Debts(trip, panelUnits, listBoxPeople);
+                Debtses.Add(debts);
+            }
+        }
+
+        public void FillListBoxTripsFormDebtses()
+        {
+            foreach (Debts debts in Debtses)
+            {
+                ListBoxDebts.Items.Add(debts);
+            }
+        }
+
+
+        public void RemoveDebts(Debts debts)
+        {
+            ListBoxDebts.Items.Remove(debts);
             allTrips.RemoveTrip(debts.trip);
         }
 
@@ -40,14 +70,51 @@ namespace ForTest
             allTrips.Save(fileName);
         }
 
+        private bool IsDebtsExist(Trip trip)
+        {
+            foreach (Debts debts in ListBoxDebts.Items)
+            {
+                if (Equals(debts.trip, trip))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private Debts GetDebts(Trip trip)
+        {
+            foreach (Debts debts in Debtses)
+            {
+                if (Equals(debts.trip, trip))
+                {
+                    return debts;
+                }
+            }
+
+            return null;
+        }
+                       
+        public void LoadDebtsesAndListBoxAfterDeserialization()
+        {
+            FillDebtsesFromAllTrips();
+            FillListBoxTripsFormDebtses();
+        
+            //TODO we need fill debts and debt 
+                //FillListBoxTrips();
+                //FillListBoxPeople();
+                //FillListBoxProducts();
+            }
+
         public void OpenAll(string fileName)
         {
-            allTrips.Open(fileName);
+            if (File.Exists(fileName))
+            {
+                allTrips.Open(fileName);
 
-         //   MessageBox.Show(allTrips.Trips.Count.ToString());
-            //FillListBoxTrips();
-            //FillListBoxPeople();
-            //FillListBoxProducts();
+                LoadDebtsesAndListBoxAfterDeserialization();
+            }
         }
     }
 }

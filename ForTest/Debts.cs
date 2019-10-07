@@ -19,7 +19,7 @@ namespace ForTest
 
         public Panel panel;
         public ListBox listBox;
-        
+
         public int Count
         {
             get
@@ -48,12 +48,24 @@ namespace ForTest
             this.trip = trip;
             this.panel = panel;
             this.listBox = listBox;
+
             DebtsList = new List<Debt>();
+            FillDebtsListFromTrip();
         }
-                
+
+        private void FillDebtsListFromTrip()
+        {
+            int debtNumber = 0;
+            foreach (Person person in trip.People)
+            {
+                Debt debt = new Debt(panel, person, debtNumber);
+                DebtsList.Add(debt);
+            }
+        }
+
         public void AddDebt(Person person)
-        {            
-            Debt debt = new Debt(panel,person,Count);
+        {
+            Debt debt = new Debt(panel, person, Count);
             DebtsList.Add(debt);
             listBox.Items.Add(debt);
         }
@@ -69,7 +81,7 @@ namespace ForTest
 
         public override string ToString()
         {
-            return trip.ToString();            
+            return trip.ToString();
         }
     }
 }
