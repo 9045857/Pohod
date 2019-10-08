@@ -46,45 +46,40 @@
             this.panelDebts = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBoxTripsAndPeople = new System.Windows.Forms.GroupBox();
+            this.textBoxPersonInfo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxProductInfo = new System.Windows.Forms.TextBox();
-            this.textBoxPersonInfo = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.buttonShowProduct = new System.Windows.Forms.Button();
-            this.buttonShowPerson = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonOpen = new System.Windows.Forms.Button();
-            this.buttonTripsClear = new System.Windows.Forms.Button();
-            this.listBoxPersonalPayGroup = new System.Windows.Forms.ListBox();
+            this.listBoxPayGroupLeader = new System.Windows.Forms.ListBox();
             this.listBoxPayGroupDoing = new System.Windows.Forms.ListBox();
-            this.listBoxGroupPayGroup = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonDoPayGroup = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelLeader = new System.Windows.Forms.Label();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxProduct
             // 
-            this.textBoxProduct.Location = new System.Drawing.Point(261, 38);
+            this.textBoxProduct.Location = new System.Drawing.Point(335, 39);
             this.textBoxProduct.Name = "textBoxProduct";
-            this.textBoxProduct.Size = new System.Drawing.Size(336, 22);
+            this.textBoxProduct.Size = new System.Drawing.Size(261, 22);
             this.textBoxProduct.TabIndex = 0;
             // 
             // textBoxPerson
             // 
             this.textBoxPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPerson.Location = new System.Drawing.Point(16, 230);
+            this.textBoxPerson.Location = new System.Drawing.Point(11, 211);
             this.textBoxPerson.Name = "textBoxPerson";
-            this.textBoxPerson.Size = new System.Drawing.Size(125, 22);
+            this.textBoxPerson.Size = new System.Drawing.Size(257, 22);
             this.textBoxPerson.TabIndex = 1;
             // 
             // buttonAddPerson
             // 
+            this.buttonAddPerson.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddPerson.BackgroundImage")));
+            this.buttonAddPerson.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonAddPerson.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddPerson.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddPerson.Image")));
-            this.buttonAddPerson.Location = new System.Drawing.Point(147, 227);
+            this.buttonAddPerson.Location = new System.Drawing.Point(274, 211);
             this.buttonAddPerson.Name = "buttonAddPerson";
-            this.buttonAddPerson.Size = new System.Drawing.Size(28, 28);
+            this.buttonAddPerson.Size = new System.Drawing.Size(30, 30);
             this.buttonAddPerson.TabIndex = 8;
             this.buttonAddPerson.UseVisualStyleBackColor = true;
             this.buttonAddPerson.Click += new System.EventHandler(this.buttonAddPerson_Click);
@@ -93,9 +88,9 @@
             // 
             this.buttonAddProduct.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddProduct.BackgroundImage")));
             this.buttonAddProduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonAddProduct.Location = new System.Drawing.Point(567, 384);
+            this.buttonAddProduct.Location = new System.Drawing.Point(605, 40);
             this.buttonAddProduct.Name = "buttonAddProduct";
-            this.buttonAddProduct.Size = new System.Drawing.Size(30, 30);
+            this.buttonAddProduct.Size = new System.Drawing.Size(22, 22);
             this.buttonAddProduct.TabIndex = 9;
             this.buttonAddProduct.UseVisualStyleBackColor = true;
             this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
@@ -104,10 +99,10 @@
             // 
             this.buttonAddTrip.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddTrip.BackgroundImage")));
             this.buttonAddTrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonAddTrip.Location = new System.Drawing.Point(147, 42);
+            this.buttonAddTrip.Location = new System.Drawing.Point(274, 42);
             this.buttonAddTrip.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddTrip.Name = "buttonAddTrip";
-            this.buttonAddTrip.Size = new System.Drawing.Size(30, 28);
+            this.buttonAddTrip.Size = new System.Drawing.Size(30, 30);
             this.buttonAddTrip.TabIndex = 10;
             this.buttonAddTrip.UseVisualStyleBackColor = true;
             this.buttonAddTrip.Click += new System.EventHandler(this.buttonAddTrip_Click);
@@ -115,9 +110,9 @@
             // textBoxTripName
             // 
             this.textBoxTripName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxTripName.Location = new System.Drawing.Point(16, 42);
+            this.textBoxTripName.Location = new System.Drawing.Point(8, 42);
             this.textBoxTripName.Name = "textBoxTripName";
-            this.textBoxTripName.Size = new System.Drawing.Size(125, 22);
+            this.textBoxTripName.Size = new System.Drawing.Size(257, 22);
             this.textBoxTripName.TabIndex = 11;
             // 
             // listBoxTrips
@@ -125,9 +120,10 @@
             this.listBoxTrips.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxTrips.FormattingEnabled = true;
             this.listBoxTrips.ItemHeight = 16;
-            this.listBoxTrips.Location = new System.Drawing.Point(16, 77);
+            this.listBoxTrips.Location = new System.Drawing.Point(8, 70);
             this.listBoxTrips.Name = "listBoxTrips";
-            this.listBoxTrips.Size = new System.Drawing.Size(200, 116);
+            this.listBoxTrips.ScrollAlwaysVisible = true;
+            this.listBoxTrips.Size = new System.Drawing.Size(257, 84);
             this.listBoxTrips.TabIndex = 14;
             this.listBoxTrips.SelectedIndexChanged += new System.EventHandler(this.listBoxTrips_SelectedIndexChanged);
             // 
@@ -136,19 +132,24 @@
             this.listBoxPeople.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBoxPeople.FormattingEnabled = true;
             this.listBoxPeople.ItemHeight = 16;
-            this.listBoxPeople.Location = new System.Drawing.Point(16, 265);
+            this.listBoxPeople.Location = new System.Drawing.Point(10, 239);
             this.listBoxPeople.Name = "listBoxPeople";
-            this.listBoxPeople.Size = new System.Drawing.Size(200, 404);
+            this.listBoxPeople.ScrollAlwaysVisible = true;
+            this.listBoxPeople.Size = new System.Drawing.Size(257, 100);
             this.listBoxPeople.TabIndex = 15;
+            this.listBoxPeople.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPeople_MouseClick);
+            this.listBoxPeople.SelectedIndexChanged += new System.EventHandler(this.listBoxPeople_SelectedIndexChanged);
             // 
             // listBoxProducts
             // 
             this.listBoxProducts.FormattingEnabled = true;
             this.listBoxProducts.ItemHeight = 16;
-            this.listBoxProducts.Location = new System.Drawing.Point(261, 384);
+            this.listBoxProducts.Location = new System.Drawing.Point(335, 264);
             this.listBoxProducts.Name = "listBoxProducts";
-            this.listBoxProducts.Size = new System.Drawing.Size(300, 292);
+            this.listBoxProducts.ScrollAlwaysVisible = true;
+            this.listBoxProducts.Size = new System.Drawing.Size(261, 116);
             this.listBoxProducts.TabIndex = 16;
+            this.listBoxProducts.SelectedIndexChanged += new System.EventHandler(this.listBoxProducts_SelectedIndexChanged);
             // 
             // buttonDeletTrip
             // 
@@ -156,9 +157,9 @@
             this.buttonDeletTrip.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonDeletTrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDeletTrip.Image = ((System.Drawing.Image)(resources.GetObject("buttonDeletTrip.Image")));
-            this.buttonDeletTrip.Location = new System.Drawing.Point(192, 229);
+            this.buttonDeletTrip.Location = new System.Drawing.Point(274, 279);
             this.buttonDeletTrip.Name = "buttonDeletTrip";
-            this.buttonDeletTrip.Size = new System.Drawing.Size(24, 24);
+            this.buttonDeletTrip.Size = new System.Drawing.Size(30, 30);
             this.buttonDeletTrip.TabIndex = 18;
             this.buttonDeletTrip.UseVisualStyleBackColor = true;
             // 
@@ -166,7 +167,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(14, 21);
+            this.label2.Location = new System.Drawing.Point(8, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(174, 17);
             this.label2.TabIndex = 19;
@@ -177,7 +178,7 @@
             this.buttonProductDelet.FlatAppearance.BorderSize = 0;
             this.buttonProductDelet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonProductDelet.Image = ((System.Drawing.Image)(resources.GetObject("buttonProductDelet.Image")));
-            this.buttonProductDelet.Location = new System.Drawing.Point(567, 420);
+            this.buttonProductDelet.Location = new System.Drawing.Point(605, 301);
             this.buttonProductDelet.Name = "buttonProductDelet";
             this.buttonProductDelet.Size = new System.Drawing.Size(30, 28);
             this.buttonProductDelet.TabIndex = 20;
@@ -186,7 +187,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(243, 9);
+            this.label3.Location = new System.Drawing.Point(332, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(111, 17);
             this.label3.TabIndex = 22;
@@ -195,7 +196,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(423, 58);
+            this.label9.Location = new System.Drawing.Point(497, 57);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(0, 17);
             this.label9.TabIndex = 34;
@@ -204,16 +205,16 @@
             // 
             this.panelDebts.AutoScroll = true;
             this.panelDebts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelDebts.Location = new System.Drawing.Point(261, 89);
+            this.panelDebts.Location = new System.Drawing.Point(335, 88);
             this.panelDebts.Name = "panelDebts";
-            this.panelDebts.Size = new System.Drawing.Size(336, 273);
+            this.panelDebts.Size = new System.Drawing.Size(300, 163);
             this.panelDebts.TabIndex = 35;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(19, 205);
+            this.label10.Location = new System.Drawing.Point(8, 188);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(128, 17);
             this.label10.TabIndex = 37;
@@ -230,162 +231,98 @@
             this.groupBoxTripsAndPeople.Controls.Add(this.listBoxTrips);
             this.groupBoxTripsAndPeople.Controls.Add(this.buttonDeletTrip);
             this.groupBoxTripsAndPeople.Controls.Add(this.label2);
+            this.groupBoxTripsAndPeople.Controls.Add(this.textBoxPersonInfo);
             this.groupBoxTripsAndPeople.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBoxTripsAndPeople.Location = new System.Drawing.Point(2, 0);
             this.groupBoxTripsAndPeople.Name = "groupBoxTripsAndPeople";
-            this.groupBoxTripsAndPeople.Size = new System.Drawing.Size(235, 676);
+            this.groupBoxTripsAndPeople.Size = new System.Drawing.Size(309, 676);
             this.groupBoxTripsAndPeople.TabIndex = 38;
             this.groupBoxTripsAndPeople.TabStop = false;
             this.groupBoxTripsAndPeople.Text = "Походы и участники";
+            // 
+            // textBoxPersonInfo
+            // 
+            this.textBoxPersonInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPersonInfo.Location = new System.Drawing.Point(8, 387);
+            this.textBoxPersonInfo.Multiline = true;
+            this.textBoxPersonInfo.Name = "textBoxPersonInfo";
+            this.textBoxPersonInfo.Size = new System.Drawing.Size(287, 288);
+            this.textBoxPersonInfo.TabIndex = 41;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(261, 69);
+            this.label1.Location = new System.Drawing.Point(342, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(310, 17);
+            this.label1.Size = new System.Drawing.Size(277, 17);
             this.label1.TabIndex = 39;
-            this.label1.Text = "скидывается  имя          кофф     платит";
+            this.label1.Text = "v  имя              коэф / долг   оплата";
             // 
             // textBoxProductInfo
             // 
-            this.textBoxProductInfo.Location = new System.Drawing.Point(625, 401);
+            this.textBoxProductInfo.Location = new System.Drawing.Point(335, 386);
             this.textBoxProductInfo.Multiline = true;
             this.textBoxProductInfo.Name = "textBoxProductInfo";
-            this.textBoxProductInfo.Size = new System.Drawing.Size(264, 275);
+            this.textBoxProductInfo.Size = new System.Drawing.Size(300, 289);
             this.textBoxProductInfo.TabIndex = 40;
             // 
-            // textBoxPersonInfo
+            // listBoxPayGroupLeader
             // 
-            this.textBoxPersonInfo.Location = new System.Drawing.Point(921, 403);
-            this.textBoxPersonInfo.Multiline = true;
-            this.textBoxPersonInfo.Name = "textBoxPersonInfo";
-            this.textBoxPersonInfo.Size = new System.Drawing.Size(263, 273);
-            this.textBoxPersonInfo.TabIndex = 41;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(622, 378);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(171, 17);
-            this.label4.TabIndex = 42;
-            this.label4.Text = "Информация о продукте";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(923, 378);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(172, 17);
-            this.label5.TabIndex = 43;
-            this.label5.Text = "Информация о человеке";
-            // 
-            // buttonShowProduct
-            // 
-            this.buttonShowProduct.Location = new System.Drawing.Point(799, 368);
-            this.buttonShowProduct.Name = "buttonShowProduct";
-            this.buttonShowProduct.Size = new System.Drawing.Size(90, 27);
-            this.buttonShowProduct.TabIndex = 44;
-            this.buttonShowProduct.Text = "Показать";
-            this.buttonShowProduct.UseVisualStyleBackColor = true;
-            this.buttonShowProduct.Click += new System.EventHandler(this.buttonShowProduct_Click);
-            // 
-            // buttonShowPerson
-            // 
-            this.buttonShowPerson.Location = new System.Drawing.Point(1101, 368);
-            this.buttonShowPerson.Name = "buttonShowPerson";
-            this.buttonShowPerson.Size = new System.Drawing.Size(83, 27);
-            this.buttonShowPerson.TabIndex = 45;
-            this.buttonShowPerson.Text = "показать";
-            this.buttonShowPerson.UseVisualStyleBackColor = true;
-            this.buttonShowPerson.Click += new System.EventHandler(this.buttonShowPerson_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(1214, 21);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(50, 30);
-            this.buttonSave.TabIndex = 46;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonOpen
-            // 
-            this.buttonOpen.Location = new System.Drawing.Point(1214, 124);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(50, 30);
-            this.buttonOpen.TabIndex = 47;
-            this.buttonOpen.Text = "Открыть";
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
-            // 
-            // buttonTripsClear
-            // 
-            this.buttonTripsClear.Location = new System.Drawing.Point(1214, 77);
-            this.buttonTripsClear.Name = "buttonTripsClear";
-            this.buttonTripsClear.Size = new System.Drawing.Size(50, 30);
-            this.buttonTripsClear.TabIndex = 48;
-            this.buttonTripsClear.Text = "очистить";
-            this.buttonTripsClear.UseVisualStyleBackColor = true;
-            this.buttonTripsClear.Click += new System.EventHandler(this.buttonTripsClear_Click);
-            // 
-            // listBoxPersonalPayGroup
-            // 
-            this.listBoxPersonalPayGroup.FormattingEnabled = true;
-            this.listBoxPersonalPayGroup.ItemHeight = 16;
-            this.listBoxPersonalPayGroup.Location = new System.Drawing.Point(634, 42);
-            this.listBoxPersonalPayGroup.Name = "listBoxPersonalPayGroup";
-            this.listBoxPersonalPayGroup.Size = new System.Drawing.Size(187, 308);
-            this.listBoxPersonalPayGroup.TabIndex = 49;
-            this.listBoxPersonalPayGroup.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBoxPayGroupLeader.FormattingEnabled = true;
+            this.listBoxPayGroupLeader.ItemHeight = 16;
+            this.listBoxPayGroupLeader.Location = new System.Drawing.Point(677, 36);
+            this.listBoxPayGroupLeader.Name = "listBoxPayGroupLeader";
+            this.listBoxPayGroupLeader.Size = new System.Drawing.Size(187, 260);
+            this.listBoxPayGroupLeader.TabIndex = 49;
+            this.listBoxPayGroupLeader.SelectedIndexChanged += new System.EventHandler(this.listBoxPersonalPayGroup_SelectedIndexChanged);
             // 
             // listBoxPayGroupDoing
             // 
             this.listBoxPayGroupDoing.FormattingEnabled = true;
             this.listBoxPayGroupDoing.ItemHeight = 16;
-            this.listBoxPayGroupDoing.Location = new System.Drawing.Point(827, 88);
+            this.listBoxPayGroupDoing.Location = new System.Drawing.Point(870, 100);
             this.listBoxPayGroupDoing.Name = "listBoxPayGroupDoing";
-            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(174, 260);
+            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(174, 196);
             this.listBoxPayGroupDoing.TabIndex = 50;
             // 
-            // listBoxGroupPayGroup
+            // buttonDoPayGroup
             // 
-            this.listBoxGroupPayGroup.FormattingEnabled = true;
-            this.listBoxGroupPayGroup.ItemHeight = 16;
-            this.listBoxGroupPayGroup.Location = new System.Drawing.Point(1007, 40);
-            this.listBoxGroupPayGroup.Name = "listBoxGroupPayGroup";
-            this.listBoxGroupPayGroup.Size = new System.Drawing.Size(177, 308);
-            this.listBoxGroupPayGroup.TabIndex = 51;
+            this.buttonDoPayGroup.Location = new System.Drawing.Point(918, 36);
+            this.buttonDoPayGroup.Name = "buttonDoPayGroup";
+            this.buttonDoPayGroup.Size = new System.Drawing.Size(126, 28);
+            this.buttonDoPayGroup.TabIndex = 52;
+            this.buttonDoPayGroup.Text = "Собрать группу";
+            this.buttonDoPayGroup.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // label4
             // 
-            this.button1.Location = new System.Drawing.Point(898, 38);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 52;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(870, 73);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 17);
+            this.label4.TabIndex = 53;
+            this.label4.Text = "Лидер:";
+            // 
+            // labelLeader
+            // 
+            this.labelLeader.AutoSize = true;
+            this.labelLeader.Location = new System.Drawing.Point(932, 73);
+            this.labelLeader.Name = "labelLeader";
+            this.labelLeader.Size = new System.Drawing.Size(64, 17);
+            this.labelLeader.TabIndex = 54;
+            this.labelLeader.Text = "_______";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 687);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listBoxGroupPayGroup);
-            this.Controls.Add(this.listBoxPayGroupDoing);
-            this.Controls.Add(this.listBoxPersonalPayGroup);
-            this.Controls.Add(this.buttonTripsClear);
-            this.Controls.Add(this.buttonOpen);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.buttonShowPerson);
-            this.Controls.Add(this.buttonShowProduct);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.labelLeader);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBoxPersonInfo);
+            this.Controls.Add(this.buttonDoPayGroup);
+            this.Controls.Add(this.listBoxPayGroupDoing);
+            this.Controls.Add(this.listBoxPayGroupLeader);
             this.Controls.Add(this.textBoxProductInfo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBoxTripsAndPeople);
@@ -398,6 +335,7 @@
             this.Controls.Add(this.textBoxProduct);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBoxTripsAndPeople.ResumeLayout(false);
             this.groupBoxTripsAndPeople.PerformLayout();
             this.ResumeLayout(false);
@@ -427,17 +365,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxProductInfo;
         private System.Windows.Forms.TextBox textBoxPersonInfo;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button buttonShowProduct;
-        private System.Windows.Forms.Button buttonShowPerson;
-        private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button buttonOpen;
-        private System.Windows.Forms.Button buttonTripsClear;
-        private System.Windows.Forms.ListBox listBoxPersonalPayGroup;
+        private System.Windows.Forms.ListBox listBoxPayGroupLeader;
         private System.Windows.Forms.ListBox listBoxPayGroupDoing;
-        private System.Windows.Forms.ListBox listBoxGroupPayGroup;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonDoPayGroup;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelLeader;
     }
 }
 

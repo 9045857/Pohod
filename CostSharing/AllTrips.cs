@@ -53,7 +53,6 @@ namespace CostSharing
                 using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     Trips = (List<Trip>)formatter.Deserialize(fs);
-
                 }
             }
         }

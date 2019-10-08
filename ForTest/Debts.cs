@@ -55,20 +55,24 @@ namespace ForTest
 
         private void FillDebtsListFromTrip()
         {
-            int debtNumber = 0;
             foreach (Person person in trip.People)
             {
-                Debt debt = new Debt(panel, person, debtNumber);
+                Debt debt = new Debt(panel, person);
                 DebtsList.Add(debt);
             }
         }
 
-        public void AddDebt(Person person)
+        public void AddDebtInListAndListBox(Person person)
         {
             Debt debt = new Debt(panel, person, Count);
             DebtsList.Add(debt);
             listBox.Items.Add(debt);
         }
+
+        public void AddDebt(Debt debt)
+        {
+            DebtsList.Add(debt);
+         }
 
         //public void AddListDebt(List<Person> people)
         //{

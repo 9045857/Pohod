@@ -27,6 +27,21 @@ namespace CostSharing
             PayGroupsLeaders = new List<Person>();
         }
 
+        public List<Person> GetPayGroupLeaders()
+        {
+            List<Person> leaders = new List<Person>();
+
+            foreach (Person person in People)
+            {
+                if (!leaders.Contains(person.PayGroupLeader))
+                {
+                    leaders.Add(person);
+                }
+            }
+
+            return leaders;
+        }
+
         public double GetPayGroupTotalPayment(Person leader)
         {
             if (!Equals(leader.PayGroupLeader, leader))

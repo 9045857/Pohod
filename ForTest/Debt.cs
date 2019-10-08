@@ -17,16 +17,23 @@ namespace ForTest
 
         public CheckBox CheckBox { get; set; }
         public TextBox TextBoxFactor { get; set; }
-        public TextBox TextBoxMoney { get; set; }
+        public TextBox TextBoxDebt { get; set; }
+        public TextBox TextBoxPayment { get; set; }
 
         private int _xBetweenControls = 5;
-        private int _xTextEditWidth = 50;
+        private int _xTextEditWidth = 30;
         private int _positionX = 5;
 
         private int _y;
         private readonly int _height = 20;
 
         private Panel panel;
+
+        public Debt(Panel panel, Person person)
+        {
+            this.panel = panel;
+            this.Person = person;
+        }
 
         public Debt(Panel panel, Person person, int debtNumber)
         {
@@ -35,7 +42,6 @@ namespace ForTest
 
             CreateUnit(debtNumber);
         }
-
 
         public void CreateUnit(int debtNumber)
         {
@@ -55,16 +61,25 @@ namespace ForTest
             {
                 Parent = panel,
                 Text = Person.DebtFactor.ToString(),
-                Location = new Point(_positionX + checkBoxLenght + _xBetweenControls, _y),
+                Location = new Point(_positionX + checkBoxLenght , _y),
 
                 Width = _xTextEditWidth
             };
 
-            TextBoxMoney = new TextBox
+            TextBoxDebt = new TextBox
             {
                 Parent = panel,
                 Text = "",
-                Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth + _xBetweenControls, _y),
+                Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth , _y),
+
+                Width = _xTextEditWidth
+            };
+
+            TextBoxPayment = new TextBox
+            {
+                Parent = panel,
+                Text = "",
+                Location = new Point(_positionX + checkBoxLenght + 2*_xBetweenControls+2* _xTextEditWidth, _y),
 
                 Width = _xTextEditWidth
             };

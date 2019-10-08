@@ -27,7 +27,7 @@ namespace ForTest
         {
             ListBoxDebts = listBoxTrips;
             allTrips = new AllTrips();
-            Debtses=new List<Debts>();
+            Debtses = new List<Debts>();
 
             this.listBoxPeople = listBoxPeople;
             this.panelUnits = panelUnits;
@@ -95,17 +95,17 @@ namespace ForTest
 
             return null;
         }
-                       
+
         public void LoadDebtsesAndListBoxAfterDeserialization()
         {
             FillDebtsesFromAllTrips();
             FillListBoxTripsFormDebtses();
-        
+
             //TODO we need fill debts and debt 
-                //FillListBoxTrips();
-                //FillListBoxPeople();
-                //FillListBoxProducts();
-            }
+            //FillListBoxTrips();
+            //FillListBoxPeople();
+            //FillListBoxProducts();
+        }
 
         public void OpenAll(string fileName)
         {

@@ -37,6 +37,22 @@ namespace ForTest
             textBoxTripName.Text = "";
         }
 
+
+        private void FillPayGroupLeaderListBox(Debts debts)
+        {
+            listBoxPayGroupLeader.Items.Clear();
+
+            if (listBoxTrips.SelectedItems.Count == 1)
+            {              
+                List<Person> leaders = debts.trip.GetPayGroupLeaders();
+
+                foreach (Person person in leaders)
+                {
+                    listBoxPayGroupLeader.Items.Add(person);
+                }
+            }
+        }
+
         private void buttonAddPerson_Click(object sender, EventArgs e)
         {
             if (listBoxTrips.SelectedItems.Count == 1)
@@ -46,7 +62,7 @@ namespace ForTest
                 string personName = string.IsNullOrEmpty(textBoxPerson.Text) ? "NoNamePerson" : textBoxPerson.Text;
                 Person person = new Person(personName);
 
-                selectedDebts.AddDebt(person);
+                selectedDebts.AddDebtInListAndListBox(person);
                 selectedDebts.trip.AddPerson(person);
                 textBoxPerson.Text = "";
             }
@@ -64,7 +80,7 @@ namespace ForTest
                     product.AddDebtor(person, factor);
                 }
 
-                string textBoxPayment = debt.TextBoxMoney.Text;
+                string textBoxPayment = debt.TextBoxPayment.Text;
 
                 if (textBoxPayment != "" && double.TryParse(textBoxPayment, out double paymentMoney))
                 {
@@ -92,7 +108,7 @@ namespace ForTest
             }
         }
 
-        private void buttonShowProduct_Click(object sender, EventArgs e)
+        private void ShowSelectedProductInfo()
         {
             textBoxProductInfo.Text = "";
 
@@ -108,7 +124,7 @@ namespace ForTest
 
                 foreach (Payer payer in product.Payers)
                 {
-                    builder.AppendLine(payer.Person.Name + "  " + payer.Payment);
+                    builder.AppendLine(payer.Person.Name + "  " + Math.Round(payer.Payment, 2));
                 }
 
                 builder.AppendLine();
@@ -116,7 +132,7 @@ namespace ForTest
 
                 foreach (Debtor debtor in product.Debtors)
                 {
-                    builder.AppendLine(debtor.Person.Name + "(" + debtor.Factor + "):  " + debtor.Debt);
+                    builder.AppendLine(debtor.Person.Name + "(" + debtor.Factor + "):  " + Math.Round(debtor.Debt, 2));
                 }
 
                 textBoxProductInfo.Text = builder.ToString();
@@ -127,7 +143,12 @@ namespace ForTest
             }
         }
 
-        private void buttonShowPerson_Click(object sender, EventArgs e)
+        private void buttonShowProduct_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ShowSelectedPersonInfo()
         {
             textBoxPersonInfo.Text = "";
 
@@ -139,8 +160,8 @@ namespace ForTest
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("Человек: " + person.Name);
                 builder.AppendLine("Лидер группы: " + person.PayGroupLeader.Name);
-                builder.AppendLine("Сумма оплат группы: " + trip.GetPayGroupTotalPayment(person.PayGroupLeader));
-                builder.AppendLine("Сумма оплат человека: " + trip.GetPersonalTotalPayment(person));
+                builder.AppendLine("Сумма оплат группы: " + Math.Round(trip.GetPayGroupTotalPayment(person.PayGroupLeader), 2));
+                builder.AppendLine("Сумма оплат человека: " + Math.Round(trip.GetPersonalTotalPayment(person), 2));
                 builder.AppendLine("Список оплат: товар /сумма ");
 
                 foreach (Product product in trip.GetPayerProducts(person))
@@ -152,8 +173,8 @@ namespace ForTest
                 }
 
                 builder.AppendLine();
-                builder.AppendLine("Сумма задолженностей группы: " + trip.GetPayGroupTotalDebt(person.PayGroupLeader));
-                builder.AppendLine("Сумма задолженностей человека: " + trip.GetPersonalTotalDebt(person));
+                builder.AppendLine("Сумма задолженностей группы: " + Math.Round(trip.GetPayGroupTotalDebt(person.PayGroupLeader), 2));
+                builder.AppendLine("Сумма задолженностей человека: " + Math.Round(trip.GetPersonalTotalDebt(person), 2));
                 builder.AppendLine("Список долгов:  товар/коэффициент/сумма ");
 
                 foreach (Product product in trip.GetDebtProducts(person))
@@ -164,7 +185,7 @@ namespace ForTest
                     Debtor debtor = product.GetDebtor(person);
                     builder.Append(debtor.Factor);
                     builder.Append(" / ");
-                    builder.Append(debtor.Debt);
+                    builder.Append(Math.Round(debtor.Debt, 2));
                     builder.AppendLine();
                 }
 
@@ -174,6 +195,11 @@ namespace ForTest
             {
                 MessageBox.Show("Выберите человека из списка.");
             }
+        }
+
+        private void buttonShowPerson_Click(object sender, EventArgs e)
+        {
+            ShowSelectedPersonInfo();
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -192,7 +218,7 @@ namespace ForTest
             debtsList.ListBoxDebts.Items.Clear();
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxPersonalPayGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -208,10 +234,38 @@ namespace ForTest
 
         private void listBoxTrips_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Debts debts = (sender as ListBox).SelectedItem as Debts;
+            if (listBoxTrips.SelectedItems.Count == 1)
+            {
+                Debts debts = (sender as ListBox).SelectedItem as Debts;
 
-            debts.ReloadListBoxPeople();
-            FillListBoxProductsFromDebts(debts);
+                debts.ReloadListBoxPeople();
+                FillListBoxProductsFromDebts(debts);
+                FillPayGroupLeaderListBox(debts);
+            }
+            else
+            {
+                MessageBox.Show("Выберите поход");
+            }
+        }
+
+        private void listBoxPeople_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowSelectedPersonInfo();
+        }
+
+        private void listBoxPeople_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void listBoxProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowSelectedProductInfo();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            debtsList.SaveAll(fileName);
         }
     }
 }
