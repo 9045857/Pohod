@@ -76,8 +76,15 @@ namespace ForTest
 
                 if (debt.CheckBox.Checked)
                 {
-                    double.TryParse(debt.TextBoxFactor.Text, out double factor);
-                    product.AddDebtor(person, factor);
+                    if (debt.TextBoxDebt.Text != "" && double.TryParse(debt.TextBoxDebt.Text, out double fixedDebt))
+                    {
+                        product.AddDebtorWithFixedDebt(person, fixedDebt);
+                    }
+                    else
+                    { 
+                        double.TryParse(debt.TextBoxFactor.Text, out double factor);
+                        product.AddDebtor(person, factor);
+                    }
                 }
 
                 string textBoxPayment = debt.TextBoxPayment.Text;
@@ -143,11 +150,6 @@ namespace ForTest
             }
         }
 
-        private void buttonShowProduct_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ShowSelectedPersonInfo()
         {
             textBoxPersonInfo.Text = "";
@@ -197,26 +199,6 @@ namespace ForTest
             }
         }
 
-        private void buttonShowPerson_Click(object sender, EventArgs e)
-        {
-            ShowSelectedPersonInfo();
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            debtsList.SaveAll(fileName);
-        }
-
-        private void buttonOpen_Click(object sender, EventArgs e)
-        {
-            debtsList.OpenAll(fileName);
-        }
-
-        private void buttonTripsClear_Click(object sender, EventArgs e)
-        {
-            debtsList.allTrips.Trips.Clear();
-            debtsList.ListBoxDebts.Items.Clear();
-        }
 
         private void listBoxPersonalPayGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -266,6 +248,31 @@ namespace ForTest
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             debtsList.SaveAll(fileName);
+        }
+
+        private void buttonDeletTrip_Click(object sender, EventArgs e)
+        {
+            if (listBoxTrips.SelectedItems.Count==1)
+            {
+                Debts debts = listBoxTrips.SelectedItem as Debts;
+
+                string dialogCaption = string.Format("Удаляем \"{0}\"",debts.trip.Name);
+                if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    debtsList.RemoveDebtsAndTpripAndRemoveFromListBox(debts);
+
+                    listBoxPeople.Items.Clear();
+                    listBoxProducts.Items.Clear();
+                    panelDebts.Controls.Clear();
+                    textBoxPersonInfo.Text = "";
+                    textBoxProductInfo.Text = "";
+                }                
+            }
+        }
+
+        private void buttonProductDelet_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

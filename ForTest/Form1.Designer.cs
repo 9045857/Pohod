@@ -99,7 +99,7 @@
             // 
             this.buttonAddTrip.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddTrip.BackgroundImage")));
             this.buttonAddTrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonAddTrip.Location = new System.Drawing.Point(274, 42);
+            this.buttonAddTrip.Location = new System.Drawing.Point(274, 38);
             this.buttonAddTrip.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddTrip.Name = "buttonAddTrip";
             this.buttonAddTrip.Size = new System.Drawing.Size(30, 30);
@@ -157,11 +157,12 @@
             this.buttonDeletTrip.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonDeletTrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDeletTrip.Image = ((System.Drawing.Image)(resources.GetObject("buttonDeletTrip.Image")));
-            this.buttonDeletTrip.Location = new System.Drawing.Point(274, 279);
+            this.buttonDeletTrip.Location = new System.Drawing.Point(273, 89);
             this.buttonDeletTrip.Name = "buttonDeletTrip";
             this.buttonDeletTrip.Size = new System.Drawing.Size(30, 30);
             this.buttonDeletTrip.TabIndex = 18;
             this.buttonDeletTrip.UseVisualStyleBackColor = true;
+            this.buttonDeletTrip.Click += new System.EventHandler(this.buttonDeletTrip_Click);
             // 
             // label2
             // 
@@ -183,6 +184,7 @@
             this.buttonProductDelet.Size = new System.Drawing.Size(30, 28);
             this.buttonProductDelet.TabIndex = 20;
             this.buttonProductDelet.UseVisualStyleBackColor = true;
+            this.buttonProductDelet.Click += new System.EventHandler(this.buttonProductDelet_Click);
             // 
             // label3
             // 

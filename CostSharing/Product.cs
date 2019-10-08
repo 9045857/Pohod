@@ -56,6 +56,17 @@ namespace CostSharing
             }
         }
 
+        public void AddDebtorWithFixedDebt(Person person, double debt)
+        {
+            if (!IsPersonInDebtors(person))
+            {
+                Debtor debtor = new Debtor(person, GeneralInfo.FixedDebtFactor, debt);
+                Debtors.Add(debtor);
+
+                RecountDebtorsData();
+            }
+        }
+
         public Debtor GetDebtor(Person person)
         {
             foreach (Debtor debtor in Debtors)
@@ -93,7 +104,7 @@ namespace CostSharing
             }
         }
 
-        private double GetStandartDebtsSum()
+        private double GetStandartDebtorsDebtsSum()
         {
             double fixedDebtsSum = 0;
             foreach (Debtor debtor in Debtors)
@@ -107,7 +118,7 @@ namespace CostSharing
             return Cost - fixedDebtsSum;
         }
 
-        private double GetStandartAndPersonalFaсtorsSum()
+        private double GetStandartAndPersonalDebtorsFaсtorsSum()
         {
             double standartAndPersonalFaсtorsSum = 0;
             foreach (Debtor debtor in Debtors)
@@ -123,10 +134,10 @@ namespace CostSharing
 
         private void RecountDebtorsData()
         {
-            double standartDebtsSum = GetStandartDebtsSum();
-            double standartAndPersonalFaсtorsSum = GetStandartAndPersonalFaсtorsSum();
+            double standartDebtorsDebtsSum = GetStandartDebtorsDebtsSum();
+            double standartAndPersonalDebtorsFaсtorsSum = GetStandartAndPersonalDebtorsFaсtorsSum();
 
-            double weightedDebt = standartDebtsSum / standartAndPersonalFaсtorsSum;
+            double weightedDebt = standartDebtorsDebtsSum / standartAndPersonalDebtorsFaсtorsSum;
 
             foreach (Debtor debtor in Debtors)
             {
@@ -163,7 +174,7 @@ namespace CostSharing
             if (!IsPersonInPayers(person))
             {
                 Payer payer = new Payer(person, payment);
-                Payers.Add(payer);                
+                Payers.Add(payer);
             }
             else
             {
@@ -172,7 +183,7 @@ namespace CostSharing
 
             RecountDebtorsData();
         }
-        
+
         public void RemovePayer(Person person)
         {
             Payer payer = GetPayer(person);

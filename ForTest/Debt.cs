@@ -79,7 +79,7 @@ namespace ForTest
             {
                 Parent = panel,
                 Text = "",
-                Location = new Point(_positionX + checkBoxLenght + 2*_xBetweenControls+2* _xTextEditWidth, _y),
+                Location = new Point(_positionX + checkBoxLenght + 2 * _xBetweenControls + 2 * _xTextEditWidth, _y),
 
                 Width = _xTextEditWidth
             };

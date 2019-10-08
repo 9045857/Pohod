@@ -31,5 +31,12 @@ namespace CostSharing
             int beginDebt = 0;
             Debt = beginDebt;
         }
+
+        public Debtor(Person person, double factor, double debt)
+        {
+            Person = person;
+            Factor = factor;
+            Debt = debt;
+        }
     }
 }

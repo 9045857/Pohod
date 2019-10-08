@@ -59,9 +59,10 @@ namespace ForTest
         }
 
 
-        public void RemoveDebts(Debts debts)
+        public void RemoveDebtsAndTpripAndRemoveFromListBox(Debts debts)
         {
             ListBoxDebts.Items.Remove(debts);
+            Debtses.Remove(debts);
             allTrips.RemoveTrip(debts.trip);
         }
 
