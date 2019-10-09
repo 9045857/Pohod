@@ -14,7 +14,7 @@ namespace ForTest
 {
     public partial class Form1 : Form
     {
-        public DebtsList debtsList;
+        public AllDebtses debtsList;
 
         //private string fileName = "Trips.json";
 
@@ -23,7 +23,7 @@ namespace ForTest
         public Form1()
         {
             InitializeComponent();
-            debtsList = new DebtsList(listBoxTrips, listBoxPeople, panelDebts, listBoxProducts);
+            debtsList = new AllDebtses(listBoxTrips, listBoxPeople, panelDebts, listBoxProducts);
             debtsList.OpenAll(fileName);
         }
 
@@ -43,7 +43,7 @@ namespace ForTest
             listBoxPayGroupLeader.Items.Clear();
 
             if (listBoxTrips.SelectedItems.Count == 1)
-            {              
+            {
                 List<Person> leaders = debts.trip.GetPayGroupLeaders();
 
                 foreach (Person person in leaders)
@@ -70,7 +70,7 @@ namespace ForTest
 
         private void SetProduct(Debts debts, Product product)
         {
-            foreach (Debt debt in debts.DebtsList)
+            foreach (Debt debt in debts.TripDebts)
             {
                 Person person = debt.Person;
 
@@ -81,7 +81,7 @@ namespace ForTest
                         product.AddDebtorWithFixedDebt(person, fixedDebt);
                     }
                     else
-                    { 
+                    {
                         double.TryParse(debt.TextBoxFactor.Text, out double factor);
                         product.AddDebtor(person, factor);
                     }
@@ -112,10 +112,12 @@ namespace ForTest
                 SetProduct(debts, product);
 
                 textBoxProduct.Text = "";
+
+                ShowSelectedPersonInfo();
             }
         }
 
-        private void ShowSelectedProductInfo()
+        public void ShowSelectedProductInfo()
         {
             textBoxProductInfo.Text = "";
 
@@ -144,13 +146,9 @@ namespace ForTest
 
                 textBoxProductInfo.Text = builder.ToString();
             }
-            else
-            {
-                MessageBox.Show("Выберите продукт из списка.");
-            }
         }
 
-        private void ShowSelectedPersonInfo()
+        public void ShowSelectedPersonInfo()
         {
             textBoxPersonInfo.Text = "";
 
@@ -193,10 +191,6 @@ namespace ForTest
 
                 textBoxPersonInfo.Text = builder.ToString();
             }
-            else
-            {
-                MessageBox.Show("Выберите человека из списка.");
-            }
         }
 
 
@@ -220,13 +214,9 @@ namespace ForTest
             {
                 Debts debts = (sender as ListBox).SelectedItem as Debts;
 
-                debts.ReloadListBoxPeople();
+                debts.ReloadListBoxPeopleAndDebtsPanel();
                 FillListBoxProductsFromDebts(debts);
                 FillPayGroupLeaderListBox(debts);
-            }
-            else
-            {
-                MessageBox.Show("Выберите поход");
             }
         }
 
@@ -252,11 +242,11 @@ namespace ForTest
 
         private void buttonDeletTrip_Click(object sender, EventArgs e)
         {
-            if (listBoxTrips.SelectedItems.Count==1)
+            if (listBoxTrips.SelectedItems.Count == 1)
             {
                 Debts debts = listBoxTrips.SelectedItem as Debts;
 
-                string dialogCaption = string.Format("Удаляем \"{0}\"",debts.trip.Name);
+                string dialogCaption = string.Format("Удаляем \"{0}\"", debts.trip.Name);
                 if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     debtsList.RemoveDebtsAndTpripAndRemoveFromListBox(debts);
@@ -266,13 +256,63 @@ namespace ForTest
                     panelDebts.Controls.Clear();
                     textBoxPersonInfo.Text = "";
                     textBoxProductInfo.Text = "";
-                }                
+                }
             }
         }
 
-        private void buttonProductDelet_Click(object sender, EventArgs e)
+        private void buttonProductDelete_Click(object sender, EventArgs e)
         {
+            if (listBoxProducts.SelectedItems.Count == 1)
+            {
+                Product product = listBoxProducts.SelectedItem as Product;
 
+                string dialogCaption = string.Format("Удаляем \"{0}\"", product.Name);
+                if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Debts debts = listBoxTrips.SelectedItem as Debts;
+                    debts.trip.RemoveProduct(product);
+                    listBoxProducts.Items.Remove(product);
+                    textBoxProductInfo.Text = "";
+                }
+            }
+        }
+
+        private void buttonDeletePerson_Click(object sender, EventArgs e)
+        {
+            if (listBoxPeople.SelectedItems.Count == 1)
+            {
+                Debt debt = listBoxPeople.SelectedItem as Debt;
+
+                string dialogCaption = string.Format("Удаляем \"{0}\"", debt.Person.Name);
+                if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Debts debts = listBoxTrips.SelectedItem as Debts;
+
+                    debts.RemoveDebtAndPersonFromListAndTrip(debt);
+
+                    textBoxPersonInfo.Text = "";
+                    debts.ReloadDebtsPanel();
+
+                    ShowSelectedProductInfo();
+                }
+            }
+        }
+
+        private void listBoxPeople_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int index = this.listBoxPeople.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches)
+                {
+                    Debts debts = listBoxTrips.SelectedItem as Debts;
+
+                    listBoxPeople.SelectedIndex = index;
+                    Debt debt = listBoxPeople.Items[index] as Debt;
+                   
+                    PersonForm personForm = new PersonForm(debts, debt,listBoxPeople,this,index);
+                }
+            }
         }
     }
 }

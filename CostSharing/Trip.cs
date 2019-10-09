@@ -13,9 +13,9 @@ namespace CostSharing
     {
         public string Name { get; set; }
 
-        public List<Person> People { get; set; }
+        public List<Person> People { get; private set ; }
 
-        public List<Product> Products { get; set; }
+        public List<Product> Products { get; private set; }
         public List<Person> PayGroupsLeaders { get; set; }
 
         public Trip(string tripName)
@@ -25,6 +25,47 @@ namespace CostSharing
             Products = new List<Product>();
             People = new List<Person>();
             PayGroupsLeaders = new List<Person>();
+        }
+
+        public void CorrectFactor(Person person, double factor)
+        {
+            if (People.Contains(person))
+            {
+                person.DebtFactor = factor;
+
+                foreach (Product product in Products)
+                {
+                    if (product.IsPersonInDebtors(person))
+                    {
+                        product.RecountDebtorsData();
+                    }
+                }
+            }            
+        }
+
+        public void RemovePerson(Person person)
+        {
+            People.Remove(person);
+
+            foreach (Product product in Products)
+            {
+                if (product.IsPersonInDebtors(person))
+                {
+                    product.RemoveDebtor(person);
+                }
+
+                if (product.IsPersonInPayers(person))
+                {
+                    product.RemovePayer(person);
+                }
+            }
+
+            //TODO do RemoveFromPayGroup
+        }
+
+        public void RemoveProduct(Product product)
+        {
+            Products.Remove(product);
         }
 
         public List<Person> GetPayGroupLeaders()

@@ -40,12 +40,13 @@
             this.listBoxProducts = new System.Windows.Forms.ListBox();
             this.buttonDeletTrip = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.buttonProductDelet = new System.Windows.Forms.Button();
+            this.buttonProductDelete = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.panelDebts = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBoxTripsAndPeople = new System.Windows.Forms.GroupBox();
+            this.buttonDeletePerson = new System.Windows.Forms.Button();
             this.textBoxPersonInfo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxProductInfo = new System.Windows.Forms.TextBox();
@@ -88,9 +89,9 @@
             // 
             this.buttonAddProduct.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAddProduct.BackgroundImage")));
             this.buttonAddProduct.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonAddProduct.Location = new System.Drawing.Point(605, 40);
+            this.buttonAddProduct.Location = new System.Drawing.Point(605, 35);
             this.buttonAddProduct.Name = "buttonAddProduct";
-            this.buttonAddProduct.Size = new System.Drawing.Size(22, 22);
+            this.buttonAddProduct.Size = new System.Drawing.Size(30, 30);
             this.buttonAddProduct.TabIndex = 9;
             this.buttonAddProduct.UseVisualStyleBackColor = true;
             this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
@@ -135,10 +136,11 @@
             this.listBoxPeople.Location = new System.Drawing.Point(10, 239);
             this.listBoxPeople.Name = "listBoxPeople";
             this.listBoxPeople.ScrollAlwaysVisible = true;
-            this.listBoxPeople.Size = new System.Drawing.Size(257, 100);
+            this.listBoxPeople.Size = new System.Drawing.Size(257, 132);
             this.listBoxPeople.TabIndex = 15;
             this.listBoxPeople.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPeople_MouseClick);
             this.listBoxPeople.SelectedIndexChanged += new System.EventHandler(this.listBoxPeople_SelectedIndexChanged);
+            this.listBoxPeople.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBoxPeople_MouseUp);
             // 
             // listBoxProducts
             // 
@@ -174,17 +176,18 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "Добавить поход в список";
             // 
-            // buttonProductDelet
+            // buttonProductDelete
             // 
-            this.buttonProductDelet.FlatAppearance.BorderSize = 0;
-            this.buttonProductDelet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonProductDelet.Image = ((System.Drawing.Image)(resources.GetObject("buttonProductDelet.Image")));
-            this.buttonProductDelet.Location = new System.Drawing.Point(605, 301);
-            this.buttonProductDelet.Name = "buttonProductDelet";
-            this.buttonProductDelet.Size = new System.Drawing.Size(30, 28);
-            this.buttonProductDelet.TabIndex = 20;
-            this.buttonProductDelet.UseVisualStyleBackColor = true;
-            this.buttonProductDelet.Click += new System.EventHandler(this.buttonProductDelet_Click);
+            this.buttonProductDelete.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonProductDelete.BackgroundImage")));
+            this.buttonProductDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonProductDelete.FlatAppearance.BorderSize = 0;
+            this.buttonProductDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonProductDelete.Location = new System.Drawing.Point(605, 301);
+            this.buttonProductDelete.Name = "buttonProductDelete";
+            this.buttonProductDelete.Size = new System.Drawing.Size(30, 30);
+            this.buttonProductDelete.TabIndex = 20;
+            this.buttonProductDelete.UseVisualStyleBackColor = true;
+            this.buttonProductDelete.Click += new System.EventHandler(this.buttonProductDelete_Click);
             // 
             // label3
             // 
@@ -224,6 +227,7 @@
             // 
             // groupBoxTripsAndPeople
             // 
+            this.groupBoxTripsAndPeople.Controls.Add(this.buttonDeletePerson);
             this.groupBoxTripsAndPeople.Controls.Add(this.listBoxPeople);
             this.groupBoxTripsAndPeople.Controls.Add(this.label10);
             this.groupBoxTripsAndPeople.Controls.Add(this.textBoxPerson);
@@ -241,6 +245,17 @@
             this.groupBoxTripsAndPeople.TabIndex = 38;
             this.groupBoxTripsAndPeople.TabStop = false;
             this.groupBoxTripsAndPeople.Text = "Походы и участники";
+            // 
+            // buttonDeletePerson
+            // 
+            this.buttonDeletePerson.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonDeletePerson.BackgroundImage")));
+            this.buttonDeletePerson.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonDeletePerson.Location = new System.Drawing.Point(273, 278);
+            this.buttonDeletePerson.Name = "buttonDeletePerson";
+            this.buttonDeletePerson.Size = new System.Drawing.Size(30, 30);
+            this.buttonDeletePerson.TabIndex = 42;
+            this.buttonDeletePerson.UseVisualStyleBackColor = true;
+            this.buttonDeletePerson.Click += new System.EventHandler(this.buttonDeletePerson_Click);
             // 
             // textBoxPersonInfo
             // 
@@ -331,7 +346,7 @@
             this.Controls.Add(this.panelDebts);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.buttonProductDelet);
+            this.Controls.Add(this.buttonProductDelete);
             this.Controls.Add(this.listBoxProducts);
             this.Controls.Add(this.buttonAddProduct);
             this.Controls.Add(this.textBoxProduct);
@@ -358,7 +373,7 @@
         private System.Windows.Forms.ListBox listBoxProducts;
         private System.Windows.Forms.Button buttonDeletTrip;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button buttonProductDelet;
+        private System.Windows.Forms.Button buttonProductDelete;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panelDebts;
@@ -372,6 +387,7 @@
         private System.Windows.Forms.Button buttonDoPayGroup;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelLeader;
+        private System.Windows.Forms.Button buttonDeletePerson;
     }
 }
 

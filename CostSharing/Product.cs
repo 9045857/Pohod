@@ -15,8 +15,8 @@ namespace CostSharing
 
         public string Description { get; set; }//TODO пока нигде не используется
 
-        public List<Payer> Payers { get; set; }
-        public List<Debtor> Debtors { get; set; }
+        public List<Payer> Payers { get; private set; }
+        public List<Debtor> Debtors { get; private set; }
 
         public double Cost//Может быть правильнее сделать пересчет цены только когда меняется список участников или еще когда-нибудь, привязать с событиям
         {
@@ -132,7 +132,7 @@ namespace CostSharing
             return standartAndPersonalFaсtorsSum;
         }
 
-        private void RecountDebtorsData()
+        public void RecountDebtorsData()
         {
             double standartDebtorsDebtsSum = GetStandartDebtorsDebtsSum();
             double standartAndPersonalDebtorsFaсtorsSum = GetStandartAndPersonalDebtorsFaсtorsSum();
@@ -156,7 +156,7 @@ namespace CostSharing
             Payers = new List<Payer>();
         }
 
-        private bool IsPersonInPayers(Person person)
+        public bool IsPersonInPayers(Person person)
         {
             foreach (Payer payer in Payers)
             {

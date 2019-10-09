@@ -12,7 +12,7 @@ using System.IO;
 
 namespace ForTest
 {
-    public class DebtsList
+    public class AllDebtses
     {
         public AllTrips allTrips;//Пока параметр открытый, если не нужен будет, нужно будет закрыть.
         public List<Debts> Debtses;
@@ -23,7 +23,7 @@ namespace ForTest
         private Panel panelUnits;
         private ListBox listBoxProduct;
 
-        public DebtsList(ListBox listBoxTrips, ListBox listBoxPeople, Panel panelUnits, ListBox listBoxProduct)
+        public AllDebtses(ListBox listBoxTrips, ListBox listBoxPeople, Panel panelUnits, ListBox listBoxProduct)
         {
             ListBoxDebts = listBoxTrips;
             allTrips = new AllTrips();

@@ -14,31 +14,43 @@ namespace ForTest
 {
     public class Debts
     {
-        public List<Debt> DebtsList { get; set; }
+        public List<Debt> TripDebts { get; private set; }
         public Trip trip;
 
         public Panel panel;
-        public ListBox listBox;
+        public ListBox listBoxWithDebts;
 
         public int Count
         {
             get
             {
-                return DebtsList.Count;
+                return TripDebts.Count;
             }
         }
 
-        public void ReloadListBoxPeople()
+        public void ReloadListBoxPeopleAndDebtsPanel()
         {
-            listBox.Items.Clear();
+            listBoxWithDebts.Items.Clear();
             panel.Controls.Clear();
 
             int debtIndex = 0;
-            foreach (Debt debt in DebtsList)
+            foreach (Debt debt in TripDebts)
             {
-                listBox.Items.Add(debt);
+                listBoxWithDebts.Items.Add(debt);
                 debt.CreateUnit(debtIndex);
 
+                debtIndex++;
+            }
+        }
+
+        public void ReloadDebtsPanel()
+        {
+            panel.Controls.Clear();
+
+            int debtIndex = 0;
+            foreach (Debt debt in TripDebts)
+            {
+                debt.CreateUnit(debtIndex);
                 debtIndex++;
             }
         }
@@ -47,9 +59,9 @@ namespace ForTest
         {
             this.trip = trip;
             this.panel = panel;
-            this.listBox = listBox;
+            this.listBoxWithDebts = listBox;
 
-            DebtsList = new List<Debt>();
+            TripDebts = new List<Debt>();
             FillDebtsListFromTrip();
         }
 
@@ -58,21 +70,44 @@ namespace ForTest
             foreach (Person person in trip.People)
             {
                 Debt debt = new Debt(panel, person);
-                DebtsList.Add(debt);
+                TripDebts.Add(debt);
             }
         }
 
         public void AddDebtInListAndListBox(Person person)
         {
             Debt debt = new Debt(panel, person, Count);
-            DebtsList.Add(debt);
-            listBox.Items.Add(debt);
+            TripDebts.Add(debt);
+            listBoxWithDebts.Items.Add(debt);
         }
 
         public void AddDebt(Debt debt)
         {
-            DebtsList.Add(debt);
-         }
+            TripDebts.Add(debt);
+        }
+
+        public void CorrectFactor(Debt debt, double factor)
+        {
+            if (TripDebts.Contains(debt))
+            {
+                trip.CorrectFactor(debt.Person, factor);
+            }
+        }
+
+        public void CorrectPersonNameAndListBox(Debt debt, string name)
+        {
+            if (TripDebts.Contains(debt))
+            {
+                debt.Person.Name = name == "" ? "Noname" : name;
+            }
+        }
+
+        public void RemoveDebtAndPersonFromListAndTrip(Debt debt)
+        {
+            TripDebts.Remove(debt);
+            trip.RemovePerson(debt.Person);
+            listBoxWithDebts.Items.Remove(debt);
+        }
 
         //public void AddListDebt(List<Person> people)
         //{
