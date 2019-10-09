@@ -61,7 +61,7 @@ namespace ForTest
             {
                 Parent = panel,
                 Text = Person.DebtFactor.ToString(),
-                Location = new Point(_positionX + checkBoxLenght , _y),
+                Location = new Point(_positionX + checkBoxLenght, _y),
 
                 Width = _xTextEditWidth
             };
@@ -70,7 +70,7 @@ namespace ForTest
             {
                 Parent = panel,
                 Text = "",
-                Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth , _y),
+                Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth, _y),
 
                 Width = _xTextEditWidth
             };
@@ -87,7 +87,16 @@ namespace ForTest
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Person.Name) ? "NonamePerson" : Person.Name;
+            string name = string.IsNullOrEmpty(Person.Name) ? "NonamePerson" : Person.Name;
+
+            if (Equals(Person.PayGroupLeader, Person))
+            {
+                return name;
+            }
+            else
+            {
+                return "  " + name;
+            }
         }
     }
 }

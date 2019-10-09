@@ -8,163 +8,163 @@ namespace CostSharing
 {
     public class Buy
     {
-        public Product Product { get; set; }
-        public List<Payer> Payers { get; set; }
-        public List<Debtor> Debtors { get; set; }
+        //public Product Product { get; set; }
+        //public List<Payer> Payers { get; set; }
+        //public List<Debtor> Debtors { get; set; }
 
-        public double Cost//Может быть правильнее сделать пересчет цены только когда меняется список участников или еще когда-нибудь, привязать с событиям
-        {
-            get
-            {
-                double cost = 0;
-                foreach (Payer payer in Payers)
-                {
-                    cost += payer.Payment;
-                }
+        //public double Cost//Может быть правильнее сделать пересчет цены только когда меняется список участников или еще когда-нибудь, привязать с событиям
+        //{
+        //    get
+        //    {
+        //        double cost = 0;
+        //        foreach (Payer payer in Payers)
+        //        {
+        //            cost += payer.Payment;
+        //        }
 
-                return cost;
-            }
-        }
+        //        return cost;
+        //    }
+        //}
 
-        private bool IsPersonInDebtors(Person person)
-        {
-            foreach (Debtor debtor in Debtors)
-            {
-                if (Equals(debtor.Person, person))
-                {
-                    return true;
-                }
-            }
+        //private bool IsPersonInDebtors(Person person)
+        //{
+        //    foreach (Debtor debtor in Debtors)
+        //    {
+        //        if (Equals(debtor.Person, person))
+        //        {
+        //            return true;
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        public void AddDebtor(Person person, double debtFactor)
-        {
-            if (!IsPersonInDebtors(person))
-            {
-                Debtor debtor = new Debtor(person, debtFactor);
-                Debtors.Add(debtor);
-            }
-        }
+        //public void AddDebtor(Person person, double debtFactor)
+        //{
+        //    if (!IsPersonInDebtors(person))
+        //    {
+        //        Debtor debtor = new Debtor(person, debtFactor);
+        //        Debtors.Add(debtor);
+        //    }
+        //}
 
-        private Debtor GetDebtor(Person person)
-        {
-            foreach (Debtor debtor in Debtors)
-            {
-                if (Equals(debtor.Person, person))
-                {
-                    return debtor;
-                }
-            }
+        //private Debtor GetDebtor(Person person)
+        //{
+        //    foreach (Debtor debtor in Debtors)
+        //    {
+        //        if (Equals(debtor.Person, person))
+        //        {
+        //            return debtor;
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        public void RemoveDebtor(Person person)
-        {
-            Debtor debtor = GetDebtor(person);
+        //public void RemoveDebtor(Person person)
+        //{
+        //    Debtor debtor = GetDebtor(person);
 
-            if (debtor != null)
-            {
-                Debtors.Remove(debtor);
-            }
-        }
+        //    if (debtor != null)
+        //    {
+        //        Debtors.Remove(debtor);
+        //    }
+        //}
 
-        private double GetStandartDebtsSum()
-        {
-            double fixedDebtsSum = 0;
-            foreach (Debtor debtor in Debtors)
-            {
-                if (debtor.Factor == GeneralInfo.FixedDebtFactor)
-                {
-                    fixedDebtsSum += debtor.Debt;
-                }
-            }
+        //private double GetStandartDebtsSum()
+        //{
+        //    double fixedDebtsSum = 0;
+        //    foreach (Debtor debtor in Debtors)
+        //    {
+        //        if (debtor.Factor == GeneralInfo.FixedDebtFactor)
+        //        {
+        //            fixedDebtsSum += debtor.Debt;
+        //        }
+        //    }
 
-            return Cost - fixedDebtsSum;
-        }
+        //    return Cost - fixedDebtsSum;
+        //}
 
-        private double GetStandartAndPersonalFaсtorsSum()
-        {
-            double standartAndPersonalFaсtorsSum = 0;
-            foreach (Debtor debtor in Debtors)
-            {
-                if (debtor.Factor != GeneralInfo.FixedDebtFactor)
-                {
-                    standartAndPersonalFaсtorsSum += debtor.Factor;
-                }
-            }
+        //private double GetStandartAndPersonalFaсtorsSum()
+        //{
+        //    double standartAndPersonalFaсtorsSum = 0;
+        //    foreach (Debtor debtor in Debtors)
+        //    {
+        //        if (debtor.Factor != GeneralInfo.FixedDebtFactor)
+        //        {
+        //            standartAndPersonalFaсtorsSum += debtor.Factor;
+        //        }
+        //    }
 
-            return standartAndPersonalFaсtorsSum;
-        }
+        //    return standartAndPersonalFaсtorsSum;
+        //}
 
-        private void RecountDebtorsData()
-        {
-            double standartDebtsSum = GetStandartDebtsSum();
-            double standartAndPersonalFaсtorsSum= GetStandartAndPersonalFaсtorsSum();
+        //private void RecountDebtorsData()
+        //{
+        //    double standartDebtsSum = GetStandartDebtsSum();
+        //    double standartAndPersonalFaсtorsSum= GetStandartAndPersonalFaсtorsSum();
 
-            double weightedDebt = standartDebtsSum / standartAndPersonalFaсtorsSum;
+        //    double weightedDebt = standartDebtsSum / standartAndPersonalFaсtorsSum;
                       
-            foreach (Debtor debtor in Debtors)
-            {
-                if (debtor.Factor != GeneralInfo.FixedDebtFactor)
-                {
-                    debtor.Debt = weightedDebt * debtor.Factor;
-                }
-            }
-        }
+        //    foreach (Debtor debtor in Debtors)
+        //    {
+        //        if (debtor.Factor != GeneralInfo.FixedDebtFactor)
+        //        {
+        //            debtor.Debt = weightedDebt * debtor.Factor;
+        //        }
+        //    }
+        //}
 
 
-        public Buy(Product product)
-        {
-            Product = product;
-        }
+        //public Buy(Product product)
+        //{
+        //    Product = product;
+        //}
 
-        private bool IsPersonInPayers(Person person)
-        {
-            foreach (Payer payer in Payers)
-            {
-                if (Equals(payer.Person, person))
-                {
-                    return true;
-                }
-            }
+        //private bool IsPersonInPayers(Person person)
+        //{
+        //    foreach (Payer payer in Payers)
+        //    {
+        //        if (Equals(payer.Person, person))
+        //        {
+        //            return true;
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        public void AddPayer(Person person, double payment)
-        {
-            if (!IsPersonInPayers(person))
-            {
-                Payer payer = new Payer(person, payment);
-                Payers.Add(payer);
-            }
-        }
+        //public void AddPayer(Person person, double payment)
+        //{
+        //    if (!IsPersonInPayers(person))
+        //    {
+        //        Payer payer = new Payer(person, payment);
+        //        Payers.Add(payer);
+        //    }
+        //}
 
-        private Payer GetPayer(Person person)
-        {
-            foreach (Payer payer in Payers)
-            {
-                if (Equals(payer.Person, person))
-                {
-                    return payer;
-                }
-            }
+        //private Payer GetPayer(Person person)
+        //{
+        //    foreach (Payer payer in Payers)
+        //    {
+        //        if (Equals(payer.Person, person))
+        //        {
+        //            return payer;
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        public void RemovePayer(Person person)
-        {
-            Payer payer = GetPayer(person);
+        //public void RemovePayer(Person person)
+        //{
+        //    Payer payer = GetPayer(person);
 
-            if (payer != null)
-            {
-                Payers.Remove(payer);
-            }
-        }
+        //    if (payer != null)
+        //    {
+        //        Payers.Remove(payer);
+        //    }
+        //}
 
 
 

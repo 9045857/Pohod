@@ -10,33 +10,52 @@ namespace CostSharing
     [Serializable]
     public class Debtor
     {
+        public enum FactorType { Standart, SpecialForProduct, WithoutFactor };
+
         public Person Person { get; set; }
         public double Factor { get; set; }
         public double Debt { get; set; }
+        public FactorType factorType;
 
         public Debtor(Person person)
         {
             Person = person;
             Factor = person.DebtFactor;
+            factorType = FactorType.Standart;
 
             int beginDebt = 0;
             Debt = beginDebt;
         }
 
-        public Debtor(Person person, double factor)
+        public Debtor(Person person, FactorType factorType, double value)
         {
             Person = person;
-            Factor = factor;
+            this.factorType = factorType;
 
+            if (factorType == FactorType.SpecialForProduct)
+            {
+                Factor = value;
+            }
+            else if (factorType == FactorType.WithoutFactor)
+            {
+                Factor = GeneralInfo.FixedDebtFactor;
+                Debt = value;
+            }
+            else
+            {
+                Factor = Person.DebtFactor;
+                Debt = value;
+            }
+            
             int beginDebt = 0;
             Debt = beginDebt;
         }
 
-        public Debtor(Person person, double factor, double debt)
-        {
-            Person = person;
-            Factor = factor;
-            Debt = debt;
-        }
+        //public Debtor(Person person, double factor, double debt)
+        //{
+        //    Person = person;
+        //    Factor = factor;
+        //    Debt = debt;
+        //}
     }
 }

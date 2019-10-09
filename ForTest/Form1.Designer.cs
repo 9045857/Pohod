@@ -136,6 +136,7 @@
             this.listBoxPeople.Location = new System.Drawing.Point(10, 239);
             this.listBoxPeople.Name = "listBoxPeople";
             this.listBoxPeople.ScrollAlwaysVisible = true;
+            this.listBoxPeople.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxPeople.Size = new System.Drawing.Size(257, 132);
             this.listBoxPeople.TabIndex = 15;
             this.listBoxPeople.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPeople_MouseClick);

@@ -45,11 +45,22 @@ namespace CostSharing
             return false;
         }
 
-        public void AddDebtor(Person person, double debtFactor)
+        public void AddDebtorWithFactor(Person person, double debtFactor)
         {
             if (!IsPersonInDebtors(person))
             {
-                Debtor debtor = new Debtor(person, debtFactor);
+                Debtor debtor = new Debtor(person, Debtor.FactorType.SpecialForProduct, debtFactor);
+                Debtors.Add(debtor);
+
+                RecountDebtorsData();
+            }
+        }
+
+        public void AddUsualDebtor(Person person)
+        {
+            if (!IsPersonInDebtors(person))
+            {
+                Debtor debtor = new Debtor(person, Debtor.FactorType.Standart, person.DebtFactor);
                 Debtors.Add(debtor);
 
                 RecountDebtorsData();
@@ -60,7 +71,7 @@ namespace CostSharing
         {
             if (!IsPersonInDebtors(person))
             {
-                Debtor debtor = new Debtor(person, GeneralInfo.FixedDebtFactor, debt);
+                Debtor debtor = new Debtor(person, Debtor.FactorType.WithoutFactor, debt);
                 Debtors.Add(debtor);
 
                 RecountDebtorsData();
@@ -195,246 +206,6 @@ namespace CostSharing
                 RecountDebtorsData();
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //public Trip CurrentTrip { get; set; }
-
-        //[DataMember]
-        //public Dictionary<Person, double> Payers { get; private set; }
-
-        //[DataMember]
-        //public Dictionary<Person, Debtor> Debtors { get; private set; }
-
-        ////  public Dictionary<Person, double> DebtPersonFactors { get; private set; }
-
-        //// сумма приходящаяся на стандартных должников и с индивидуальной суммой
-        //private double PersonalDebtsSum
-        //{
-        //    get
-        //    {
-        //        double personalDebtCost = 0;
-        //        foreach (Debtor debtor in Debtors.Values)
-        //        {
-        //            if (debtor.Factor == GeneralInfo.FixedDebtFactor)
-        //            {
-        //                personalDebtCost += debtor.Factor;
-        //            }
-        //        }
-
-        //        return personalDebtCost;
-        //    }
-        //}
-
-        //private double StandartDebtsSum
-        //{
-        //    get
-        //    {
-        //        return Cost - PersonalDebtsSum;
-        //    }
-        //}
-
-        //private double StandartAndPersonalFaсtorsSum
-        //{
-        //    get
-        //    {
-        //        double factorsSum = 0;
-        //        foreach (Debtor debtor in Debtors.Values)
-        //        {
-        //            if (debtor.Factor != GeneralInfo.FixedDebtFactor)
-        //            {
-        //                factorsSum += debtor.Factor;
-        //            }
-        //        }
-
-        //        return factorsSum;
-        //    }
-        //}
-
-
-        //public Product(Trip trip, string name)
-        //{
-        //    Name = name;
-        //    CurrentTrip = trip;
-
-        //    Debtors = new Dictionary<Person, Debtor>();
-        //    Payers = new Dictionary<Person, double>();
-        //}
-
-        //public double Cost
-        //{
-        //    get
-        //    {
-        //        double cost = 0;
-        //        foreach (double payment in Payers.Values)
-        //        {
-        //            cost += payment;
-        //        }
-
-        //        return cost;
-        //    }
-        //}
-
-        //public void AddPayers(Person person, double moneyCount)
-        //{
-        //    if (!Payers.ContainsKey(person))
-        //    {
-        //        Payers.Add(person, moneyCount);
-        //    }
-        //    else
-        //    {
-        //        //TODO что делаем если такой плательщик есть? меняем сумму? или добавляем ее ? или ничего не делаем?
-        //    }
-
-        //    RecountDebtData();
-        //}
-
-        //public bool TryRemovePaidPerson(Person person)
-        //{
-        //    if (!Payers.ContainsKey(person))
-        //    {
-        //        return false;
-        //    }
-
-        //    Payers.Remove(person);
-        //    return true;
-        //}
-
-        //public bool TryRemoveDebtPerson(Person person)
-        //{
-        //    if (!Debtors.ContainsKey(person))
-        //    {
-        //        return false;
-        //    }
-
-        //    Debtors.Remove(person);
-        //    return true;
-        //}
-
-        //public bool TryChangePayment(Person person, double moneyCount)
-        //{
-        //    if (!Payers.ContainsKey(person))
-        //    {
-        //        return false;
-        //    }
-
-        //    Payers[person] = moneyCount;
-        //    return true;
-        //}
-
-        //public void AddDebtor(Person person)
-        //{
-        //    if (Debtors.Count == 0 || !Debtors.ContainsKey(person))
-        //    {
-        //        AddPersonWithOwnFactor(person, GeneralInfo.StandartDebtFactor);
-        //    }
-        //}
-
-        //private void RecountDebtData()
-        //{
-        //    double weightedDebt = StandartDebtsSum / StandartAndPersonalFaсtorsSum;
-
-        //    //  MessageBox.Show(weightedDebt + "  " + standartAndPersonalFactorCost + "  " + sumStandartAndPersonalFaсtors);
-
-        //    foreach (Debtor debtor in Debtors.Values.ToList())
-        //    {
-        //        if (debtor.Factor != GeneralInfo.FixedDebtFactor)
-        //        {
-        //            debtor.Debt = weightedDebt * debtor.Factor;
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Изменения суммы должника по товару на индивидуальную 
-        ///// Или добавление должнака в список на этих условиях, если его нет в нем.
-        ///// При этом пересчитывается и корректируется вся группа должников.
-        ///// </summary>
-        ///// <param name="person"></param>
-        ///// <param name="debt"></param>
-        //public void InsertPersonalDebt(Person person, double debt)
-        //{
-        //    if (Debtors.Count == 0)
-        //    {
-        //        AddPersonDebtAndFactor(person, debt);
-        //    }
-        //    else if (!Debtors.ContainsKey(person))
-        //    {
-        //        AddPersonDebtAndFactor(person, debt);
-        //        RecountDebtData();
-        //    }
-        //    else
-        //    {
-        //        Debtors[person].Factor = GeneralInfo.FixedDebtFactor;
-        //        Debtors[person].Debt = debt;
-
-        //        RecountDebtData();
-        //    }
-        //}
-
-        //private void AddPersonDebtAndFactor(Person person, double debt)
-        //{
-        //    Debtor debtor = new Debtor(this, person);
-        //    debtor.Debt = debt;
-        //    Debtors.Add(person, debtor);
-        //}
-
-        ///// <summary>
-        ///// Измененения суммы должника путем введения коэффициента
-        ///// Или добавление должника в список на этих условиях, если его нет в нем.
-        ///// При этом пересчитывается и корректируется вся группа должников.
-        ///// </summary>
-        ///// <param name="person"></param>
-        ///// <param name="factor"></param>
-        //public void InsertPersonalFactor(Person person, double factor)
-        //{
-        //    if (Debtors.Count == 0 )
-        //    {
-        //        Debtor debtor = new Debtor(this, person,factor);
-        //        debtor.Debt = Cost;
-        //        Debtors.Add(person, debtor);
-        //    }
-        //    else if (!Debtors.ContainsKey(person))
-        //    {
-        //        AddPersonWithOwnFactor(person, factor);
-        //    }
-        //    else
-        //    {
-        //        Debtors[person].Factor = factor;
-        //        RecountDebtData();
-        //    }
-        //}
-
-        //private void AddPersonWithOwnFactor(Person person, double factor)
-        //{
-        //    Debtor debtor = new Debtor(this,person,factor);
-        //    double nullDebt = 0;
-        //    debtor.Debt = nullDebt;
-
-        //    Debtors.Add(person, debtor);
-
-        //    RecountDebtData();
-        //}
 
         public override string ToString()
         {

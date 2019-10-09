@@ -83,7 +83,7 @@ namespace ForTest
                     else
                     {
                         double.TryParse(debt.TextBoxFactor.Text, out double factor);
-                        product.AddDebtor(person, factor);
+                        product.AddDebtorWithFactor(person, factor);
                     }
                 }
 
