@@ -213,7 +213,7 @@
             this.panelDebts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelDebts.Location = new System.Drawing.Point(335, 88);
             this.panelDebts.Name = "panelDebts";
-            this.panelDebts.Size = new System.Drawing.Size(300, 163);
+            this.panelDebts.Size = new System.Drawing.Size(317, 163);
             this.panelDebts.TabIndex = 35;
             // 
             // label10

@@ -48,7 +48,9 @@ namespace ForTest
                 main.ShowSelectedPersonInfo();
                 main.ShowSelectedProductInfo();
 
-                debts.ReloadDebtsPanel();
+               // debts.ReloadDebtsPanel();
+
+                main.FillDebtsPanel(debts);
 
                 Dispose();
             }

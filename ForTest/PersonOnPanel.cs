@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -11,8 +9,9 @@ using CostSharing;
 
 namespace ForTest
 {
-    public class Debt
+    public class PersonOnPanel
     {
+        public int ID { get; set; }
         public Person Person { get; set; }
 
         public CheckBox CheckBox { get; set; }
@@ -29,18 +28,36 @@ namespace ForTest
 
         private Panel panel;
 
-        public Debt(Panel panel, Person person)
+        public PersonOnPanel(Panel panel, int debtNumber)
         {
             this.panel = panel;
-            this.Person = person;
+            CreateUnit(debtNumber);
         }
 
-        public Debt(Panel panel, Person person, int debtNumber)
+        public bool Visible
         {
-            this.panel = panel;
-            this.Person = person;
+            get
+            {
+                return CheckBox.Visible;
+            }
+            set
+            {
+                CheckBox.Visible = value;
+                TextBoxFactor.Visible = value;
+                TextBoxDebt.Visible = value;
+                TextBoxPayment.Visible = value;
+            }
+        }
 
-            CreateUnit(debtNumber);
+        public void LoadDebtData(Person person)
+        {
+            CheckBox.Checked = true;
+            CheckBox.Text = person.Name;
+            TextBoxFactor.Text = person.DebtFactor.ToString();
+            TextBoxDebt.Text = "";
+            TextBoxPayment.Text = "";
+
+            Visible = true;
         }
 
         public void CreateUnit(int debtNumber)
@@ -50,9 +67,9 @@ namespace ForTest
             CheckBox = new CheckBox
             {
                 Parent = panel,
-                Text = Person.Name,
                 Location = new Point(_positionX, _y),
-                Checked = true
+                Checked = false,
+                Visible = false
             };
 
             int checkBoxLenght = CheckBox.Width;
@@ -60,43 +77,27 @@ namespace ForTest
             TextBoxFactor = new TextBox
             {
                 Parent = panel,
-                Text = Person.DebtFactor.ToString(),
                 Location = new Point(_positionX + checkBoxLenght, _y),
-
-                Width = _xTextEditWidth
+                Width = _xTextEditWidth,
+                Visible = false
             };
 
             TextBoxDebt = new TextBox
             {
                 Parent = panel,
-                Text = "",
                 Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth, _y),
-
-                Width = _xTextEditWidth
+                Width = _xTextEditWidth,
+                Visible = false
             };
 
             TextBoxPayment = new TextBox
             {
                 Parent = panel,
-                Text = "",
                 Location = new Point(_positionX + checkBoxLenght + 2 * _xBetweenControls + 2 * _xTextEditWidth, _y),
-
-                Width = _xTextEditWidth
+                Width = _xTextEditWidth,
+                Visible = false
             };
         }
 
-        public override string ToString()
-        {
-            string name = string.IsNullOrEmpty(Person.Name) ? "NonamePerson" : Person.Name;
-
-            if (Equals(Person.PayGroupLeader, Person))
-            {
-                return name;
-            }
-            else
-            {
-                return "  " + name;
-            }
-        }
     }
 }

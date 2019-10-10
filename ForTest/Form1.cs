@@ -15,6 +15,20 @@ namespace ForTest
     public partial class Form1 : Form
     {
         public AllDebtses debtsList;
+        public List<PersonOnPanel> PeopleOnPanel;
+
+        private Debts CurrentDebts
+        {
+            get
+            {
+                if (listBoxTrips.SelectedItems.Count == 1)
+                {
+                    return listBoxTrips.SelectedItem as Debts;
+                }
+
+                return null;
+            }
+        }
 
         //private string fileName = "Trips.json";
 
@@ -25,6 +39,55 @@ namespace ForTest
             InitializeComponent();
             debtsList = new AllDebtses(listBoxTrips, listBoxPeople, panelDebts, listBoxProducts);
             debtsList.OpenAll(fileName);
+
+            CreateDebtsPanel();
+        }
+
+        public void FillDebtsPanel(Debts debts)
+        {
+            int index = 0;
+            foreach (Debt debt in debts.People)
+            {
+                PeopleOnPanel[index].CheckBox.Checked = true;
+                PeopleOnPanel[index].CheckBox.Text = debt.Person.Name;
+
+                PeopleOnPanel[index].TextBoxFactor.Text = debt.Person.DebtFactor.ToString();
+                PeopleOnPanel[index].TextBoxDebt.Text = "";
+                PeopleOnPanel[index].TextBoxPayment.Text = "";
+
+                PeopleOnPanel[index].Visible = true;
+
+                index++;
+            }
+
+            ClearPeoplePanelAfter(index);
+        }
+
+        private void ClearPeoplePanelAfter(int index)
+        {
+            int count = PeopleOnPanel.Count();
+            for (int i = index; i < count; i++)
+            {
+                if (PeopleOnPanel[i].Visible)
+                {
+                    PeopleOnPanel[i].Visible = false;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        private void CreateDebtsPanel()
+        {
+            int maxPeopleCount = 40;
+
+            PeopleOnPanel = new List<PersonOnPanel>();
+            for (int i = 0; i < maxPeopleCount; i++)
+            {
+                PeopleOnPanel.Add(new PersonOnPanel(panelDebts, i));
+            }
         }
 
         private void buttonAddTrip_Click(object sender, EventArgs e)
@@ -44,7 +107,7 @@ namespace ForTest
 
             if (listBoxTrips.SelectedItems.Count == 1)
             {
-                List<Person> leaders = debts.trip.GetPayGroupLeaders();
+                List<Person> leaders = debts.Trip.GetPayGroupLeaders();
 
                 foreach (Person person in leaders)
                 {
@@ -62,32 +125,47 @@ namespace ForTest
                 string personName = string.IsNullOrEmpty(textBoxPerson.Text) ? "NoNamePerson" : textBoxPerson.Text;
                 Person person = new Person(personName);
 
-                selectedDebts.AddDebtInListAndListBox(person);
-                selectedDebts.trip.AddPerson(person);
+                Debt debt = new Debt(panelDebts, person);
+
+                selectedDebts.AddDebtInListAndListBox(debt);
+                selectedDebts.Trip.AddPerson(person);
+                AddDebtsOnPanel(selectedDebts, debt);
+
                 textBoxPerson.Text = "";
             }
         }
 
+        private void AddDebtsOnPanel(Debts debts, Debt debt)
+        {
+            int index = debts.People.IndexOf(debt);
+            PeopleOnPanel[index].LoadDebtData(debt);
+        }
+
         private void SetProduct(Debts debts, Product product)
         {
-            foreach (Debt debt in debts.TripDebts)
+            foreach (PersonOnPanel personOnPanel in PeopleOnPanel)// Debt debt in  debts.TripDebts
             {
-                Person person = debt.Person;
-
-                if (debt.CheckBox.Checked)
+                if (!personOnPanel.CheckBox.Visible)
                 {
-                    if (debt.TextBoxDebt.Text != "" && double.TryParse(debt.TextBoxDebt.Text, out double fixedDebt))
+                    break;
+                }
+
+                Person person = personOnPanel.Debt.Person;
+
+                if (personOnPanel.CheckBox.Checked)
+                {
+                    if (personOnPanel.TextBoxDebt.Text != "" && double.TryParse(personOnPanel.TextBoxDebt.Text, out double fixedDebt))
                     {
                         product.AddDebtorWithFixedDebt(person, fixedDebt);
                     }
                     else
                     {
-                        double.TryParse(debt.TextBoxFactor.Text, out double factor);
+                        double.TryParse(personOnPanel.TextBoxFactor.Text, out double factor);
                         product.AddDebtorWithFactor(person, factor);
                     }
                 }
 
-                string textBoxPayment = debt.TextBoxPayment.Text;
+                string textBoxPayment = personOnPanel.TextBoxPayment.Text;
 
                 if (textBoxPayment != "" && double.TryParse(textBoxPayment, out double paymentMoney))
                 {
@@ -101,7 +179,7 @@ namespace ForTest
             if (debtsList.ListBoxDebts.SelectedItems.Count == 1 && !string.IsNullOrEmpty(textBoxProduct.Text))
             {
                 Debts debts = debtsList.ListBoxDebts.SelectedItem as Debts;
-                Trip currentTrip = debts.trip;
+                Trip currentTrip = debts.Trip;
 
                 string productName = textBoxProduct.Text;
                 Product product = new Product(productName);
@@ -155,7 +233,7 @@ namespace ForTest
             if (listBoxPeople.SelectedItems.Count == 1)
             {
                 Person person = (listBoxPeople.SelectedItem as Debt).Person;
-                Trip trip = (listBoxTrips.SelectedItem as Debts).trip;
+                Trip trip = (listBoxTrips.SelectedItem as Debts).Trip;
 
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("Человек: " + person.Name);
@@ -202,7 +280,7 @@ namespace ForTest
         private void FillListBoxProductsFromDebts(Debts debts)
         {
             listBoxProducts.Items.Clear();
-            foreach (Product product in debts.trip.Products)
+            foreach (Product product in debts.Trip.Products)
             {
                 listBoxProducts.Items.Add(product);
             }
@@ -214,7 +292,8 @@ namespace ForTest
             {
                 Debts debts = (sender as ListBox).SelectedItem as Debts;
 
-                debts.ReloadListBoxPeopleAndDebtsPanel();
+                debts.ReloadListBoxPeople();
+                FillDebtsPanel(debts);
                 FillListBoxProductsFromDebts(debts);
                 FillPayGroupLeaderListBox(debts);
             }
@@ -246,7 +325,7 @@ namespace ForTest
             {
                 Debts debts = listBoxTrips.SelectedItem as Debts;
 
-                string dialogCaption = string.Format("Удаляем \"{0}\"", debts.trip.Name);
+                string dialogCaption = string.Format("Удаляем \"{0}\"", debts.Trip.Name);
                 if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     debtsList.RemoveDebtsAndTpripAndRemoveFromListBox(debts);
@@ -270,7 +349,7 @@ namespace ForTest
                 if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Debts debts = listBoxTrips.SelectedItem as Debts;
-                    debts.trip.RemoveProduct(product);
+                    debts.Trip.RemoveProduct(product);
                     listBoxProducts.Items.Remove(product);
                     textBoxProductInfo.Text = "";
                 }
@@ -291,7 +370,9 @@ namespace ForTest
                     debts.RemoveDebtAndPersonFromListAndTrip(debt);
 
                     textBoxPersonInfo.Text = "";
-                    debts.ReloadDebtsPanel();
+                    // debts.ReloadDebtsPanel();
+
+                    FillDebtsPanel(debts);
 
                     ShowSelectedProductInfo();
                 }
@@ -309,8 +390,8 @@ namespace ForTest
 
                     listBoxPeople.SelectedIndex = index;
                     Debt debt = listBoxPeople.Items[index] as Debt;
-                   
-                    PersonForm personForm = new PersonForm(debts, debt,listBoxPeople,this,index);
+
+                    PersonForm personForm = new PersonForm(debts, debt, listBoxPeople, this, index);
                 }
             }
         }
