@@ -42,7 +42,7 @@ namespace ForTest
         //    this.Person = person;
         //}
 
-        public PersonOnPanel(Panel panel, int id)
+        public PersonOnPanel(Panel panel,int id)
         {
             this.panel = panel;
             // this.Person = person;
@@ -109,7 +109,7 @@ namespace ForTest
 
             TextBoxPayment.Parent = panel;
             TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
-            TextBoxPayment.Width = _xTextEditWidth;
+            TextBoxPayment.Width = _xTextEditWidth;          
         }
 
         public bool Visible
@@ -136,19 +136,19 @@ namespace ForTest
             }
 
             Person = person;
-            // ID = id;
+           // ID = id;
 
             _y = _height * ID;
 
             CheckBoxIsDebtor.Text = Person.Name;
-            //  CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
+          //  CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
             CheckBoxIsDebtor.Checked = true;
 
             TextBoxFactor.Text = Person.DebtFactor.ToString();
-            //    TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
+        //    TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
 
             TextBoxDebt.Text = "";
-            //   TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
+         //   TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
 
             TextBoxPayment.Text = "";
             //TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
