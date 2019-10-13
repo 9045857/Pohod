@@ -127,6 +127,35 @@ namespace ForTest
             }
         }
 
+        public void FillUnit(Person person/*, int id*/)
+        {
+            if (person == null)
+            {
+                Visible = false;
+                return;
+            }
+
+            Person = person;
+            // ID = id;
+
+            _y = _height * ID;
+
+            CheckBoxIsDebtor.Text = Person.Name;
+            //  CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
+            CheckBoxIsDebtor.Checked = true;
+
+            TextBoxFactor.Text = Person.DebtFactor.ToString();
+            //    TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
+
+            TextBoxDebt.Text = "";
+            //   TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
+
+            TextBoxPayment.Text = "";
+            //TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
+
+            Visible = false;
+        }
+
         public void FillAndShowUnit(Person person/*, int id*/)
         {
             if (person == null)

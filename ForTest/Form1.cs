@@ -17,9 +17,7 @@ namespace ForTest
         public AllDebtses debtsList;
         public List<PersonOnPanel> peopleOnPanel = new List<PersonOnPanel>();
 
-
         //private string fileName = "Trips.json";
-
         private string fileName = "trips.dat";
 
         private void CreatePeolpleOnPanel()
@@ -36,7 +34,6 @@ namespace ForTest
         {
             InitializeComponent();
             CreatePeolpleOnPanel();
-            //debtsList = new AllDebtses(listBoxTrips, listBoxPeople, panelDebts, peolpleOnPanel,listBoxProducts);
             debtsList = new AllDebtses(listBoxTrips, listBoxPeople, peopleOnPanel, listBoxProducts);
             debtsList.OpenAll(fileName);
         }
@@ -45,7 +42,6 @@ namespace ForTest
         {
             string tripName = string.IsNullOrEmpty(textBoxTripName.Text) ? "NonameTrip" : textBoxTripName.Text;
             Trip trip = new Trip(tripName);
-            //Debts debts = new Debts(trip, panelDebts, listBoxPeople);
             Debts debts = new Debts(trip, peopleOnPanel, listBoxPeople);
 
             debtsList.AddDebtsAndTrip(debts);
@@ -207,8 +203,7 @@ namespace ForTest
                 textBoxPersonInfo.Text = builder.ToString();
             }
         }
-
-
+        
         private void listBoxPersonalPayGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
 

@@ -17,7 +17,6 @@ namespace ForTest
         public List<Debt> TripDebts { get; private set; }
         public Trip trip;
 
-        private Panel panel;
         private List<PersonOnPanel> peopleOnPanel;
 
         public ListBox listBoxWithDebts;
@@ -33,7 +32,6 @@ namespace ForTest
         public void ReloadListBoxPeopleAndDebtsPanel()
         {
             listBoxWithDebts.Items.Clear();
-            //  panel.Controls.Clear();
 
             int debtIndex = 0;
             foreach (Debt debt in TripDebts)
@@ -74,33 +72,13 @@ namespace ForTest
             }
         }
 
-        // CorrectDebtAndRedraw()
-        //{
-
-
-        //}
-
-        //public Debts(Trip trip, Panel panel, List<PersonOnPanel> peopleOnPanel, ListBox listBox)
-        //{
-        //    this.trip = trip;
-
-        //    this.panel = panel;//TODO prepare to remove
-        //    this.peopleOnPanel = peopleOnPanel;
-
-        //    this.listBoxWithDebts = listBox;
-
-        //    TripDebts = new List<Debt>();
-        //    FillDebtsListFromTrip();
-        //}
-
         public Debts(Trip trip, List<PersonOnPanel> peopleOnPanel, ListBox listBox)
         {
             this.trip = trip;
 
-            // this.panel = panel;//TODO prepare to remove
             this.peopleOnPanel = peopleOnPanel;
 
-            this.listBoxWithDebts = listBox;
+            listBoxWithDebts = listBox;
 
             TripDebts = new List<Debt>();
             FillDebtsListFromTrip();
@@ -128,8 +106,7 @@ namespace ForTest
 
             foreach (Person person in trip.People)
             {
-                Debt debt = new Debt(peopleOnPanel/*peopleOnPanel[debtId]*/, person,debtId);
-                debt.PersonOnPanelMain.FillAndShowUnit();
+                Debt debt = new Debt(peopleOnPanel/*peopleOnPanel[debtId]*/, person, debtId);
 
                 TripDebts.Add(debt);
 
@@ -139,10 +116,8 @@ namespace ForTest
 
         public void AddDebtInListAndListBox(Person person)
         {
-            //Debt debt = new Debt(panel, person, Count);
-
             Debt debt = new Debt(peopleOnPanel/*[Count]*/, person, Count);
-           // debt.PersonOnPanelMain.FillAndShowUnit();
+            debt.PersonOnPanelMain.Visible = true;
 
             TripDebts.Add(debt);
             listBoxWithDebts.Items.Add(debt);
@@ -175,15 +150,6 @@ namespace ForTest
             trip.RemovePerson(debt.Person);
             listBoxWithDebts.Items.Remove(debt);
         }
-
-        //public void AddListDebt(List<Person> people)
-        //{
-        //    foreach (Person person in people)
-        //    {
-        //        CreateUnit(person, _positionX, _currentY);
-        //        _currentY += _deltaY;
-        //    }
-        //}
 
         public override string ToString()
         {
