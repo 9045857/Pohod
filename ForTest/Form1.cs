@@ -15,15 +15,29 @@ namespace ForTest
     public partial class Form1 : Form
     {
         public AllDebtses debtsList;
+        public List<PersonOnPanel> peopleOnPanel = new List<PersonOnPanel>();
+
 
         //private string fileName = "Trips.json";
 
         private string fileName = "trips.dat";
 
+        private void CreatePeolpleOnPanel()
+        {
+            int itemsCount = 40;
+
+            for (int i = 0; i < itemsCount; i++)
+            {
+                peopleOnPanel.Add(new PersonOnPanel(panelDebts,i));
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
-            debtsList = new AllDebtses(listBoxTrips, listBoxPeople, panelDebts, listBoxProducts);
+            CreatePeolpleOnPanel();
+            //debtsList = new AllDebtses(listBoxTrips, listBoxPeople, panelDebts, peolpleOnPanel,listBoxProducts);
+            debtsList = new AllDebtses(listBoxTrips, listBoxPeople, peopleOnPanel, listBoxProducts);
             debtsList.OpenAll(fileName);
         }
 
@@ -31,7 +45,8 @@ namespace ForTest
         {
             string tripName = string.IsNullOrEmpty(textBoxTripName.Text) ? "NonameTrip" : textBoxTripName.Text;
             Trip trip = new Trip(tripName);
-            Debts debts = new Debts(trip, panelDebts, listBoxPeople);
+            //Debts debts = new Debts(trip, panelDebts, listBoxPeople);
+            Debts debts = new Debts(trip, peopleOnPanel, listBoxPeople);
 
             debtsList.AddDebtsAndTrip(debts);
             textBoxTripName.Text = "";
@@ -74,7 +89,7 @@ namespace ForTest
             {
                 Person person = debt.Person;
 
-                if (debt.CheckBox.Checked)
+                if (debt.CheckBoxIsDebtor.Checked)
                 {
                     if (debt.TextBoxDebt.Text != "" && double.TryParse(debt.TextBoxDebt.Text, out double fixedDebt))
                     {
@@ -291,6 +306,8 @@ namespace ForTest
                     debts.RemoveDebtAndPersonFromListAndTrip(debt);
 
                     textBoxPersonInfo.Text = "";
+
+                    debt.PersonOnPanelMain.Clear();
                     debts.ReloadDebtsPanel();
 
                     ShowSelectedProductInfo();
@@ -309,8 +326,8 @@ namespace ForTest
 
                     listBoxPeople.SelectedIndex = index;
                     Debt debt = listBoxPeople.Items[index] as Debt;
-                   
-                    PersonForm personForm = new PersonForm(debts, debt,listBoxPeople,this,index);
+
+                    PersonForm personForm = new PersonForm(debts, debt, listBoxPeople, this, index);
                 }
             }
         }

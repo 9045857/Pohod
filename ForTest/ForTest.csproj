@@ -74,11 +74,19 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLogic.cs" />
+    <Compile Include="PeopleOnPanel.cs" />
     <Compile Include="PersonForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PersonForm.Designer.cs">
       <DependentUpon>PersonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PersonOnPanel.cs" />
+    <Compile Include="ProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductForm.Designer.cs">
+      <DependentUpon>ProductForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PersonForm.resx">
       <DependentUpon>PersonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductForm.resx">
+      <DependentUpon>ProductForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

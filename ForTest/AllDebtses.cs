@@ -20,20 +20,34 @@ namespace ForTest
         public ListBox ListBoxDebts { get; set; }
 
         private ListBox listBoxPeople;
+        private List<PersonOnPanel> peopleOnPanels;
+
         private Panel panelUnits;
         private ListBox listBoxProduct;
 
-        public AllDebtses(ListBox listBoxTrips, ListBox listBoxPeople, Panel panelUnits, ListBox listBoxProduct)
+        //public AllDebtses(ListBox listBoxTrips, ListBox listBoxPeople, Panel panelUnits, List<PersonOnPanel> peopleOnPanels, ListBox listBoxProduct)
+        //{
+        //    ListBoxDebts = listBoxTrips;
+        //    allTrips = new AllTrips();
+        //    Debtses = new List<Debts>();
+
+        //    this.listBoxPeople = listBoxPeople;
+        //    this.panelUnits = panelUnits;//TODO prepare to remove
+        //    this.peopleOnPanels = peopleOnPanels;
+        //    this.listBoxProduct = listBoxProduct;
+        //}
+
+        public AllDebtses(ListBox listBoxTrips, ListBox listBoxPeople, List<PersonOnPanel> peopleOnPanels, ListBox listBoxProduct)
         {
             ListBoxDebts = listBoxTrips;
             allTrips = new AllTrips();
             Debtses = new List<Debts>();
 
             this.listBoxPeople = listBoxPeople;
-            this.panelUnits = panelUnits;
+           // this.panelUnits = panelUnits;//TODO prepare to remove
+            this.peopleOnPanels = peopleOnPanels;
             this.listBoxProduct = listBoxProduct;
         }
-
         public void AddDebtsAndTrip(Debts debts)
         {
             ListBoxDebts.Items.Add(debts);
@@ -45,7 +59,9 @@ namespace ForTest
         {
             foreach (Trip trip in allTrips.Trips)
             {
-                Debts debts = new Debts(trip, panelUnits, listBoxPeople);
+                //Debts debts = new Debts(trip, panelUnits, peopleOnPanels, listBoxPeople);
+                Debts debts = new Debts(trip, peopleOnPanels, listBoxPeople);
+
                 Debtses.Add(debts);
             }
         }

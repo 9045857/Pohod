@@ -17,7 +17,9 @@ namespace ForTest
         public List<Debt> TripDebts { get; private set; }
         public Trip trip;
 
-        public Panel panel;
+        private Panel panel;
+        private List<PersonOnPanel> peopleOnPanel;
+
         public ListBox listBoxWithDebts;
 
         public int Count
@@ -31,52 +33,117 @@ namespace ForTest
         public void ReloadListBoxPeopleAndDebtsPanel()
         {
             listBoxWithDebts.Items.Clear();
-            panel.Controls.Clear();
+            //  panel.Controls.Clear();
 
             int debtIndex = 0;
             foreach (Debt debt in TripDebts)
             {
                 listBoxWithDebts.Items.Add(debt);
-                debt.CreateUnit(debtIndex);
+                debt.SetDebtIDAndDraw(debtIndex);
 
                 debtIndex++;
             }
+
+            ClearPeopleOnPanelFrom(debtIndex);
         }
 
         public void ReloadDebtsPanel()
         {
-            panel.Controls.Clear();
-
             int debtIndex = 0;
             foreach (Debt debt in TripDebts)
             {
-                debt.CreateUnit(debtIndex);
+                debt.SetDebtIDAndDraw(debtIndex);
                 debtIndex++;
+            }
+
+            ClearPeopleOnPanelFrom(debtIndex);
+        }
+
+        private void ClearPeopleOnPanelFrom(int index)
+        {
+            for (int i = index; i < peopleOnPanel.Count; i++)
+            {
+                if (peopleOnPanel[i].CheckBoxIsDebtor.Visible)
+                {
+                    peopleOnPanel[i].Clear();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
 
-        public Debts(Trip trip, Panel panel, ListBox listBox)
+        // CorrectDebtAndRedraw()
+        //{
+
+
+        //}
+
+        //public Debts(Trip trip, Panel panel, List<PersonOnPanel> peopleOnPanel, ListBox listBox)
+        //{
+        //    this.trip = trip;
+
+        //    this.panel = panel;//TODO prepare to remove
+        //    this.peopleOnPanel = peopleOnPanel;
+
+        //    this.listBoxWithDebts = listBox;
+
+        //    TripDebts = new List<Debt>();
+        //    FillDebtsListFromTrip();
+        //}
+
+        public Debts(Trip trip, List<PersonOnPanel> peopleOnPanel, ListBox listBox)
         {
             this.trip = trip;
-            this.panel = panel;
+
+            // this.panel = panel;//TODO prepare to remove
+            this.peopleOnPanel = peopleOnPanel;
+
             this.listBoxWithDebts = listBox;
 
             TripDebts = new List<Debt>();
             FillDebtsListFromTrip();
         }
 
+        private void ClearPeoplesOnPanel()
+        {
+            foreach (PersonOnPanel personOnPanel in peopleOnPanel.ToArray())
+            {
+                if (personOnPanel.Visible)
+                {
+                    personOnPanel.Clear();
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
         private void FillDebtsListFromTrip()
         {
+            int debtId = 0;
+            ClearPeoplesOnPanel();
+
             foreach (Person person in trip.People)
             {
-                Debt debt = new Debt(panel, person);
+                Debt debt = new Debt(peopleOnPanel/*peopleOnPanel[debtId]*/, person,debtId);
+                debt.PersonOnPanelMain.FillAndShowUnit();
+
                 TripDebts.Add(debt);
+
+                debtId++;
             }
         }
 
         public void AddDebtInListAndListBox(Person person)
         {
-            Debt debt = new Debt(panel, person, Count);
+            //Debt debt = new Debt(panel, person, Count);
+
+            Debt debt = new Debt(peopleOnPanel/*[Count]*/, person, Count);
+           // debt.PersonOnPanelMain.FillAndShowUnit();
+
             TripDebts.Add(debt);
             listBoxWithDebts.Items.Add(debt);
         }
