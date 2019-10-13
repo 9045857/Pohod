@@ -15,8 +15,8 @@ namespace ForTest
     public partial class Form1 : Form
     {
         public AllDebtses debtsList;
-        public List<PersonOnPanel> peopleOnPanel = new List<PersonOnPanel>();
-
+        private List<PersonOnPanel> peopleOnPanel = new List<PersonOnPanel>();
+       
         //private string fileName = "Trips.json";
         private string fileName = "trips.dat";
 
@@ -33,6 +33,7 @@ namespace ForTest
         public Form1()
         {
             InitializeComponent();
+            
             CreatePeolpleOnPanel();
             debtsList = new AllDebtses(listBoxTrips, listBoxPeople, peopleOnPanel, listBoxProducts);
             debtsList.OpenAll(fileName);
@@ -348,6 +349,23 @@ namespace ForTest
                     Debt debt = listBoxPeople.Items[index] as Debt;
 
                     PersonForm personForm = new PersonForm(debts, debt, listBoxPeople, this, index);
+                }
+            }
+        }
+
+        private void listBoxProducts_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int index = this.listBoxProducts.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches)
+                {
+                    Debts debts = listBoxTrips.SelectedItem as Debts;
+
+                    listBoxProducts.SelectedIndex = index;
+                    Product product = listBoxProducts.Items[index] as Product;
+
+                    ProductForm productForm =new ProductForm(debts, product, listBoxProducts, this, index);
                 }
             }
         }

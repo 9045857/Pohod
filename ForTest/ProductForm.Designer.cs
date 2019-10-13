@@ -30,14 +30,15 @@
         {
             this.textBoxProductName = new System.Windows.Forms.TextBox();
             this.labelProductName = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonOk = new System.Windows.Forms.Button();
+            this.panelDebts = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // textBoxProductName
             // 
             this.textBoxProductName.Location = new System.Drawing.Point(112, 21);
             this.textBoxProductName.Name = "textBoxProductName";
-            this.textBoxProductName.Size = new System.Drawing.Size(100, 22);
+            this.textBoxProductName.Size = new System.Drawing.Size(270, 22);
             this.textBoxProductName.TabIndex = 0;
             // 
             // labelProductName
@@ -49,21 +50,29 @@
             this.labelProductName.TabIndex = 1;
             this.labelProductName.Text = "Название:";
             // 
-            // button1
+            // buttonOk
             // 
-            this.button1.Location = new System.Drawing.Point(319, 403);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonOk.Location = new System.Drawing.Point(148, 324);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 37);
+            this.buttonOk.TabIndex = 2;
+            this.buttonOk.Text = "Ok";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            // 
+            // panelDebts
+            // 
+            this.panelDebts.Location = new System.Drawing.Point(12, 49);
+            this.panelDebts.Name = "panelDebts";
+            this.panelDebts.Size = new System.Drawing.Size(370, 265);
+            this.panelDebts.TabIndex = 3;
             // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(718, 450);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(394, 369);
+            this.Controls.Add(this.panelDebts);
+            this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.labelProductName);
             this.Controls.Add(this.textBoxProductName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -79,6 +88,7 @@
 
         private System.Windows.Forms.TextBox textBoxProductName;
         private System.Windows.Forms.Label labelProductName;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Panel panelDebts;
     }
 }

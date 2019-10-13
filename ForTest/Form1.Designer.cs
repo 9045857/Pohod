@@ -153,6 +153,7 @@
             this.listBoxProducts.Size = new System.Drawing.Size(261, 116);
             this.listBoxProducts.TabIndex = 16;
             this.listBoxProducts.SelectedIndexChanged += new System.EventHandler(this.listBoxProducts_SelectedIndexChanged);
+            this.listBoxProducts.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBoxProducts_MouseUp);
             // 
             // buttonDeletTrip
             // 
