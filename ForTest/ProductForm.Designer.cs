@@ -32,19 +32,20 @@
             this.labelProductName = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
             this.panelDebts = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxProductName
             // 
-            this.textBoxProductName.Location = new System.Drawing.Point(112, 21);
+            this.textBoxProductName.Location = new System.Drawing.Point(94, 21);
             this.textBoxProductName.Name = "textBoxProductName";
-            this.textBoxProductName.Size = new System.Drawing.Size(270, 22);
+            this.textBoxProductName.Size = new System.Drawing.Size(190, 22);
             this.textBoxProductName.TabIndex = 0;
             // 
             // labelProductName
             // 
             this.labelProductName.AutoSize = true;
-            this.labelProductName.Location = new System.Drawing.Point(30, 21);
+            this.labelProductName.Location = new System.Drawing.Point(12, 21);
             this.labelProductName.Name = "labelProductName";
             this.labelProductName.Size = new System.Drawing.Size(76, 17);
             this.labelProductName.TabIndex = 1;
@@ -52,7 +53,7 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(148, 324);
+            this.buttonOk.Location = new System.Drawing.Point(108, 320);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 37);
             this.buttonOk.TabIndex = 2;
@@ -61,16 +62,27 @@
             // 
             // panelDebts
             // 
-            this.panelDebts.Location = new System.Drawing.Point(12, 49);
+            this.panelDebts.AutoScroll = true;
+            this.panelDebts.Location = new System.Drawing.Point(12, 76);
             this.panelDebts.Name = "panelDebts";
-            this.panelDebts.Size = new System.Drawing.Size(370, 265);
+            this.panelDebts.Size = new System.Drawing.Size(290, 238);
             this.panelDebts.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(30, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(237, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "v  имя              коэф / долг   оплата";
             // 
             // ProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 369);
+            this.ClientSize = new System.Drawing.Size(327, 369);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panelDebts);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.labelProductName);
@@ -90,5 +102,6 @@
         private System.Windows.Forms.Label labelProductName;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Panel panelDebts;
+        private System.Windows.Forms.Label label1;
     }
 }

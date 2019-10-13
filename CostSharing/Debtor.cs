@@ -35,6 +35,8 @@ namespace CostSharing
             if (factorType == FactorType.SpecialForProduct)
             {
                 Factor = value;
+                int beginDebt = 0;
+                Debt = beginDebt;
             }
             else if (factorType == FactorType.WithoutFactor)
             {
@@ -44,11 +46,9 @@ namespace CostSharing
             else
             {
                 Factor = Person.DebtFactor;
-                Debt = value;
-            }
-            
-            int beginDebt = 0;
-            Debt = beginDebt;
+                int beginDebt = 0;
+                Debt = beginDebt;
+            }         
         }
 
         //public Debtor(Person person, double factor, double debt)

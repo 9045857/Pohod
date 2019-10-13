@@ -51,15 +51,15 @@ namespace ForTest
                 if (debtor != null)
                 {
                     personOnPanel.CheckBoxIsDebtor.Checked = true;
-                                                          
-                    personOnPanel.TextBoxFactor.Text = debtor.Factor.ToString();
-
+                                       
                     if (debtor.factorType == Debtor.FactorType.WithoutFactor)
                     {
+                        personOnPanel.TextBoxFactor.Text = person.DebtFactor.ToString();
                         personOnPanel.TextBoxDebt.Text = debtor.Debt.ToString();
                     }
                     else
                     {
+                        personOnPanel.TextBoxFactor.Text = debtor.Factor.ToString();
                         personOnPanel.TextBoxDebt.Text = "";
                     }
                 }
