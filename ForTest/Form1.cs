@@ -308,6 +308,31 @@ namespace ForTest
                     ShowSelectedProductInfo();
                 }
             }
+            else if (listBoxPeople.SelectedItems.Count > 1)
+            {
+                
+                string dialogCaption = string.Format("Удаляем людей.");
+                if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Debts debts = listBoxTrips.SelectedItem as Debts;
+
+                    List<Debt> removingDebts = new List<Debt>();
+                    foreach (Debt debt in listBoxPeople.SelectedItems)
+                    {
+                        removingDebts.Add(debt);
+                    }
+                    
+                    foreach (Debt debt in removingDebts)
+                    {
+                        debts.RemoveDebtAndPersonFromListAndTrip(debt);
+                        debt.PersonOnPanelMain.Clear();
+                    }                   
+
+                    textBoxPersonInfo.Text = "";
+                    debts.ReloadDebtsPanel();
+                    ShowSelectedProductInfo();
+                }
+            }
         }
 
         private void listBoxPeople_MouseUp(object sender, MouseEventArgs e)
