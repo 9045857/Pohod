@@ -11,203 +11,195 @@ using CostSharing;
 
 namespace ForTest
 {
-    public class PersonOnPanel
+    public class Debt
     {
-        public Person Person { get; private set; }
+        public Person Person { get; set; }
 
-        public int ID { get; set; }
+        //  private Panel mainPanel;
 
-        public CheckBox CheckBoxIsDebtor { get; set; } = new CheckBox();
-        public TextBox TextBoxFactor { get; set; } = new TextBox();
-        public TextBox TextBoxDebt { get; set; } = new TextBox();
-        public TextBox TextBoxPayment { get; set; } = new TextBox();
+        public List<PersonOnPanel>PeopleOnPanelMain { get; private set; }
+        public PersonOnPanel PersonOnPanelMain { get; private set; }
 
-        private int _xBetweenControls = 5;
-        private int _xTextEditWidth = 30;
-        private int _positionX = 2;
+        public PersonOnPanel PersonOnPanelCorrection { get; private set; }
 
-        private int _y;
-        private readonly int _height = 20;
 
-        private int _CheckBoxIsDebtorX;
-        private int _TextBoxFactorX;
-        private int _TextBoxDebtX;
-        private int _TextBoxPaymentX;
+        public int DebtID { get; private set; }
 
-        private Panel panel;
+        public void SetDebtIDAndDraw(int id)
+        {
+                DebtID = id;
+                PersonOnPanelMain = PeopleOnPanelMain[DebtID];
+                PersonOnPanelMain.FillAndShowUnit(Person);            
+        }
+
+        //public Debt(PersonOnPanel personOnPanel, Person person)
+        //{
+        //    PersonOnPanelMain = personOnPanel;
+        //    Person = person;
+        //}
+
+        //public Debt(PersonOnPanel personOnPanel, Person person, int debtNumber)
+        //{
+        //    //  this.mainPanel = panel;
+        //    Person = person;
+        //    _debtID = debtNumber;
+
+        //    PersonOnPanelMain = personOnPanel;
+        //    PersonOnPanelMain.FillAndShowUnit(Person/*, debtNumber*/);
+        //}
+
+        public Debt(List<PersonOnPanel> peopleOnPanel,/*PersonOnPanel personOnPanel,*/ Person person, int debtNumber)
+        {
+            //  this.mainPanel = panel;
+            
+            Person = person;
+            DebtID = debtNumber;
+
+            PeopleOnPanelMain = peopleOnPanel;
+            PersonOnPanelMain = peopleOnPanel[debtNumber];
+
+            // PersonOnPanelMain = personOnPanel;
+            PersonOnPanelMain.FillAndShowUnit(Person/*, debtNumber*/);
+        }
 
         //public Debt(Panel panel, Person person)
         //{
-        //    this.panel = panel;
-        //    this.Person = person;
-        //}
+        //    // this.mainPanel = panel;
 
-        public PersonOnPanel(Panel panel,int id)
-        {
-            this.panel = panel;
-            // this.Person = person;
-
-            _CheckBoxIsDebtorX = _positionX;
-            _TextBoxFactorX = _positionX + CheckBoxIsDebtor.Width;
-            _TextBoxDebtX = _positionX + CheckBoxIsDebtor.Width + _xBetweenControls + _xTextEditWidth;
-            _TextBoxPaymentX = _positionX + CheckBoxIsDebtor.Width + 2 * _xBetweenControls + 2 * _xTextEditWidth;
-
-            ID = id;
-
-            CreateUnit();
-        }
-
-
-
-        //public void DrawOnPanel(Person person, int id)
-        //{
+        //    PersonOnPanelMain = new PersonOnPanel(panel);
         //    Person = person;
-        //    ID = id;
-        //    FillAndShowUnit();
         //}
 
 
-
-
-        //public PersonOnPanel(Panel panel, Person person, int debtNumber)
+        //public Debt(Panel panel, Person person, int debtNumber)
         //{
-        //    this.panel = panel;
-        //    this.Person = person;
+        //    //  this.mainPanel = panel;
+        //    Person = person;
+        //    this.debtNumber = debtNumber;
 
-        //    CreateUnit(debtNumber);
+        //    PersonOnPanelMain = new PersonOnPanel(panel);
+        //    PersonOnPanelMain.FillAndShowUnit(Person, debtNumber);
         //}
 
-
-        //public bool TrySetUnitInfoToProduct(Product product)
+        //public void DrawDebtOnPanel(Panel panel)
         //{
-        //    if (i double)
-
+        //    PersonOnPanelCorrection = new PersonOnPanel(panel, Person, debtNumber);
+        //    PersonOnPanelCorrection.CreateUnit(debtNumber);
         //}
 
-        public void Clear()
-        {
-            Person = null;
-            Visible = false;
-        }
+        //public void CreateMainUnit(int debtIndex)
+        //{
+        //    if (PersonOnPanelMain == null)
+        //    {
+        //        PersonOnPanelMain = new PersonOnPanel(mainPanel, Person, debtIndex);
+        //        debtNumber = debtIndex;
+        //    }
 
-        private void CreateUnit()
-        {
-            Visible = false;
+        //    PersonOnPanelMain.CreateUnit(debtIndex);
+        //}
 
-            _y = _height * ID;
-
-            CheckBoxIsDebtor.Parent = panel;
-            CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
-
-            TextBoxFactor.Parent = panel;
-            TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
-            TextBoxFactor.Width = _xTextEditWidth;
-
-            TextBoxDebt.Parent = panel;
-            TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
-            TextBoxDebt.Width = _xTextEditWidth;
-
-            TextBoxPayment.Parent = panel;
-            TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
-            TextBoxPayment.Width = _xTextEditWidth;          
-        }
-
-        public bool Visible
+        public CheckBox CheckBoxIsDebtor
         {
             get
             {
-                return CheckBoxIsDebtor.Visible;
+                return PersonOnPanelMain.CheckBoxIsDebtor;
             }
             set
             {
-                CheckBoxIsDebtor.Visible = value;
-                TextBoxFactor.Visible = value;
-                TextBoxDebt.Visible = value;
-                TextBoxPayment.Visible = value;
+                PersonOnPanelMain.CheckBoxIsDebtor = value;
             }
         }
 
-        public void FillAndShowUnit(Person person/*, int id*/)
+        public TextBox TextBoxDebt
         {
-            if (person == null)
+            get
             {
-                Visible = false;
-                return;
+                return PersonOnPanelMain.TextBoxDebt;
             }
-
-            Person = person;
-           // ID = id;
-
-            _y = _height * ID;
-
-            CheckBoxIsDebtor.Text = Person.Name;
-          //  CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
-            CheckBoxIsDebtor.Checked = true;
-
-            TextBoxFactor.Text = Person.DebtFactor.ToString();
-        //    TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
-
-            TextBoxDebt.Text = "";
-         //   TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
-
-            TextBoxPayment.Text = "";
-            //TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
-
-            Visible = true;
+            set
+            {
+                PersonOnPanelMain.TextBoxDebt = value;
+            }
         }
 
-        //public void FillAndShowUnit(int id)
+        public TextBox TextBoxFactor
+        {
+            get
+            {
+                return PersonOnPanelMain.TextBoxFactor;
+            }
+            set
+            {
+                PersonOnPanelMain.TextBoxFactor = value;
+            }
+        }
+
+
+        public TextBox TextBoxPayment
+        {
+            get
+            {
+                return PersonOnPanelMain.TextBoxPayment;
+            }
+            set
+            {
+                PersonOnPanelMain.TextBoxPayment = value;
+            }
+        }
+        //public void CreateUnit(int debtNumber)
         //{
-        //    if (Person == null)
+        //    _y = _height * debtNumber;
+
+        //    CheckBox = new CheckBox
         //    {
-        //        Visible = false;
-        //        return;
-        //    }
+        //        Parent = panel,
+        //        Text = Person.Name,
+        //        Location = new Point(_positionX, _y),
+        //        Checked = true
+        //    };
 
-        //    ID = id;
+        //    int checkBoxLenght = CheckBox.Width;
 
-        //    _y = _height * ID;
+        //    TextBoxFactor = new TextBox
+        //    {
+        //        Parent = panel,
+        //        Text = Person.DebtFactor.ToString(),
+        //        Location = new Point(_positionX + checkBoxLenght, _y),
 
-        //    CheckBoxIsDebtor.Text = Person.Name;
-        //    CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
-        //    CheckBoxIsDebtor.Checked = true;
+        //        Width = _xTextEditWidth
+        //    };
 
-        //    TextBoxFactor.Text = Person.DebtFactor.ToString();
-        //    TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
+        //    TextBoxDebt = new TextBox
+        //    {
+        //        Parent = panel,
+        //        Text = "",
+        //        Location = new Point(_positionX + checkBoxLenght + _xBetweenControls + _xTextEditWidth, _y),
 
-        //    TextBoxDebt.Text = "";
-        //    TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
+        //        Width = _xTextEditWidth
+        //    };
 
-        //    TextBoxPayment.Text = "";
-        //    TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
+        //    TextBoxPayment = new TextBox
+        //    {
+        //        Parent = panel,
+        //        Text = "",
+        //        Location = new Point(_positionX + checkBoxLenght + 2 * _xBetweenControls + 2 * _xTextEditWidth, _y),
 
-        //    Visible = true;
+        //        Width = _xTextEditWidth
+        //    };
         //}
 
-        public void FillAndShowUnit()
+        public override string ToString()
         {
-            if (Person == null)
+            string name = string.IsNullOrEmpty(Person.Name) ? "NonamePerson" : Person.Name;
+
+            if (Equals(Person.PayGroupLeader, Person))
             {
-                Visible = false;
-                return;
+                return name;
             }
-
-            _y = _height * ID;
-
-            CheckBoxIsDebtor.Text = Person.Name;
-            CheckBoxIsDebtor.Location = new Point(_CheckBoxIsDebtorX, _y);
-            CheckBoxIsDebtor.Checked = true;
-
-            TextBoxFactor.Text = Person.DebtFactor.ToString();
-            TextBoxFactor.Location = new Point(_TextBoxFactorX, _y);
-
-            TextBoxDebt.Text = "";
-            TextBoxDebt.Location = new Point(_TextBoxDebtX, _y);
-
-            TextBoxPayment.Text = "";
-            TextBoxPayment.Location = new Point(_TextBoxPaymentX, _y);
-
-            Visible = true;
+            else
+            {
+                return "  " + name;
+            }
         }
     }
 }

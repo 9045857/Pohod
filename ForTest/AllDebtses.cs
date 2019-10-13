@@ -52,7 +52,7 @@ namespace ForTest
         {
             ListBoxDebts.Items.Add(debts);
             Debtses.Add(debts);//TODO тут возможно нужно будет делать проверку на наличие в списках
-            allTrips.AddTrip(debts.trip);//TODO тут возможно нужно будет делать проверку на наличие в списках
+            allTrips.AddTrip(debts.Trip);//TODO тут возможно нужно будет делать проверку на наличие в списках
         }
 
         private void FillDebtsesFromAllTrips()
@@ -79,7 +79,7 @@ namespace ForTest
         {
             ListBoxDebts.Items.Remove(debts);
             Debtses.Remove(debts);
-            allTrips.RemoveTrip(debts.trip);
+            allTrips.RemoveTrip(debts.Trip);
         }
 
         public void SaveAll(string fileName)
@@ -91,7 +91,7 @@ namespace ForTest
         {
             foreach (Debts debts in ListBoxDebts.Items)
             {
-                if (Equals(debts.trip, trip))
+                if (Equals(debts.Trip, trip))
                 {
                     return true;
                 }
@@ -104,7 +104,7 @@ namespace ForTest
         {
             foreach (Debts debts in Debtses)
             {
-                if (Equals(debts.trip, trip))
+                if (Equals(debts.Trip, trip))
                 {
                     return debts;
                 }
