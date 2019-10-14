@@ -221,6 +221,9 @@ namespace ForTest
 
         private void listBoxTrips_SelectedIndexChanged(object sender, EventArgs e)
         {
+            textBoxProductInfo.Text = "";
+            textBoxPersonInfo.Text = "";
+
             if (listBoxTrips.SelectedItems.Count == 1)
             {
                 Debts debts = (sender as ListBox).SelectedItem as Debts;
@@ -229,6 +232,7 @@ namespace ForTest
                 FillListBoxProductsFromDebts(debts);
                 FillPayGroupLeaderListBox(debts);
             }
+            
         }
 
         private void listBoxPeople_SelectedIndexChanged(object sender, EventArgs e)

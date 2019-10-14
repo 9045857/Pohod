@@ -15,13 +15,39 @@ namespace CostSharing
         public Person Person { get; set; }
         public double Factor { get; set; }
         public double Debt { get; set; }
-        public FactorType factorType;
+
+        private FactorType _factorType;
+        public FactorType Factor_Type
+        {
+            get
+            {
+                return _factorType;
+            }
+            set
+            {
+                if (value == FactorType.Standart)
+                {
+                    _factorType = FactorType.Standart;
+                    Factor = Person.DebtFactor;
+                }
+                else if (value == FactorType.WithoutFactor)
+                {
+                    _factorType = FactorType.WithoutFactor;
+                    Factor = GeneralInfo.FixedDebtFactor;
+                }
+                else
+                {
+                    _factorType = FactorType.SpecialForProduct;
+                   // Factor = Person.DebtFactor;
+                }
+            }
+        }
 
         public Debtor(Person person)
         {
             Person = person;
             Factor = person.DebtFactor;
-            factorType = FactorType.Standart;
+            Factor_Type = FactorType.Standart;
 
             int beginDebt = 0;
             Debt = beginDebt;
@@ -30,7 +56,7 @@ namespace CostSharing
         public Debtor(Person person, FactorType factorType, double value)
         {
             Person = person;
-            this.factorType = factorType;
+            this.Factor_Type = factorType;
 
             if (factorType == FactorType.SpecialForProduct)
             {

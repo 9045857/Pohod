@@ -11,7 +11,25 @@ namespace CostSharing
     [Serializable]
     public class Product
     {
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (value == "")
+                {
+                    name = "NoName";
+                }
+                else
+                {
+                    name = value;
+                }
+            }
+        }
 
         public string Description { get; set; }//TODO пока нигде не используется
 

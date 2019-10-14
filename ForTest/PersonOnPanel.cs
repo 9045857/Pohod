@@ -57,6 +57,10 @@ namespace ForTest
             CreateUnit();
         }
 
+        public void SetPerson(Person person)
+        {
+            Person = person;
+        }
 
 
         //public void DrawOnPanel(Person person, int id)
