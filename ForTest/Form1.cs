@@ -16,7 +16,7 @@ namespace ForTest
     {
         public AllDebtses debtsList;
         private List<PersonOnPanel> peopleOnPanel = new List<PersonOnPanel>();
-       
+
         //private string fileName = "Trips.json";
         private string fileName = "trips.dat";
 
@@ -26,14 +26,14 @@ namespace ForTest
 
             for (int i = 0; i < itemsCount; i++)
             {
-                peopleOnPanel.Add(new PersonOnPanel(panelDebts,i));
+                peopleOnPanel.Add(new PersonOnPanel(panelDebts, i));
             }
         }
 
         public Form1()
         {
             InitializeComponent();
-            
+
             CreatePeolpleOnPanel();
             debtsList = new AllDebtses(listBoxTrips, listBoxPeople, peopleOnPanel, listBoxProducts);
             debtsList.OpenAll(fileName);
@@ -204,10 +204,154 @@ namespace ForTest
                 textBoxPersonInfo.Text = builder.ToString();
             }
         }
-        
+
+        private void FillGroupList(Person leader)
+        {
+            listBoxPayGroupDoing.Items.Clear();
+
+            foreach (Person person in leader.PayGroupPeople)
+            {
+                listBoxPayGroupDoing.Items.Add(person);
+            }
+
+            labelLeader.Text = leader.Name;
+        }
+
         private void listBoxPersonalPayGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listBoxPayGroupLeader.SelectedItems.Count == 1)
+            {
+                //    Person leader = listBoxPayGroupLeader.SelectedItem as Person;
+                //    FillGroupList(leader);
+            }
+            else if (listBoxPayGroupLeader.SelectedItems.Count > 1)
+            {
+                //listBoxPayGroupDoing.Items.Clear();
+                //labelLeader.Text = "";
+            }
+        }
 
+        private void AddPersonToPayGroupDoingList(Person leader)
+        {
+            foreach (Person person in leader.PayGroupPeople)
+            {
+                listBoxPayGroupDoing.Items.Add(person);
+            }
+        }
+
+        private Person _potentialPayGroupLeader;
+
+        private Person PotentialPayGroupLeader
+        {
+            get
+            {
+                return _potentialPayGroupLeader;
+            }
+            set
+            {
+                _potentialPayGroupLeader = value;
+
+                if (_potentialPayGroupLeader == null)
+                {
+                    labelLeader.Text = "";
+                }
+                else
+                {
+                    labelLeader.Text = _potentialPayGroupLeader.Name;
+                }
+            }
+        }
+
+        private void MovePersonToPayGroupLeaderList(Person person)
+        {
+            person.PayGroupLeader.TryRemoveFromPayGroup(person);
+            listBoxPayGroupLeader.Items.Add(person);
+
+            if (Equals(person, _potentialPayGroupLeader))
+            {
+                _potentialPayGroupLeader = null;
+                labelLeader.Text = "";
+            }
+        }
+
+        private void listBoxPayGroupDoing_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // sd
+        }
+
+        private void listBoxPayGroupDoing_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (listBoxPayGroupDoing.SelectedItems.Count == 1)
+            {
+                int currentItemIndex = listBoxPayGroupDoing.SelectedIndex;
+                Person person = listBoxPayGroupDoing.SelectedItem as Person;
+                listBoxPayGroupDoing.Items.RemoveAt(currentItemIndex);
+                MovePersonToPayGroupLeaderList(person);
+            }
+        }
+
+        private void listBoxPayGroupLeader_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            PersonMovingFromLeaderListToGroupDoingList();
+        }
+
+        private void PersonMovingFromLeaderListToGroupDoingList()
+        {
+            if (listBoxPayGroupLeader.SelectedItems.Count == 1)
+            {
+                int currentItemIndex = listBoxPayGroupLeader.SelectedIndex;
+                Person leader = listBoxPayGroupLeader.SelectedItem as Person;
+
+                listBoxPayGroupLeader.Items.RemoveAt(currentItemIndex);
+
+                AddPersonToPayGroupDoingList(leader);
+            }
+        }
+
+        private void PeopleMovingFromLeaderListToGroupDoingList()
+        {
+            if (listBoxPayGroupLeader.SelectedItems.Count > 1)
+            {
+                foreach (Person person in listBoxPayGroupLeader.SelectedItems)
+                {
+                    AddPersonToPayGroupDoingList(person);
+                }
+
+                int[] array = new int[listBoxPayGroupLeader.SelectedItems.Count];
+                listBoxPayGroupLeader.SelectedIndices.CopyTo(array, 0);
+
+
+                for (int i = 0; i < array.Count(); i++)
+                {
+                    listBoxPayGroupLeader.Items.RemoveAt(array[array.Count() - i - 1]);
+                }
+            }
+        }
+
+        private void PeopleMovingFromGroupDoingListToLeaderList()
+        {
+            if (listBoxPayGroupDoing.SelectedItems.Count > 0)
+            {
+                foreach (Person person in listBoxPayGroupDoing.SelectedItems)
+                {
+                    MovePersonToPayGroupLeaderList(person);
+                }
+
+                int[] array = new int[listBoxPayGroupDoing.SelectedItems.Count];
+                listBoxPayGroupDoing.SelectedIndices.CopyTo(array, 0);
+
+
+                for (int i = 0; i < array.Count(); i++)
+                {
+                    listBoxPayGroupDoing.Items.RemoveAt(array[array.Count() - i - 1]);
+                }
+            }
+        }
+
+        private void buttonInGroup_Click(object sender, EventArgs e)
+        {
+            PersonMovingFromLeaderListToGroupDoingList();
+            PeopleMovingFromLeaderListToGroupDoingList();
         }
 
         private void FillListBoxProductsFromDebts(Debts debts)
@@ -232,7 +376,7 @@ namespace ForTest
                 FillListBoxProductsFromDebts(debts);
                 FillPayGroupLeaderListBox(debts);
             }
-            
+
         }
 
         private void listBoxPeople_SelectedIndexChanged(object sender, EventArgs e)
@@ -315,7 +459,7 @@ namespace ForTest
             }
             else if (listBoxPeople.SelectedItems.Count > 1)
             {
-                
+
                 string dialogCaption = string.Format("Удаляем людей.");
                 if (MessageBox.Show("Вы уверены?", dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -326,12 +470,12 @@ namespace ForTest
                     {
                         removingDebts.Add(debt);
                     }
-                    
+
                     foreach (Debt debt in removingDebts)
                     {
                         debts.RemoveDebtAndPersonFromListAndTrip(debt);
                         debt.PersonOnPanelMain.Clear();
-                    }                   
+                    }
 
                     textBoxPersonInfo.Text = "";
                     debts.ReloadDebtsPanel();
@@ -344,6 +488,8 @@ namespace ForTest
         {
             if (e.Button == MouseButtons.Right)
             {
+                listBoxPeople.ClearSelected();
+
                 int index = this.listBoxPeople.IndexFromPoint(e.Location);
                 if (index != ListBox.NoMatches)
                 {
@@ -369,7 +515,28 @@ namespace ForTest
                     listBoxProducts.SelectedIndex = index;
                     Product product = listBoxProducts.Items[index] as Product;
 
-                    ProductForm productForm =new ProductForm(debts, product, listBoxProducts, this, index);
+                    ProductForm productForm = new ProductForm(debts, product, listBoxProducts, this, index);
+                }
+            }
+        }
+
+        private void listBoxPayGroupDoing_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int index = this.listBoxPayGroupDoing.IndexFromPoint(e.Location);
+
+                if (index != ListBox.NoMatches)
+                {
+                    Person person = listBoxPayGroupDoing.Items[index]  as Person;
+
+                    string dialogCaption = string.Format("Назначение лидера");
+                    string dialogQuestion = string.Format("Назначаем лидером \"{0}\"?", person.Name);
+
+                    if (MessageBox.Show(dialogQuestion, dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        PotentialPayGroupLeader = person;
+                    }
                 }
             }
         }

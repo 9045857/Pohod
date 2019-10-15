@@ -13,7 +13,7 @@ namespace CostSharing
     {
         public string Name { get; set; }
 
-        public List<Person> People { get; private set ; }
+        public List<Person> People { get; private set; }
 
         public List<Product> Products { get; private set; }
         public List<Person> PayGroupsLeaders { get; set; }
@@ -40,7 +40,7 @@ namespace CostSharing
                         product.RecountDebtorsData();
                     }
                 }
-            }            
+            }
         }
 
         public void RemovePerson(Person person)
@@ -60,7 +60,8 @@ namespace CostSharing
                 }
             }
 
-            //TODO do RemoveFromPayGroup
+            Person personLeader = person.PayGroupLeader;
+            personLeader.TryRemoveFromPayGroup(person);
         }
 
         public void RemoveProduct(Product product)
