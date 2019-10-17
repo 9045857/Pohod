@@ -77,7 +77,7 @@ namespace CostSharing
             {
                 if (!leaders.Contains(person.PayGroupLeader))
                 {
-                    leaders.Add(person);
+                    leaders.Add(person.PayGroupLeader);
                 }
             }
 

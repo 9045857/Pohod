@@ -221,8 +221,16 @@ namespace ForTest
         {
             if (listBoxPayGroupLeader.SelectedItems.Count == 1)
             {
-                //    Person leader = listBoxPayGroupLeader.SelectedItem as Person;
-                //    FillGroupList(leader);
+                Person leader = listBoxPayGroupLeader.SelectedItem as Person;
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                foreach (Person person in leader.PayGroupPeople )
+                {
+                    stringBuilder.AppendLine(person.Name);
+                }
+
+                textBoxPayGroup.Text = stringBuilder.ToString();
             }
             else if (listBoxPayGroupLeader.SelectedItems.Count > 1)
             {
@@ -367,6 +375,8 @@ namespace ForTest
         {
             textBoxProductInfo.Text = "";
             textBoxPersonInfo.Text = "";
+            listBoxPayGroupDoing.Items.Clear();
+            PotentialPayGroupLeader = null;
 
             if (listBoxTrips.SelectedItems.Count == 1)
             {
@@ -537,6 +547,40 @@ namespace ForTest
                     {
                         PotentialPayGroupLeader = person;
                     }
+                }
+            }
+        }
+
+        private void buttonDoPayGroup_Click(object sender, EventArgs e)
+        {
+            if (PotentialPayGroupLeader == null)
+            {
+                MessageBox.Show("выберете лидера группы");
+            }
+            else
+            {
+                string dialogCaption = string.Format("Формируем группу");
+                string dialogQuestion = string.Format("Подтрверждаете формирование группы?");
+
+                if (MessageBox.Show(dialogQuestion, dialogCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (!Equals(PotentialPayGroupLeader, PotentialPayGroupLeader.PayGroupLeader))
+                    {
+                        PotentialPayGroupLeader.PayGroupLeader.TryRemoveFromPayGroup(PotentialPayGroupLeader);
+                    }
+
+                    Person[] newPayGroup = new Person[listBoxPayGroupDoing.Items.Count];
+                    listBoxPayGroupDoing.Items.CopyTo(newPayGroup,0);
+
+                    foreach (Person person in newPayGroup)
+                    {
+                        PotentialPayGroupLeader.TryAddInPayGroup(person);
+                        listBoxPayGroupDoing.Items.Remove(person);
+                    }
+
+                    listBoxPayGroupLeader.Items.Add(PotentialPayGroupLeader);
+                    listBoxPayGroupLeader.SelectedItem = PotentialPayGroupLeader;
+                    PotentialPayGroupLeader = null;                    
                 }
             }
         }

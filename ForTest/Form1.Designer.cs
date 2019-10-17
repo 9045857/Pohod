@@ -57,6 +57,7 @@
             this.labelLeader = new System.Windows.Forms.Label();
             this.buttonInGroup = new System.Windows.Forms.Button();
             this.buttonFromGroup = new System.Windows.Forms.Button();
+            this.textBoxPayGroup = new System.Windows.Forms.TextBox();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -307,7 +308,7 @@
             this.listBoxPayGroupDoing.ItemHeight = 16;
             this.listBoxPayGroupDoing.Location = new System.Drawing.Point(996, 68);
             this.listBoxPayGroupDoing.Name = "listBoxPayGroupDoing";
-            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(180, 228);
+            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(180, 116);
             this.listBoxPayGroupDoing.TabIndex = 50;
             this.listBoxPayGroupDoing.SelectedIndexChanged += new System.EventHandler(this.listBoxPayGroupDoing_SelectedIndexChanged);
             this.listBoxPayGroupDoing.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPayGroupDoing_MouseDoubleClick);
@@ -317,11 +318,12 @@
             // 
             this.buttonDoPayGroup.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonDoPayGroup.BackgroundImage")));
             this.buttonDoPayGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonDoPayGroup.Location = new System.Drawing.Point(1138, 28);
+            this.buttonDoPayGroup.Location = new System.Drawing.Point(1182, 70);
             this.buttonDoPayGroup.Name = "buttonDoPayGroup";
             this.buttonDoPayGroup.Size = new System.Drawing.Size(30, 30);
             this.buttonDoPayGroup.TabIndex = 52;
             this.buttonDoPayGroup.UseVisualStyleBackColor = true;
+            this.buttonDoPayGroup.Click += new System.EventHandler(this.buttonDoPayGroup_Click);
             // 
             // label4
             // 
@@ -343,7 +345,7 @@
             // 
             // buttonInGroup
             // 
-            this.buttonInGroup.Location = new System.Drawing.Point(924, 131);
+            this.buttonInGroup.Location = new System.Drawing.Point(928, 69);
             this.buttonInGroup.Name = "buttonInGroup";
             this.buttonInGroup.Size = new System.Drawing.Size(57, 36);
             this.buttonInGroup.TabIndex = 55;
@@ -353,18 +355,27 @@
             // 
             // buttonFromGroup
             // 
-            this.buttonFromGroup.Location = new System.Drawing.Point(924, 169);
+            this.buttonFromGroup.Location = new System.Drawing.Point(928, 107);
             this.buttonFromGroup.Name = "buttonFromGroup";
             this.buttonFromGroup.Size = new System.Drawing.Size(57, 36);
             this.buttonFromGroup.TabIndex = 56;
             this.buttonFromGroup.Text = "<-";
             this.buttonFromGroup.UseVisualStyleBackColor = true;
             // 
+            // textBoxPayGroup
+            // 
+            this.textBoxPayGroup.Location = new System.Drawing.Point(996, 190);
+            this.textBoxPayGroup.Multiline = true;
+            this.textBoxPayGroup.Name = "textBoxPayGroup";
+            this.textBoxPayGroup.Size = new System.Drawing.Size(180, 105);
+            this.textBoxPayGroup.TabIndex = 57;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 687);
+            this.Controls.Add(this.textBoxPayGroup);
             this.Controls.Add(this.buttonFromGroup);
             this.Controls.Add(this.buttonInGroup);
             this.Controls.Add(this.labelLeader);
@@ -422,6 +433,7 @@
         private System.Windows.Forms.Button buttonDeletePerson;
         private System.Windows.Forms.Button buttonInGroup;
         private System.Windows.Forms.Button buttonFromGroup;
+        private System.Windows.Forms.TextBox textBoxPayGroup;
     }
 }
 

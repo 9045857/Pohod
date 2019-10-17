@@ -29,8 +29,8 @@ namespace CostSharing
         /// Вес участия в доле оплаты товара (коэффициент оплаты). 
         /// По умолчанию вес равен 1.
         /// </summary>
-        public double DebtFactor { get;  set; }
-     
+        public double DebtFactor { get; set; }
+
         /// <summary>
         /// Задаем коэффицент оплаты.
         /// </summary>
@@ -38,7 +38,7 @@ namespace CostSharing
         {
             DebtFactor = debtFactor;
         }
- 
+
 
         public Person(string name)//TODO данный трансформер будем делать основным
         {
@@ -63,7 +63,7 @@ namespace CostSharing
         /// <returns></returns>
         public bool TryAddInPayGroup(Person person)
         {
-            if (Equals(this.PayGroupLeader, this))
+            if (PayGroupLeader.PayGroupPeople.Contains(person))
             {
                 return false;
             }
@@ -71,8 +71,8 @@ namespace CostSharing
             if (person.PayGroupPeople.Count == 1)
             {
                 person.PayGroupLeader = this.PayGroupLeader;
+                PayGroupLeader.PayGroupPeople.Add(person);
                 person.PayGroupPeople.Clear();
-                this.PayGroupPeople.Add(person);
 
                 return true;
             }
@@ -86,14 +86,14 @@ namespace CostSharing
                 ChangeGroupLeader(person, newLeader);
 
                 person.PayGroupPeople.Clear();
-                person.PayGroupLeader = this;
+                person.PayGroupLeader = this.PayGroupLeader;
 
                 return true;
             }
             else
             {
                 person.PayGroupLeader.PayGroupPeople.Remove(person);
-                person.PayGroupLeader = this;
+                person.PayGroupLeader = this.PayGroupLeader;
 
                 return true;
             }
@@ -194,8 +194,8 @@ namespace CostSharing
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Name) ? "NonamePerson" : Name;
+            string name = string.IsNullOrEmpty(Name) ? "NonamePerson" : Name;
+            return PayGroupPeople.Count == 0 || PayGroupPeople.Count == 1 ? name : string.Format("{0} ({1})", name, PayGroupPeople.Count);
         }
-
     }
 }
