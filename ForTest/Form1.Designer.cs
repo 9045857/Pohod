@@ -297,7 +297,7 @@
             this.listBoxPayGroupLeader.Name = "listBoxPayGroupLeader";
             this.listBoxPayGroupLeader.ScrollAlwaysVisible = true;
             this.listBoxPayGroupLeader.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxPayGroupLeader.Size = new System.Drawing.Size(187, 260);
+            this.listBoxPayGroupLeader.Size = new System.Drawing.Size(187, 180);
             this.listBoxPayGroupLeader.TabIndex = 49;
             this.listBoxPayGroupLeader.SelectedIndexChanged += new System.EventHandler(this.listBoxPersonalPayGroup_SelectedIndexChanged);
             this.listBoxPayGroupLeader.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPayGroupLeader_MouseDoubleClick);
@@ -308,7 +308,8 @@
             this.listBoxPayGroupDoing.ItemHeight = 16;
             this.listBoxPayGroupDoing.Location = new System.Drawing.Point(996, 68);
             this.listBoxPayGroupDoing.Name = "listBoxPayGroupDoing";
-            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(180, 116);
+            this.listBoxPayGroupDoing.ScrollAlwaysVisible = true;
+            this.listBoxPayGroupDoing.Size = new System.Drawing.Size(180, 148);
             this.listBoxPayGroupDoing.TabIndex = 50;
             this.listBoxPayGroupDoing.SelectedIndexChanged += new System.EventHandler(this.listBoxPayGroupDoing_SelectedIndexChanged);
             this.listBoxPayGroupDoing.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxPayGroupDoing_MouseDoubleClick);
@@ -364,10 +365,11 @@
             // 
             // textBoxPayGroup
             // 
-            this.textBoxPayGroup.Location = new System.Drawing.Point(996, 190);
+            this.textBoxPayGroup.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPayGroup.Location = new System.Drawing.Point(729, 222);
             this.textBoxPayGroup.Multiline = true;
             this.textBoxPayGroup.Name = "textBoxPayGroup";
-            this.textBoxPayGroup.Size = new System.Drawing.Size(180, 105);
+            this.textBoxPayGroup.Size = new System.Drawing.Size(447, 199);
             this.textBoxPayGroup.TabIndex = 57;
             // 
             // Form1

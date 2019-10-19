@@ -48,12 +48,11 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buy.cs" />
     <Compile Include="Debtor.cs" />
-    <Compile Include="Economy.cs" />
     <Compile Include="GeneralInfo.cs" />
+    <Compile Include="GroupBalance.cs" />
+    <Compile Include="GroupBalanceCompensator.cs" />
     <Compile Include="Payer.cs" />
-    <Compile Include="PayGroup.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

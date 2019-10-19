@@ -221,22 +221,64 @@ namespace ForTest
         {
             if (listBoxPayGroupLeader.SelectedItems.Count == 1)
             {
+                Trip trip = (listBoxTrips.SelectedItem as Debts).trip;
                 Person leader = listBoxPayGroupLeader.SelectedItem as Person;
 
-                StringBuilder stringBuilder = new StringBuilder();
-
-                foreach (Person person in leader.PayGroupPeople )
-                {
-                    stringBuilder.AppendLine(person.Name);
-                }
-
-                textBoxPayGroup.Text = stringBuilder.ToString();
+                textBoxPayGroup.Text = GetGroupInf(trip, leader);
             }
-            else if (listBoxPayGroupLeader.SelectedItems.Count > 1)
+        }
+
+        private string GetGroupInf(Trip trip, Person leader)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            int namePadRight = GetLongestNameLength(leader);
+
+            int factorPadLeft = 4;
+            int paymentPadLeft = 6;
+            int debtPadLeft = 6;
+
+            stringBuilder.Append(string.Format("{0}", "группа").PadRight(namePadRight));
+            stringBuilder.Append("".PadLeft(factorPadLeft));
+            stringBuilder.Append(string.Format("{0}", "плата").PadLeft(paymentPadLeft));
+            stringBuilder.AppendLine(string.Format("{0}", "долг").PadLeft(debtPadLeft));
+            stringBuilder.AppendLine("".PadRight(namePadRight + factorPadLeft + paymentPadLeft + debtPadLeft, '-'));
+
+            stringBuilder.Append(string.Format("{0}", leader.Name).PadRight(namePadRight));
+            stringBuilder.Append("".PadLeft(factorPadLeft));
+            stringBuilder.Append(string.Format("{0}", trip.GetPayGroupTotalPayment(leader)).PadLeft(paymentPadLeft));
+            stringBuilder.AppendLine(string.Format("{0}", trip.GetPersonalTotalDebt(leader)).PadLeft(debtPadLeft));
+
+            stringBuilder.AppendLine();
+            stringBuilder.Append(string.Format("{0}", "имя").PadRight(namePadRight));
+            stringBuilder.Append(string.Format("{0}", "коэф").PadLeft(factorPadLeft));
+            stringBuilder.Append(string.Format("{0}", "плата").PadLeft(paymentPadLeft));
+            stringBuilder.AppendLine(string.Format("{0}", "долг").PadLeft(debtPadLeft));
+            stringBuilder.AppendLine("".PadRight(namePadRight + factorPadLeft + paymentPadLeft + debtPadLeft, '-'));
+
+            foreach (Person person in leader.PayGroupPeople)
             {
-                //listBoxPayGroupDoing.Items.Clear();
-                //labelLeader.Text = "";
+                stringBuilder.Append(string.Format("{0}", person.Name).PadRight(namePadRight));
+                stringBuilder.Append(string.Format("{0}", person.DebtFactor).PadLeft(factorPadLeft));
+                stringBuilder.Append(string.Format("{0}", trip.GetPersonalTotalPayment(person)).PadLeft(paymentPadLeft));
+                stringBuilder.AppendLine(string.Format("{0}", trip.GetPersonalTotalDebt(person)).PadLeft(debtPadLeft));
             }
+
+            return stringBuilder.ToString();
+        }
+
+        private static int GetLongestNameLength(Person leader)
+        {
+            int namePadRight = 0;
+            foreach (Person person in leader.PayGroupPeople)
+            {
+                if (person.Name.Count() > namePadRight)
+                {
+                    namePadRight = person.Name.Count();
+                }
+            }
+
+            return namePadRight;
         }
 
         private void AddPersonToPayGroupDoingList(Person leader)
@@ -538,7 +580,7 @@ namespace ForTest
 
                 if (index != ListBox.NoMatches)
                 {
-                    Person person = listBoxPayGroupDoing.Items[index]  as Person;
+                    Person person = listBoxPayGroupDoing.Items[index] as Person;
 
                     string dialogCaption = string.Format("Назначение лидера");
                     string dialogQuestion = string.Format("Назначаем лидером \"{0}\"?", person.Name);
@@ -570,7 +612,7 @@ namespace ForTest
                     }
 
                     Person[] newPayGroup = new Person[listBoxPayGroupDoing.Items.Count];
-                    listBoxPayGroupDoing.Items.CopyTo(newPayGroup,0);
+                    listBoxPayGroupDoing.Items.CopyTo(newPayGroup, 0);
 
                     foreach (Person person in newPayGroup)
                     {
@@ -580,7 +622,7 @@ namespace ForTest
 
                     listBoxPayGroupLeader.Items.Add(PotentialPayGroupLeader);
                     listBoxPayGroupLeader.SelectedItem = PotentialPayGroupLeader;
-                    PotentialPayGroupLeader = null;                    
+                    PotentialPayGroupLeader = null;
                 }
             }
         }
