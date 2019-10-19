@@ -247,7 +247,7 @@ namespace ForTest
             stringBuilder.Append(string.Format("{0}", leader.Name).PadRight(namePadRight));
             stringBuilder.Append("".PadLeft(factorPadLeft));
             stringBuilder.Append(string.Format("{0}", trip.GetPayGroupTotalPayment(leader)).PadLeft(paymentPadLeft));
-            stringBuilder.AppendLine(string.Format("{0}", trip.GetPersonalTotalDebt(leader)).PadLeft(debtPadLeft));
+            stringBuilder.AppendLine(string.Format("{0}", trip.GetPayGroupTotalDebt(leader)).PadLeft(debtPadLeft));
 
             stringBuilder.AppendLine();
             stringBuilder.Append(string.Format("{0}", "имя").PadRight(namePadRight));
