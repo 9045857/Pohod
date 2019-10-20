@@ -225,7 +225,47 @@ namespace ForTest
                 Person leader = listBoxPayGroupLeader.SelectedItem as Person;
 
                 textBoxPayGroup.Text = GetGroupInf(trip, leader);
+                textBoxGroupBalance.Text = GetGroupBalance(trip, leader);
             }
+        }
+
+        private string GetGroupBalance(Trip trip, Person leader)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            //int namePadRight = GetLongestNameLength(leader);
+
+            //int factorPadLeft = 4;
+            //int paymentPadLeft = 6;
+            //int debtPadLeft = 6;
+
+            //stringBuilder.Append(string.Format("{0}", "группа").PadRight(namePadRight));
+            //stringBuilder.Append("".PadLeft(factorPadLeft));
+            //stringBuilder.Append(string.Format("{0}", "плата").PadLeft(paymentPadLeft));
+            //stringBuilder.AppendLine(string.Format("{0}", "долг").PadLeft(debtPadLeft));
+            //stringBuilder.AppendLine("".PadRight(namePadRight + factorPadLeft + paymentPadLeft + debtPadLeft, '-'));
+
+            //stringBuilder.Append(string.Format("{0}", leader.Name).PadRight(namePadRight));
+            //stringBuilder.Append("".PadLeft(factorPadLeft));
+            //stringBuilder.Append(string.Format("{0}", trip.GetPayGroupTotalPayment(leader)).PadLeft(paymentPadLeft));
+            //stringBuilder.AppendLine(string.Format("{0}", trip.GetPayGroupTotalDebt(leader)).PadLeft(debtPadLeft));
+
+            //stringBuilder.AppendLine();
+            //stringBuilder.Append(string.Format("{0}", "имя").PadRight(namePadRight));
+            //stringBuilder.Append(string.Format("{0}", "коэф").PadLeft(factorPadLeft));
+            //stringBuilder.Append(string.Format("{0}", "плата").PadLeft(paymentPadLeft));
+            //stringBuilder.AppendLine(string.Format("{0}", "долг").PadLeft(debtPadLeft));
+            //stringBuilder.AppendLine("".PadRight(namePadRight + factorPadLeft + paymentPadLeft + debtPadLeft, '-'));
+
+            //foreach (Person person in leader.PayGroupPeople)
+            //{
+            //    stringBuilder.Append(string.Format("{0}", person.Name).PadRight(namePadRight));
+            //    stringBuilder.Append(string.Format("{0}", person.DebtFactor).PadLeft(factorPadLeft));
+            //    stringBuilder.Append(string.Format("{0}", trip.GetPersonalTotalPayment(person)).PadLeft(paymentPadLeft));
+            //    stringBuilder.AppendLine(string.Format("{0}", trip.GetPersonalTotalDebt(person)).PadLeft(debtPadLeft));
+            //}
+
+            return stringBuilder.ToString();
         }
 
         private string GetGroupInf(Trip trip, Person leader)

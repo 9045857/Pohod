@@ -58,6 +58,7 @@
             this.buttonInGroup = new System.Windows.Forms.Button();
             this.buttonFromGroup = new System.Windows.Forms.Button();
             this.textBoxPayGroup = new System.Windows.Forms.TextBox();
+            this.textBoxGroupBalance = new System.Windows.Forms.TextBox();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -369,14 +370,25 @@
             this.textBoxPayGroup.Location = new System.Drawing.Point(729, 222);
             this.textBoxPayGroup.Multiline = true;
             this.textBoxPayGroup.Name = "textBoxPayGroup";
+            this.textBoxPayGroup.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxPayGroup.Size = new System.Drawing.Size(447, 199);
             this.textBoxPayGroup.TabIndex = 57;
+            // 
+            // textBoxGroupBalance
+            // 
+            this.textBoxGroupBalance.Location = new System.Drawing.Point(729, 427);
+            this.textBoxGroupBalance.Multiline = true;
+            this.textBoxGroupBalance.Name = "textBoxGroupBalance";
+            this.textBoxGroupBalance.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxGroupBalance.Size = new System.Drawing.Size(447, 248);
+            this.textBoxGroupBalance.TabIndex = 58;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 687);
+            this.Controls.Add(this.textBoxGroupBalance);
             this.Controls.Add(this.textBoxPayGroup);
             this.Controls.Add(this.buttonFromGroup);
             this.Controls.Add(this.buttonInGroup);
@@ -436,6 +448,7 @@
         private System.Windows.Forms.Button buttonInGroup;
         private System.Windows.Forms.Button buttonFromGroup;
         private System.Windows.Forms.TextBox textBoxPayGroup;
+        private System.Windows.Forms.TextBox textBoxGroupBalance;
     }
 }
 

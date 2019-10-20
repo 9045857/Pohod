@@ -275,7 +275,7 @@ namespace CostSharing
             return products;
         }
 
-        private void RefillPayGroupsLeaders()
+        private void RefillPayGroupsLeaders()//TODO метод непонятный, скорее всего не нужный, как и список лидеров
         {
             PayGroupsLeaders.Clear();
             foreach (Person person in People)
@@ -285,6 +285,20 @@ namespace CostSharing
                     PayGroupsLeaders.Add(person);
                 }
             }
+        }
+
+        public List<Person> GetPayGroupsLeaders()
+        {
+            List<Person> leaders = new List<Person>(); 
+            foreach (Person person in People)
+            {
+                if (Equals(person, person.PayGroupLeader))
+                {
+                    leaders.Add(person);
+                }
+            }
+
+            return leaders;
         }
 
         public void AddProduct(string productName)
