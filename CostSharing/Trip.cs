@@ -18,6 +18,25 @@ namespace CostSharing
         public List<Product> Products { get; private set; }
         public List<Person> PayGroupsLeaders { get; set; }
 
+        public List<GroupBalance> DebtorsGroupBalances { get; private set; }
+        public List<GroupBalance> PayersGroupBalances { get; private set; }
+        public List<GroupBalance> NeutralsGroupBalances { get; private set; }
+
+        public List<GroupBalanceCompensator> DebtorsCompensators { get; private set; }
+
+
+
+        public GroupBalance GetGroupBalance(Person leader)
+        {
+            if (!People.Contains(leader) || !Equals(leader, leader.PayGroupLeader))
+            {
+                return null;
+            }
+
+
+
+        }
+
         public Trip(string tripName)
         {
             Name = tripName;
@@ -25,6 +44,12 @@ namespace CostSharing
             Products = new List<Product>();
             People = new List<Person>();
             PayGroupsLeaders = new List<Person>();
+
+            DebtorsGroupBalances = new List<GroupBalance>();
+            PayersGroupBalances = new List<GroupBalance>();
+            NeutralsGroupBalances = new List<GroupBalance>();
+
+            DebtorsCompensators = new List<GroupBalanceCompensator>();
         }
 
         public void CorrectFactor(Person person, double factor)
@@ -289,7 +314,7 @@ namespace CostSharing
 
         public List<Person> GetPayGroupsLeaders()
         {
-            List<Person> leaders = new List<Person>(); 
+            List<Person> leaders = new List<Person>();
             foreach (Person person in People)
             {
                 if (Equals(person, person.PayGroupLeader))
@@ -364,6 +389,10 @@ namespace CostSharing
 
         //    return true;
         //}
+
+
+        //public 
+
 
         public override string ToString()
         {

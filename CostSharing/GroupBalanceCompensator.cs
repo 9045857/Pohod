@@ -57,7 +57,7 @@ namespace CostSharing
                 return neutralMoneyCount;
             }
         }
-
+        
         private GroupBalance.BalanceStatus GetStatus()
         {
             if (BeginngMoneyCount > 0)

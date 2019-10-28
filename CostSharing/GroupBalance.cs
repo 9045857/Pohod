@@ -9,52 +9,99 @@ namespace CostSharing
     public class GroupBalance
     {
         public enum BalanceStatus { Payer, Debtor, Neutral };
-        public BalanceStatus Status { get; private set; }
+        public BalanceStatus Status { get; set; }
 
         private const double epsilon = 1.0e-10;
 
-        private Trip _trip;
+        public Trip Trip { get; private set; }
         public Person Leader { get; private set; }
-        public List<GroupBalanceCompensator> Compensators { get; private set; }
+        public List<GroupBalanceCompensator> Compensators { get; set; }
+
+        public GroupBalance(Trip trip, Person leader)
+        {
+            Trip = trip;
+            Leader = leader.PayGroupLeader;
+            SetStatus();
+
+            Compensators = new List<GroupBalanceCompensator>();
+        }
+
+        public static void FillDebtorCompensators(GroupBalance debtorGroupBalance, List<GroupBalance> payersGroup)
+        {
+            if (debtorGroupBalance.Status != BalanceStatus.Debtor)
+            {
+                return;
+            }
+
+            debtorGroupBalance.Compensators.Clear();
+
+            Person leader = debtorGroupBalance.Leader;
+            Trip trip = debtorGroupBalance.Trip;
+
+            foreach (GroupBalance group in payersGroup)
+            {
+                GroupBalanceCompensator groupBalanceCompensator = group.GetCompensator(leader);
+                if (groupBalanceCompensator != null)
+                {
+                    Person payer = group.Leader;
+                    debtorGroupBalance.Compensators.Add(new GroupBalanceCompensator(trip, payer, BalanceStatus.Payer, -groupBalanceCompensator.MoneyCount));
+                }
+            }
+        }
+
+        public GroupBalanceCompensator GetCompensator(Person leader)
+        {
+            foreach (GroupBalanceCompensator compensator in Compensators)
+            {
+                if (Equals(leader, compensator.Leader))
+                {
+                    return compensator;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
-        /// Метод забирает из коллекции должников для Спонсора(плательщика), "перекладывая" их в свою коллекцию.
+        /// Метод забирает из коллекции Должников, "перекладывая" их в коллекцию Плательщика.
         /// Если долг превышает сумму платежа, то должник дублируется с долгом равным платежу, 
         /// а в исходном объекте долг уменьшается на платеж. 
-        /// Метод применяется только к плательщикам.
+        /// Метод применяется только к Плательщикам.
         /// </summary>
-        /// <param name="innerCompensators"></param>
+        /// <param name="debtorsCompensators"></param>
         /// <returns></returns>
-        public void TakeDebtorsCompensators(List<GroupBalanceCompensator> innerCompensators)
+        public void GiveDebtorsCompensators(List<GroupBalanceCompensator> debtorsCompensators)
         {
             if (Status == BalanceStatus.Debtor || Status == BalanceStatus.Neutral)
             {
                 return;
             }
 
-            if (innerCompensators == null || innerCompensators.Count == 0)
+            if (debtorsCompensators == null || debtorsCompensators.Count == 0)
             {
                 return;
             }
 
+            Compensators.Clear();
+
             double balance = PayDebtBalance;
-            foreach (GroupBalanceCompensator compensator in innerCompensators.ToArray())
+            foreach (GroupBalanceCompensator compensator in debtorsCompensators.ToArray())
             {
                 if (compensator.BalanceStatus == BalanceStatus.Debtor)
                 {
                     if (IsFirstGreaterSecond(Math.Abs(compensator.MoneyCount), balance))
                     {
                         compensator.MoneyCount += balance;
-                        Compensators.Add(new GroupBalanceCompensator(_trip, compensator.Leader,BalanceStatus.Debtor, balance));
+                        Compensators.Add(new GroupBalanceCompensator(Trip, compensator.Leader, BalanceStatus.Debtor, balance));
                         return;
                     }
                     else if (IsFirstGreaterSecond(balance, Math.Abs(compensator.MoneyCount)))
                     {
-                        MoveCompensator(innerCompensators, compensator);
+                        MoveCompensator(debtorsCompensators, compensator);
                     }
                     else
                     {
-                        MoveCompensator(innerCompensators, compensator);
+                        MoveCompensator(debtorsCompensators, compensator);
                         return;
                     }
                 }
@@ -77,14 +124,7 @@ namespace CostSharing
             return (firstNumber - secondNumber) > epsilon;
         }
 
-        public GroupBalance(Trip trip, Person leader)
-        {
-            _trip = trip;
-            Leader = leader.PayGroupLeader;
-            SetStatus();
 
-            Compensators = new List<GroupBalanceCompensator>();
-        }
 
         private void SetStatus()
         {
@@ -107,7 +147,7 @@ namespace CostSharing
         {
             get
             {
-                return _trip.GetPayGroupTotalPayment(Leader) - _trip.GetPersonalTotalDebt(Leader);
+                return Trip.GetPayGroupTotalPayment(Leader) - Trip.GetPersonalTotalDebt(Leader);
             }
         }
 
