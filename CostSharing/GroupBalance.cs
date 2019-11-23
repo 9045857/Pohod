@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CostSharing
 {
+    [Serializable]
     public class GroupBalance
     {
         public enum BalanceStatus { Payer, Debtor, Neutral };
@@ -26,41 +27,20 @@ namespace CostSharing
             Compensators = new List<GroupBalanceCompensator>();
         }
 
-        public static void FillDebtorCompensators(GroupBalance debtorGroupBalance, List<GroupBalance> payersGroup)
-        {
-            if (debtorGroupBalance.Status != BalanceStatus.Debtor)
-            {
-                return;
-            }
+        //public GroupBalanceCompensator GetCompensator(Person leader)
+        //{
+        //    foreach (GroupBalanceCompensator compensator in Compensators)
+        //    {
+        //        if (Equals(leader, compensator.Leader))
+        //        {
+        //            return compensator;
+        //        }
+        //    }
 
-            debtorGroupBalance.Compensators.Clear();
+        //    return null;
+        //}
 
-            Person leader = debtorGroupBalance.Leader;
-            Trip trip = debtorGroupBalance.Trip;
 
-            foreach (GroupBalance group in payersGroup)
-            {
-                GroupBalanceCompensator groupBalanceCompensator = group.GetCompensator(leader);
-                if (groupBalanceCompensator != null)
-                {
-                    Person payer = group.Leader;
-                    debtorGroupBalance.Compensators.Add(new GroupBalanceCompensator(trip, payer, BalanceStatus.Payer, -groupBalanceCompensator.MoneyCount));
-                }
-            }
-        }
-
-        public GroupBalanceCompensator GetCompensator(Person leader)
-        {
-            foreach (GroupBalanceCompensator compensator in Compensators)
-            {
-                if (Equals(leader, compensator.Leader))
-                {
-                    return compensator;
-                }
-            }
-
-            return null;
-        }
 
         /// <summary>
         /// Метод забирает из коллекции Должников, "перекладывая" их в коллекцию Плательщика.
@@ -143,25 +123,31 @@ namespace CostSharing
             }
         }
 
+
+        /// <summary>
+        /// Свойство показывает разницу между групповой оплатой и долгом
+        /// Для глобального плательщика - положительная.
+        /// Для глобального должника - отрицательная.
+        /// </summary>
         public double PayDebtBalance
         {
             get
             {
-                return Trip.GetPayGroupTotalPayment(Leader) - Trip.GetPersonalTotalDebt(Leader);
+                return Trip.GetPayGroupTotalPayment(Leader) - Trip.GetPayGroupTotalDebt(Leader);
             }
         }
 
-        public double Balance//TODO пока не понятно нужно ли это свойство
-        {
-            get
-            {
-                double compensatorsSum = 0;
-                foreach (GroupBalanceCompensator compensator in Compensators)
-                {
-                    compensatorsSum += compensator.MoneyCount;
-                }
-                return PayDebtBalance - compensatorsSum; ;
-            }
-        }
+        //public double Balance//TODO пока не понятно нужно ли это свойство
+        //{
+        //    get
+        //    {
+        //        double compensatorsSum = 0;
+        //        foreach (GroupBalanceCompensator compensator in Compensators)
+        //        {
+        //            compensatorsSum += compensator.MoneyCount;
+        //        }
+        //        return PayDebtBalance - compensatorsSum; ;
+        //    }
+        //}
     }
 }

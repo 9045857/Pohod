@@ -225,58 +225,21 @@ namespace ForTest
                 Person leader = listBoxPayGroupLeader.SelectedItem as Person;
 
                 textBoxPayGroup.Text = GetGroupInf(trip, leader);
-                textBoxGroupBalance.Text = GetGroupBalance(trip, leader);
+                // textBoxGroupBalance.Text = GetGroupBalance(trip, leader);
             }
         }
-
-        private string GetGroupBalance(Trip trip, Person leader)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            //int namePadRight = GetLongestNameLength(leader);
-
-            //int factorPadLeft = 4;
-            //int paymentPadLeft = 6;
-            //int debtPadLeft = 6;
-
-            //stringBuilder.Append(string.Format("{0}", "группа").PadRight(namePadRight));
-            //stringBuilder.Append("".PadLeft(factorPadLeft));
-            //stringBuilder.Append(string.Format("{0}", "плата").PadLeft(paymentPadLeft));
-            //stringBuilder.AppendLine(string.Format("{0}", "долг").PadLeft(debtPadLeft));
-            //stringBuilder.AppendLine("".PadRight(namePadRight + factorPadLeft + paymentPadLeft + debtPadLeft, '-'));
-
-            //stringBuilder.Append(string.Format("{0}", leader.Name).PadRight(namePadRight));
-            //stringBuilder.Append("".PadLeft(factorPadLeft));
-            //stringBuilder.Append(string.Format("{0}", trip.GetPayGroupTotalPayment(leader)).PadLeft(paymentPadLeft));
-            //stringBuilder.AppendLine(string.Format("{0}", trip.GetPayGroupTotalDebt(leader)).PadLeft(debtPadLeft));
-
-            //stringBuilder.AppendLine();
-            //stringBuilder.Append(string.Format("{0}", "имя").PadRight(namePadRight));
-            //stringBuilder.Append(string.Format("{0}", "коэф").PadLeft(factorPadLeft));
-            //stringBuilder.Append(string.Format("{0}", "плата").PadLeft(paymentPadLeft));
-            //stringBuilder.AppendLine(string.Format("{0}", "долг").PadLeft(debtPadLeft));
-            //stringBuilder.AppendLine("".PadRight(namePadRight + factorPadLeft + paymentPadLeft + debtPadLeft, '-'));
-
-            //foreach (Person person in leader.PayGroupPeople)
-            //{
-            //    stringBuilder.Append(string.Format("{0}", person.Name).PadRight(namePadRight));
-            //    stringBuilder.Append(string.Format("{0}", person.DebtFactor).PadLeft(factorPadLeft));
-            //    stringBuilder.Append(string.Format("{0}", trip.GetPersonalTotalPayment(person)).PadLeft(paymentPadLeft));
-            //    stringBuilder.AppendLine(string.Format("{0}", trip.GetPersonalTotalDebt(person)).PadLeft(debtPadLeft));
-            //}
-
-            return stringBuilder.ToString();
-        }
-
+        
         private string GetGroupInf(Trip trip, Person leader)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            int namePadRight = GetLongestNameLength(leader);
+            int namePadRight = GetLongestNameLength(leader) + 2;
 
             int factorPadLeft = 4;
-            int paymentPadLeft = 6;
-            int debtPadLeft = 6;
+            int paymentPadLeft = 10;
+            int debtPadLeft = 10;
+
+            int numberCountAfterComma = 2;
 
             stringBuilder.Append(string.Format("{0}", "группа").PadRight(namePadRight));
             stringBuilder.Append("".PadLeft(factorPadLeft));
@@ -286,8 +249,14 @@ namespace ForTest
 
             stringBuilder.Append(string.Format("{0}", leader.Name).PadRight(namePadRight));
             stringBuilder.Append("".PadLeft(factorPadLeft));
-            stringBuilder.Append(string.Format("{0}", trip.GetPayGroupTotalPayment(leader)).PadLeft(paymentPadLeft));
-            stringBuilder.AppendLine(string.Format("{0}", trip.GetPayGroupTotalDebt(leader)).PadLeft(debtPadLeft));
+
+            double payGroupTotalPayment = Math.Round(trip.GetPayGroupTotalPayment(leader), numberCountAfterComma);
+            double payGroupTotalDebt = Math.Round(trip.GetPayGroupTotalDebt(leader), numberCountAfterComma);
+            stringBuilder.Append(string.Format("{0}", payGroupTotalPayment).PadLeft(paymentPadLeft));
+            stringBuilder.AppendLine(string.Format("{0}", payGroupTotalDebt).PadLeft(debtPadLeft));
+
+            double payGroupBalance = payGroupTotalPayment - payGroupTotalDebt;
+            stringBuilder.AppendLine(string.Format("баланс группы: {0}", payGroupBalance));
 
             stringBuilder.AppendLine();
             stringBuilder.Append(string.Format("{0}", "имя").PadRight(namePadRight));
@@ -299,9 +268,9 @@ namespace ForTest
             foreach (Person person in leader.PayGroupPeople)
             {
                 stringBuilder.Append(string.Format("{0}", person.Name).PadRight(namePadRight));
-                stringBuilder.Append(string.Format("{0}", person.DebtFactor).PadLeft(factorPadLeft));
-                stringBuilder.Append(string.Format("{0}", trip.GetPersonalTotalPayment(person)).PadLeft(paymentPadLeft));
-                stringBuilder.AppendLine(string.Format("{0}", trip.GetPersonalTotalDebt(person)).PadLeft(debtPadLeft));
+                stringBuilder.Append(string.Format("{0}", Math.Round(person.DebtFactor, numberCountAfterComma)).PadLeft(factorPadLeft));
+                stringBuilder.Append(string.Format("{0}", Math.Round(trip.GetPersonalTotalPayment(person), numberCountAfterComma)).PadLeft(paymentPadLeft));
+                stringBuilder.AppendLine(string.Format("{0}", Math.Round(trip.GetPersonalTotalDebt(person), numberCountAfterComma)).PadLeft(debtPadLeft));
             }
 
             return stringBuilder.ToString();
@@ -453,6 +422,8 @@ namespace ForTest
             }
         }
 
+        private Trip _currentTrip;
+
         private void listBoxTrips_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBoxProductInfo.Text = "";
@@ -467,6 +438,8 @@ namespace ForTest
                 debts.ReloadListBoxPeopleAndDebtsPanel();
                 FillListBoxProductsFromDebts(debts);
                 FillPayGroupLeaderListBox(debts);
+
+                _currentTrip = debts.trip;
             }
 
         }
@@ -664,6 +637,14 @@ namespace ForTest
                     listBoxPayGroupLeader.SelectedItem = PotentialPayGroupLeader;
                     PotentialPayGroupLeader = null;
                 }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (_currentTrip != null)
+            {
+                textBoxGroupBalance.Text = _currentTrip.GroupBalances.ToString();
             }
         }
     }

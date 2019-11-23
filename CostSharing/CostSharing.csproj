@@ -52,6 +52,7 @@
     <Compile Include="GeneralInfo.cs" />
     <Compile Include="GroupBalance.cs" />
     <Compile Include="GroupBalanceCompensator.cs" />
+    <Compile Include="GroupBalances.cs" />
     <Compile Include="Payer.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Product.cs" />

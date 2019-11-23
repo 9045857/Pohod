@@ -13,29 +13,43 @@ namespace CostSharing
     {
         public string Name { get; set; }
 
-        public List<Person> People { get; private set; }
+        public List<Person> People { get; set; }
 
-        public List<Product> Products { get; private set; }
-        public List<Person> PayGroupsLeaders { get; set; }
+        public List<Product> Products { get; set; }
+        private List<Person> PayGroupsLeaders { get; set; }
 
-        public List<GroupBalance> DebtorsGroupBalances { get; private set; }
-        public List<GroupBalance> PayersGroupBalances { get; private set; }
-        public List<GroupBalance> NeutralsGroupBalances { get; private set; }
+        public GroupBalances GroupBalances { get; set; }
 
-        public List<GroupBalanceCompensator> DebtorsCompensators { get; private set; }
+        //public List<GroupBalance> DebtorsGroupBalances { get; private set; }
+        //public List<GroupBalance> PayersGroupBalances { get; private set; }
+        //public List<GroupBalance> NeutralsGroupBalances { get; private set; }
 
+        //public List<GroupBalanceCompensator> DebtorsCompensators { get; private set; }
 
+       
 
-        public GroupBalance GetGroupBalance(Person leader)
-        {
-            if (!People.Contains(leader) || !Equals(leader, leader.PayGroupLeader))
-            {
-                return null;
-            }
+       
 
 
+        //public List<Product> GetProducts()
+        //{
+        //    return Products;
+        //}
 
-        }
+        //public List<Person> GetPeople()
+        //{
+        //    return People;
+        //}
+
+        //public GroupBalance GetGroupBalance(Person leader)
+        //{
+        //    if (!People.Contains(leader) || !Equals(leader, leader.PayGroupLeader))
+        //    {
+        //        return null;
+        //    }
+
+        //    return new GroupBalance(this, leader);
+        //}
 
         public Trip(string tripName)
         {
@@ -45,11 +59,13 @@ namespace CostSharing
             People = new List<Person>();
             PayGroupsLeaders = new List<Person>();
 
-            DebtorsGroupBalances = new List<GroupBalance>();
-            PayersGroupBalances = new List<GroupBalance>();
-            NeutralsGroupBalances = new List<GroupBalance>();
+            GroupBalances = new GroupBalances(this);
 
-            DebtorsCompensators = new List<GroupBalanceCompensator>();
+            //    DebtorsGroupBalances = new List<GroupBalance>();
+            //    PayersGroupBalances = new List<GroupBalance>();
+            //    NeutralsGroupBalances = new List<GroupBalance>();
+
+            //    DebtorsCompensators = new List<GroupBalanceCompensator>();
         }
 
         public void CorrectFactor(Person person, double factor)

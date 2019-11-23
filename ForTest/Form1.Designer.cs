@@ -59,6 +59,7 @@
             this.buttonFromGroup = new System.Windows.Forms.Button();
             this.textBoxPayGroup = new System.Windows.Forms.TextBox();
             this.textBoxGroupBalance = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBoxTripsAndPeople.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -376,6 +377,7 @@
             // 
             // textBoxGroupBalance
             // 
+            this.textBoxGroupBalance.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxGroupBalance.Location = new System.Drawing.Point(729, 427);
             this.textBoxGroupBalance.Multiline = true;
             this.textBoxGroupBalance.Name = "textBoxGroupBalance";
@@ -383,11 +385,22 @@
             this.textBoxGroupBalance.Size = new System.Drawing.Size(447, 248);
             this.textBoxGroupBalance.TabIndex = 58;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1199, 461);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(71, 87);
+            this.button1.TabIndex = 59;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 687);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxGroupBalance);
             this.Controls.Add(this.textBoxPayGroup);
             this.Controls.Add(this.buttonFromGroup);
@@ -449,6 +462,7 @@
         private System.Windows.Forms.Button buttonFromGroup;
         private System.Windows.Forms.TextBox textBoxPayGroup;
         private System.Windows.Forms.TextBox textBoxGroupBalance;
+        private System.Windows.Forms.Button button1;
     }
 }
 
